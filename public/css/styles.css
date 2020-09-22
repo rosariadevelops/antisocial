@@ -4,5 +4,71 @@
 
 body {
     margin: 0;
-    background-color: #c2eaf7;
+    background-color: black;
+    color: white;
+    font-family: "gangster_reg", Helvetica, Arial, sans-serif;
+}
+
+.welcome.logo,
+.logo {
+    font-size: 26px;
+    font-family: "gangster_reg", Helvetica, Arial, sans-serif;
+    padding: 10px 20px;
+}
+.welcome.logo span,
+.logo span {
+    text-decoration: line-through;
+}
+
+.rgtr-form {
+    width: 450px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+.rgtr-form h1 {
+    font-family: "right_groteskwide_medium", Helvetica, Arial, sans-serif;
+}
+
+.rgtr-form label {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+.rgtr-form input {
+    border: 1px solid white;
+    background: white;
+    color: black;
+    border-radius: 2px;
+    padding: 10px 7px;
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+.rgtr-form input::placeholder {
+    color: black;
+    opacity: 0.4;
+}
+.rgtr-form button {
+    border: 1px solid white;
+    background: black;
+    color: white;
+    border-radius: 2px;
+    padding: 15px 7px;
+    font-size: 20px;
+    margin-bottom: 30px;
+    font-family: "gangster_reg", Helvetica, Arial, sans-serif;
+    transition: 500ms ease;
+    cursor: pointer;
+}
+.rgtr-form input:focus,
+.rgtr-form input:active,
+.rgtr-form input:visited,
+.rgtr-form button:focus,
+.rgtr-form button:active,
+.rgtr-form button:visited {
+    outline: none;
+}
+
+.rgtr-form button:hover {
+    border-color: greenyellow;
+    color: greenyellow;
 }

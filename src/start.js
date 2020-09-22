@@ -7,7 +7,11 @@ let component;
 if (location.pathname === "/welcome") {
     component = <Welcome />;
 } else {
-    component = <p>AntiSocial</p>;
+    component = (
+        <div className="logo">
+            Anti<span>Social</span>
+        </div>
+    );
 }
 
 ReactDOM.render(component, document.querySelector("main"));

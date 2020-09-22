@@ -82,7 +82,7 @@ export default class Registration extends React.Component {
     render() {
         return (
             <div className="rgtr-form">
-                <h3>Register here:</h3>
+                <h1>Create an Account</h1>
                 {this.state.error && (
                     <p className="error">
                         Please make sure all input fields have been filled.

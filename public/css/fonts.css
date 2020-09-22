@@ -1,0 +1,38 @@
+@font-face {
+    font-family: "right_groteskwide_medium";
+    src: url("../fonts/RightGrotesk/rightgrotesk-widemedium-webfont.woff2")
+            format("woff2"),
+        url("rightgrotesk-widemedium-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "gangster_bold";
+    src: url("../fonts/GangsterGrotesk/WOFF2/gangstergrotesk-bold.woff2")
+            format("woff2"),
+        url("../fonts/GangsterGrotesk/WOFF/gangstergrotesk-bold.woff")
+            format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "gangster_reg";
+    src: url("../fonts/GangsterGrotesk/WOFF2/gangstergrotesk-regular.woff2")
+            format("woff2"),
+        url("../fonts/GangsterGrotesk/WOFF/gangstergrotesk-regular.woff")
+            format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "gangster_light";
+    src: url("../fonts/GangsterGrotesk/WOFF2/gangstergrotesk-light.woff2")
+            format("woff2"),
+        url("../fonts/GangsterGrotesk/WOFF/gangstergrotesk-light.woff")
+            format("woff");
+    font-weight: normal;
+    font-style: normal;
+}

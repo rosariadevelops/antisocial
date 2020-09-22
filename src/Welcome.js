@@ -4,7 +4,9 @@ import Registration from "./Registration";
 export default function Welcome() {
     return (
         <React.Fragment>
-            <h1>Welcome to my social network!</h1>
+            <div className="welcome logo">
+                Anti<span>Social</span>
+            </div>
             <Registration />
         </React.Fragment>
     );
