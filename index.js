@@ -6,6 +6,7 @@ const bc = require("./bc");
 const bodyParser = require("body-parser");
 const compression = require("compression");
 const cookieSession = require("cookie-session");
+const csurf = require("csurf");
 
 app.use(express.static("./public"));
 app.use(express.json());
@@ -30,6 +31,13 @@ app.use(
     })
 );
 
+app.use(csurf());
+app.use(function (req, res, next) {
+    //console.log("csurf token: ", req.csrfToken());
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
+
 // GET // REGISTRATION PAGE
 app.get("/welcome", (req, res) => {
     if (req.session.userId) {
@@ -38,7 +46,6 @@ app.get("/welcome", (req, res) => {
         res.sendFile(__dirname + "/index.html");
     }
 });
-// I will need to set a cookie in 'userId'
 
 // POST // REGISTRATION PAGE
 app.post("/welcome", (req, res) => {
@@ -47,7 +54,7 @@ app.post("/welcome", (req, res) => {
     if (first === "" || last === "" || email === "" || password === "") {
         res.json({
             error: "Please make sure all input fields have been filled.",
-            success: true,
+            success: false,
         });
     } else {
         bc.hash(password)
@@ -58,11 +65,73 @@ app.post("/welcome", (req, res) => {
                     req.session.userId = result.rows[0].id;
                     console.log("user created");
                     console.log("req.session.userId: ", req.session.userId);
-                    res.redirect("/");
+                    res.json({
+                        success: true,
+                    });
                 });
             })
             .catch((err) => {
                 console.log("err in hash: ", err);
+            });
+    }
+});
+
+// GET // LOGIN PAGE
+app.get("/login", (req, res) => {
+    if (req.session.userId) {
+        res.redirect("/");
+    } else {
+        res.sendFile(__dirname + "/index.html");
+    }
+});
+
+// POST // LOGIN PAGE
+app.post("/login", (req, res) => {
+    const { email, password } = req.body;
+
+    if (email === "" || password === "") {
+        res.json({
+            error: "Please make sure all input fields have been filled.",
+            success: false,
+        });
+    } else {
+        db.checkEmail(email)
+            .then((results) => {
+                console.log("results: ", results.rows);
+                if (results.rows.length === 0) {
+                    console.log("result does not match any existing account");
+                    res.json({
+                        error:
+                            "The entered email or password are incorrect. Please try again",
+                        success: false,
+                    });
+                } else {
+                    bc.compare(password, results.rows[0].pword)
+                        .then((result) => {
+                            console.log("compare result:", result);
+                            if (result) {
+                                // console.log("result:", result);
+                                const userId = results.rows[0].id;
+                                console.log("userId", userId);
+                                req.session.userId = userId;
+                                res.json({
+                                    success: true,
+                                });
+                            } else {
+                                res.json({
+                                    error:
+                                        "The entered email or password are incorrect. Please try again",
+                                    success: false,
+                                });
+                            }
+                        })
+                        .catch((err) => {
+                            console.log("err in compare: ", err);
+                        });
+                }
+            })
+            .catch((err) => {
+                console.log("err in checkEmail: ", err);
             });
     }
 });

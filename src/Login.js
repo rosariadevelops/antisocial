@@ -2,12 +2,10 @@ import React from "react";
 import axios from "./axios";
 import { Link } from "react-router-dom";
 
-export default class Registration extends React.Component {
+export default class Login extends React.Component {
     constructor() {
         super();
         this.state = {
-            first: null,
-            last: null,
             email: null,
             password: null,
             error: false,
@@ -23,31 +21,17 @@ export default class Registration extends React.Component {
             },
             () => console.log("this.state: ", this.state)
         );
-
-        // if error is false, render message
     }
 
-    // where do I put this code in order to redirect user after they have logged in?
-    // form submit
-    // hash the password
-    // insert into users table
-    // then
-    // location.replace('/')
-
-    handleRegistration(e) {
+    handleLogin(e) {
         e.preventDefault();
         const value = e.target.value;
         const name = e.target.name;
         console.log("this.state.error:", this.state.error);
 
-        const { first, last, email, password } = this.state;
+        const { email, password } = this.state;
 
-        if (
-            first === null ||
-            last === null ||
-            email === null ||
-            password === null
-        ) {
+        if (email === null || password === null) {
             this.setState(
                 {
                     error: true,
@@ -64,9 +48,9 @@ export default class Registration extends React.Component {
             );
 
             axios
-                .post("/welcome", this.state)
+                .post("/login", this.state)
                 .then(function (response) {
-                    console.log("register response:", response);
+                    console.log("login response:", response);
                     if (response) {
                         location.replace("/");
                     } else {
@@ -79,7 +63,7 @@ export default class Registration extends React.Component {
                     }
                 })
                 .catch(function (err) {
-                    console.log("err in  POST /register: ", err);
+                    console.log("err in  POST /login: ", err);
                 });
         }
     }
@@ -87,25 +71,11 @@ export default class Registration extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="rgtr-form">
-                    <h1>Create an Account</h1>
+                <div className="login-form">
+                    <h1>Log in</h1>
                     {this.state.error && (
                         <p className="error">{this.state.error}</p>
                     )}
-                    <label htmlFor="first">Enter your first name:</label>
-                    <input
-                        onChange={(e) => this.handleChange(e)}
-                        type="text"
-                        name="first"
-                        placeholder="First name"
-                    />
-                    <label htmlFor="last">Enter your last name:</label>
-                    <input
-                        onChange={(e) => this.handleChange(e)}
-                        type="text"
-                        name="last"
-                        placeholder="Last name"
-                    />
                     <label htmlFor="email">Enter your Email:</label>
                     <input
                         onChange={(e) => this.handleChange(e)}
@@ -113,26 +83,26 @@ export default class Registration extends React.Component {
                         name="email"
                         placeholder="Email address"
                     />
-                    <label htmlFor="password">Create a password:</label>
+                    <label htmlFor="password">Enter your password:</label>
                     <input
                         onChange={(e) => this.handleChange(e)}
                         type="password"
                         name="password"
-                        placeholder="Enter password"
+                        placeholder="Password"
                         required
                     />
                     <button
-                        onClick={(e) => this.handleRegistration(e)}
+                        onClick={(e) => this.handleLogin(e)}
                         type="submit"
-                        name="submitted"
-                        value="registered"
+                        name="loggingin"
+                        value="loggedin"
                     >
-                        Register
+                        Log in
                     </button>
                 </div>
-                <div className="login-link">
-                    Already have an account?{" "}
-                    <Link to="/login">Log in here</Link>
+                <div className="rgtr-link">
+                    Don&apos;t have an account{" "}
+                    <Link to="/registration">Register here</Link>
                 </div>
             </React.Fragment>
         );

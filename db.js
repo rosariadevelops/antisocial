@@ -12,3 +12,12 @@ module.exports.addUser = (first, last, email, pword) => {
         [first, last, email, pword]
     );
 };
+
+module.exports.checkEmail = (email) => {
+    return db.query(
+        `
+    SELECT * FROM users 
+    WHERE email = ($1);`,
+        [email]
+    );
+};

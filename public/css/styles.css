@@ -20,21 +20,25 @@ body {
     text-decoration: line-through;
 }
 
-.rgtr-form {
+.rgtr-form,
+.login-form {
     width: 450px;
     display: flex;
     flex-direction: column;
     margin: 0 auto;
 }
-.rgtr-form h1 {
+.rgtr-form h1,
+.login-form h1 {
     font-family: "right_groteskwide_medium", Helvetica, Arial, sans-serif;
 }
 
-.rgtr-form label {
+.rgtr-form label,
+.login-form label {
     font-size: 16px;
     margin-bottom: 5px;
 }
-.rgtr-form input {
+.rgtr-form input,
+.login-form input {
     border: 1px solid white;
     background: white;
     color: black;
@@ -43,11 +47,13 @@ body {
     font-size: 16px;
     margin-bottom: 30px;
 }
-.rgtr-form input::placeholder {
+.rgtr-form input::placeholder,
+.login-form input::placeholder {
     color: black;
     opacity: 0.4;
 }
-.rgtr-form button {
+.rgtr-form button,
+.login-form button {
     border: 1px solid white;
     background: black;
     color: white;
@@ -64,11 +70,28 @@ body {
 .rgtr-form input:visited,
 .rgtr-form button:focus,
 .rgtr-form button:active,
-.rgtr-form button:visited {
+.rgtr-form button:visited,
+.login-form input:focus,
+.login-form input:active,
+.login-form input:visited,
+.login-form button:focus,
+.login-form button:active,
+.login-form button:visited {
     outline: none;
 }
 
-.rgtr-form button:hover {
+.rgtr-form button:hover,
+.login-form button:hover {
     border-color: greenyellow;
     color: greenyellow;
+}
+
+.rgtr-link,
+.login-link {
+    text-align: center;
+}
+.rgtr-link a,
+.login-link a {
+    color: greenyellow;
+    display: block;
 }
