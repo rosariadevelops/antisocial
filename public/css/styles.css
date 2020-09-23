@@ -21,24 +21,28 @@ body {
 }
 
 .rgtr-form,
-.login-form {
+.login-form,
+.pw-reset-form {
     width: 450px;
     display: flex;
     flex-direction: column;
     margin: 0 auto;
 }
 .rgtr-form h1,
-.login-form h1 {
+.login-form h1,
+.pw-reset-form h1 {
     font-family: "right_groteskwide_medium", Helvetica, Arial, sans-serif;
 }
 
 .rgtr-form label,
-.login-form label {
+.login-form label,
+.pw-reset-form label {
     font-size: 16px;
     margin-bottom: 5px;
 }
 .rgtr-form input,
-.login-form input {
+.login-form input,
+.pw-reset-form input {
     border: 1px solid white;
     background: white;
     color: black;
@@ -48,12 +52,14 @@ body {
     margin-bottom: 30px;
 }
 .rgtr-form input::placeholder,
-.login-form input::placeholder {
+.login-form input::placeholder,
+.pw-reset-form input::placeholder {
     color: black;
     opacity: 0.4;
 }
 .rgtr-form button,
-.login-form button {
+.login-form button,
+.pw-reset-form button {
     border: 1px solid white;
     background: black;
     color: white;
@@ -76,22 +82,31 @@ body {
 .login-form input:visited,
 .login-form button:focus,
 .login-form button:active,
-.login-form button:visited {
+.login-form button:visited,
+.pw-reset-form input:focus,
+.pw-reset-form input:active,
+.pw-reset-form input:visited,
+.pw-reset-form button:focus,
+.pw-reset-form button:active,
+.pw-reset-form button:visited {
     outline: none;
 }
 
 .rgtr-form button:hover,
-.login-form button:hover {
+.login-form button:hover,
+.pw-reset-form button:hover {
     border-color: greenyellow;
     color: greenyellow;
 }
 
 .rgtr-link,
-.login-link {
+.login-link,
+.pw-reset-link {
     text-align: center;
 }
 .rgtr-link a,
-.login-link a {
+.login-link a,
+.pw-reset-link a {
     color: greenyellow;
     display: block;
 }

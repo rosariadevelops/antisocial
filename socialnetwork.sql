@@ -7,3 +7,12 @@ CREATE TABLE users (
     email VARCHAR NOT NULL UNIQUE,
     pword VARCHAR NOT NULL
 );
+
+DROP TABLE IF EXISTS resetpassword;
+
+CREATE TABLE resetpassword (
+    id SERIAL PRIMARY KEY,
+    email VARCHAR NOT NULL,
+    code INT NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)

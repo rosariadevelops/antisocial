@@ -17,22 +17,12 @@ export default class Registration extends React.Component {
     handleChange(e) {
         const { name, value } = e.target;
 
-        this.setState(
-            {
-                [name]: value,
-            },
-            () => console.log("this.state: ", this.state)
-        );
+        this.setState({
+            [name]: value,
+        });
 
         // if error is false, render message
     }
-
-    // where do I put this code in order to redirect user after they have logged in?
-    // form submit
-    // hash the password
-    // insert into users table
-    // then
-    // location.replace('/')
 
     handleRegistration(e) {
         e.preventDefault();
@@ -48,20 +38,14 @@ export default class Registration extends React.Component {
             email === null ||
             password === null
         ) {
-            this.setState(
-                {
-                    error: true,
-                },
-                () => console.log("this.state: ", this.state)
-            );
+            this.setState({
+                error: true,
+            });
         } else {
-            this.setState(
-                {
-                    [name]: value,
-                    error: false,
-                },
-                () => console.log("this.state: ", this.state)
-            );
+            this.setState({
+                [name]: value,
+                error: false,
+            });
 
             axios
                 .post("/welcome", this.state)
@@ -70,12 +54,9 @@ export default class Registration extends React.Component {
                     if (response) {
                         location.replace("/");
                     } else {
-                        this.setState(
-                            {
-                                error: true,
-                            },
-                            () => console.log("this.state: ", this.state)
-                        );
+                        this.setState({
+                            error: true,
+                        });
                     }
                 })
                 .catch(function (err) {

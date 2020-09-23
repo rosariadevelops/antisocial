@@ -15,37 +15,27 @@ export default class Login extends React.Component {
     handleChange(e) {
         const { name, value } = e.target;
 
-        this.setState(
-            {
-                [name]: value,
-            },
-            () => console.log("this.state: ", this.state)
-        );
+        this.setState({
+            [name]: value,
+        });
     }
 
     handleLogin(e) {
         e.preventDefault();
-        const value = e.target.value;
-        const name = e.target.name;
+        const { name, value } = e.target;
         console.log("this.state.error:", this.state.error);
 
         const { email, password } = this.state;
 
         if (email === null || password === null) {
-            this.setState(
-                {
-                    error: true,
-                },
-                () => console.log("this.state: ", this.state)
-            );
+            this.setState({
+                error: true,
+            });
         } else {
-            this.setState(
-                {
-                    [name]: value,
-                    error: false,
-                },
-                () => console.log("this.state: ", this.state)
-            );
+            this.setState({
+                [name]: value,
+                error: false,
+            });
 
             axios
                 .post("/login", this.state)
@@ -54,12 +44,9 @@ export default class Login extends React.Component {
                     if (response) {
                         location.replace("/");
                     } else {
-                        this.setState(
-                            {
-                                error: true,
-                            },
-                            () => console.log("this.state: ", this.state)
-                        );
+                        this.setState({
+                            error: true,
+                        });
                     }
                 })
                 .catch(function (err) {
