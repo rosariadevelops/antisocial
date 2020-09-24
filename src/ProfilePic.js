@@ -1,7 +1,11 @@
 import React from "react";
 
-export default function ({ imageURL, first, last, clickHandler }) {
+export default function ({ imageURL, firstname, lastname, clickHandler }) {
     return (
-        <img src={imageURL} alt={`${first} ${last}`} onClick={clickHandler} />
+        <img
+            src={imageURL}
+            alt={`${firstname} ${lastname}`}
+            onClick={clickHandler}
+        />
     );
 }

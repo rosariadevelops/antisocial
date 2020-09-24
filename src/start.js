@@ -1,16 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Welcome from "./Welcome";
+import Portal from "./Portal";
 
 let component;
 if (location.pathname === "/welcome") {
     component = <Welcome />;
 } else {
-    component = (
-        <div className="logo">
-            Anti<span>Social</span>
-        </div>
-    );
+    component = <Portal />;
 }
 
 ReactDOM.render(component, document.querySelector("main"));

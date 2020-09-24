@@ -9,6 +9,12 @@ body {
     font-family: "gangster_reg", Helvetica, Arial, sans-serif;
 }
 
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .welcome.logo,
 .logo {
     font-size: 26px;
@@ -19,7 +25,7 @@ body {
 .logo span {
     position: relative;
 }
-.welcome.logo span,
+.welcome.logo span::before,
 .logo span::before {
     /*  text-decoration: line-through; */
     content: "";
@@ -30,6 +36,18 @@ body {
     width: 70px;
     height: 2px;
     background-color: white;
+}
+
+.nav .prof-pic {
+    padding: 10px 20px;
+}
+.nav .prof-pic img {
+    width: 45px;
+    height: 45px;
+    display: block;
+    -webkit-filter: invert(1);
+    filter: invert(1);
+    cursor: pointer;
 }
 
 .rgtr-form,

@@ -42,3 +42,12 @@ module.exports.findPwReset = (email) => {
         [email]
     );
 };
+
+module.exports.getUserInfo = (id) => {
+    return db.query(
+        `
+    SELECT * FROM users 
+    WHERE id = ($1);`,
+        [id]
+    );
+};

@@ -72,7 +72,7 @@ export default class ResetPassword extends React.Component {
         } else {
             this.setState({
                 [name]: value,
-                //email: email,
+                email: email, // check this doesn't throw an error
                 error: false,
             });
 

@@ -5,7 +5,9 @@ CREATE TABLE users (
     firstname VARCHAR NOT NULL,
     lastname VARCHAR NOT NULL,
     email VARCHAR NOT NULL UNIQUE,
-    pword VARCHAR NOT NULL
+    pword VARCHAR NOT NULL,
+    image_url VARCHAR,
+    bio VARCHAR
 );
 
 DROP TABLE IF EXISTS resetpassword;

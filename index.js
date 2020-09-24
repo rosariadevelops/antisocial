@@ -153,7 +153,6 @@ app.get("/password/reset", (req, res) => {
 });
 
 // POST // PASSWORD RESET START PAGE
-//sendEmail('rosariagandar@gmail.com', 'I like you', 'Hey there')
 app.post("/password/reset/start", (req, res) => {
     const { email } = req.body;
 
@@ -181,8 +180,6 @@ app.post("/password/reset/start", (req, res) => {
                     const secretCode = cryptoRandomString({
                         length: 6,
                     });
-                    // add email to password reset table
-                    // WHERE DO I PUT THE ORDER BY DESC LIMIT 1?
                     db.addPwReset(correctEmail, secretCode).then((r) => {
                         console.log("addPwReset r: ", r);
                         sendEmail(
@@ -219,10 +216,8 @@ app.post("/password/reset/verify", (req, res) => {
             success: false,
         });
     } else {
-        // use query to get all codes that match the email
         db.findPwReset(email)
             .then((result) => {
-                //console.log("findPwReset result: ", result);
                 console.log("cryptocode: ", cryptocode);
                 console.log(
                     "findPwReset result.rows[0].code: ",
@@ -241,6 +236,30 @@ app.post("/password/reset/verify", (req, res) => {
                 }
             })
             .catch((err) => console.log("err in findPwReset: ", err));
+    }
+});
+
+// GET // USER PAGE
+app.get("/user", (req, res) => {
+    console.log("/user req.body: ", req.body);
+    console.log("/user req.session.userId: ", req.session.userId);
+    if (!req.session.userId) {
+        res.redirect("/welcome");
+    } else {
+        db.getUserInfo(req.session.userId)
+            .then(({ rows }) => {
+                res.sendFile(__dirname + "/index.html");
+                console.log("/user response: ", rows);
+                const { id, firstname, lastname, image_url, bio } = rows[0];
+                res.json({
+                    id,
+                    firstname,
+                    lastname,
+                    image_url,
+                    bio,
+                });
+            })
+            .catch((err) => console.log("err in getUserInfo: ", err));
     }
 });
 
