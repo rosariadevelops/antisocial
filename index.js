@@ -4,6 +4,11 @@ const app = express();
 const db = require("./db");
 const bc = require("./bc");
 const bodyParser = require("body-parser");
+const s3 = require("./s3");
+const multer = require("multer"); //npm package
+const uidSafe = require("uid-safe"); //npm package
+const path = require("path"); // core node module
+const { s3Url } = require("./config");
 const compression = require("compression");
 const cookieSession = require("cookie-session");
 const csurf = require("csurf");
@@ -14,6 +19,24 @@ app.use(express.static("./public"));
 app.use(express.json());
 app.use(compression());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+const diskStorage = multer.diskStorage({
+    destination: function (req, file, callback) {
+        callback(null, __dirname + "/uploads");
+    },
+    filename: function (req, file, callback) {
+        uidSafe(24).then(function (uid) {
+            callback(null, uid + path.extname(file.originalname));
+        });
+    },
+});
+
+const uploader = multer({
+    storage: diskStorage,
+    limits: {
+        fileSize: 2097152,
+    },
+});
 
 if (process.env.NODE_ENV != "production") {
     app.use(
@@ -260,6 +283,33 @@ app.get("/user", (req, res) => {
                 });
             })
             .catch((err) => console.log("err in getUserInfo: ", err));
+    }
+});
+
+// POST // USER PAGE UPLOAD CHANGE PROFILE PIC
+app.post("/user/upload", uploader.single("file"), s3.upload, (req, res) => {
+    const filename = req.file.filename;
+    const url = `${s3Url}${filename}`;
+    console.log("filename being passed: ", filename);
+    console.log("url being passed: ", url);
+
+    if (req.file) {
+        db.updateProfPic(req.session.userId, url)
+            .then(({ rows }) => {
+                console.log("updatePic rows: ", rows);
+                res.json({
+                    image: rows[0].image_url,
+                    success: true,
+                });
+            })
+            .catch((err) => {
+                console.log("err in addImage: ", err);
+            });
+    } else {
+        res.json({
+            errorMsg: "The image you uploaded is too large.",
+            success: false,
+        });
     }
 });
 

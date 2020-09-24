@@ -51,3 +51,14 @@ module.exports.getUserInfo = (id) => {
         [id]
     );
 };
+
+module.exports.updateProfPic = (id, url) => {
+    return db.query(
+        `
+        UPDATE users 
+        SET image_url = ($2)
+        WHERE id = ($1)
+        RETURNING *;`,
+        [id, url]
+    );
+};
