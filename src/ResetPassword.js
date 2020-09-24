@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "./axios";
-//import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default class ResetPassword extends React.Component {
     constructor(props) {
@@ -10,25 +10,21 @@ export default class ResetPassword extends React.Component {
             email: null,
             password: null,
             error: false,
-            code: null,
         };
     }
 
     handleChange(e) {
         const { name, value } = e.target;
 
-        this.setState(
-            {
-                [name]: value,
-            },
-            () => console.log("this.state: ", this.state)
-        );
+        this.setState({
+            [name]: value,
+        });
     }
 
     handleEmailSend(e) {
         e.preventDefault();
         const { name, value } = e.target;
-        console.log("this.state.error:", this.state.error);
+        //console.log("this.state:", this.state);
 
         const { email } = this.state;
 
@@ -44,16 +40,15 @@ export default class ResetPassword extends React.Component {
 
             axios
                 .post("/password/reset/start", this.state)
-                .then(function (response) {
+                .then((response) => {
                     console.log("/password/reset/start", response);
-                    if (response.data.success) {
+                    if (response.data.errorMsg) {
                         this.setState({
-                            currentDisplay: 2,
+                            error: true,
                         });
                     } else {
                         this.setState({
-                            error: true,
-                            currentDisplay: 1,
+                            currentDisplay: 2,
                         });
                     }
                 })
@@ -63,35 +58,35 @@ export default class ResetPassword extends React.Component {
         }
     }
 
-    handlePwReset(e) {
-        e.preventDefault();
-        const { name, value } = e.target;
-        console.log("this.state.error:", this.state.error);
+    handlePwReset(evt) {
+        evt.preventDefault();
+        const { name, value } = evt.target;
+        console.log("this.state:", this.state);
 
-        const { code, password } = this.state;
+        const { cryptocode, email, password } = this.state;
 
-        if (code === null || password === null) {
+        if (cryptocode === null || password === null) {
             this.setState({
                 error: true,
             });
         } else {
             this.setState({
                 [name]: value,
+                //email: email,
                 error: false,
             });
 
             axios
                 .post("/password/reset/verify", this.state)
-                .then(function (response) {
+                .then((response) => {
                     console.log("/password/reset/verify", response);
-                    if (response.data.success) {
+                    if (response.data.errorMsg) {
                         this.setState({
-                            currentDisplay: 3,
+                            error: true,
                         });
                     } else {
                         this.setState({
-                            error: true,
-                            currentDisplay: 1,
+                            currentDisplay: 3,
                         });
                     }
                 })
@@ -145,7 +140,7 @@ export default class ResetPassword extends React.Component {
                             <p>Please enter the code you received on email:</p>
                             <input
                                 onChange={(e) => this.handleChange(e)}
-                                type="number"
+                                type="text"
                                 min="6"
                                 name="cryptocode"
                                 placeholder="Enter 6-digit code"
@@ -160,7 +155,7 @@ export default class ResetPassword extends React.Component {
                                 required
                             />
                             <button
-                                onClick={(e) => this.handlePwReset(e)}
+                                onClick={(evt) => this.handlePwReset(evt)}
                                 type="submit"
                                 name="resetpw"
                                 value="resetpw"

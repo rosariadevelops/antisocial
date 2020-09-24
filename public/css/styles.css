@@ -17,7 +17,19 @@ body {
 }
 .welcome.logo span,
 .logo span {
-    text-decoration: line-through;
+    position: relative;
+}
+.welcome.logo span,
+.logo span::before {
+    /*  text-decoration: line-through; */
+    content: "";
+    display: block;
+    position: absolute;
+    top: 18px;
+    right: 0;
+    width: 70px;
+    height: 2px;
+    background-color: white;
 }
 
 .rgtr-form,

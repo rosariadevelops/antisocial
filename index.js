@@ -209,9 +209,10 @@ app.post("/password/reset/start", (req, res) => {
 
 // POST // PASSWORD RESET VERIFY PAGE
 app.post("/password/reset/verify", (req, res) => {
-    const { code, time, password, email } = req.body;
+    console.log("verify req.body: ", req.body);
+    const { cryptocode, password, email } = req.body;
 
-    if (code === "" || password === "") {
+    if (cryptocode === "" || password === "") {
         res.json({
             errorMsg:
                 "Please make sure you have entered your code and new password.",
@@ -221,8 +222,13 @@ app.post("/password/reset/verify", (req, res) => {
         // use query to get all codes that match the email
         db.findPwReset(email)
             .then((result) => {
-                console.log("findPwReset result: ", result);
-                if (code === result.rows[0].code) {
+                //console.log("findPwReset result: ", result);
+                console.log("cryptocode: ", cryptocode);
+                console.log(
+                    "findPwReset result.rows[0].code: ",
+                    result.rows[0].code
+                );
+                if (cryptocode === result.rows[0].code) {
                     res.json({
                         success: true,
                     });
@@ -235,50 +241,6 @@ app.post("/password/reset/verify", (req, res) => {
                 }
             })
             .catch((err) => console.log("err in findPwReset: ", err));
-        // need to compare code entered with code in database
-        // if no code found, render an error
-        //
-
-        db.checkEmail(email)
-            .then((result) => {
-                console.log("checkEmail /pw/reset/start result: ", result);
-                console.log("results: ", result.rows);
-                const correctEmail = result.rows[0].email;
-                const name = result.rows[0].firstname;
-                if (result.rows.length === 0 || correctEmail === "") {
-                    console.log("entered login details are somewhat empty");
-                    res.json({
-                        errorMsg:
-                            "The entered email or password are incorrect. Please try again",
-                        success: false,
-                    });
-                } else {
-                    const secretCode = cryptoRandomString({
-                        length: 6,
-                    });
-                    // add email to password reset table
-                    // WHERE DO I PUT THE ORDER BY DESC LIMIT 1?
-                    db.addPwReset(correctEmail, secretCode).then((r) => {
-                        console.log("addPwReset r: ", r);
-                        sendEmail(
-                            correctEmail,
-                            `${secretCode} is your Antisocial account recovery code`,
-                            secretCode,
-                            name
-                        );
-                        console.log("Email has been sent to: ", correctEmail);
-                        console.log("Timestamp: ", r.rows[0].created_at);
-                        res.json({
-                            success: true,
-                            timestamp: r.rows[0].created_at,
-                        });
-                    });
-                    //
-                }
-            })
-            .catch((err) =>
-                console.log("err in checkEmail /password/reset/start: ", err)
-            );
     }
 });
 
