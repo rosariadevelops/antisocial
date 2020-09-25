@@ -1,34 +1,40 @@
 import React from "react";
-import axios from "axios";
+import axios from "./axios";
 import ProfilePic from "./ProfilePic";
 import Uploader from "./Uploader";
 
 export default class Portal extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            uploaderIsVisible: false,
+            file: null,
+        };
     }
     componentDidMount() {
         axios.get("/user").then(({ data }) => {
             console.log("/user result:", data);
             this.setState({
                 ...data,
-                profilePic: data.image || "/images/default.png",
-                uploadedFile: null,
+                profilePic: data.image_url || "/images/default.png",
             });
         });
     }
 
-    setImage(e) {
-        e.preventDefault();
-        this.fileUpload(this.state.uploadedFile).then((response) => {
+    setImage(image) {
+        /*         e.preventDefault();
+        this.fileUpload(this.state.image_url).then((response) => {
             console.log("fileUpload data: ", response.data);
+            const newImage = response.data.image_url; */
+        this.setState({
+            profilePic: image,
         });
+        // });
     }
 
     render() {
         let state = this.state;
-        console.log("state", state);
+        console.log("render state", state);
         if (!this.state.id) {
             //return null;
             return <img src="/images/loading.gif" />;
@@ -42,8 +48,8 @@ export default class Portal extends React.Component {
                     </div>
                     <div className="prof-pic">
                         <ProfilePic
-                            firstname={state.firstname}
-                            lastname={state.lastname}
+                            //firstname={state.firstname}
+                            //lastname={state.lastname}
                             imageURL={state.profilePic}
                             clickHandler={() =>
                                 this.setState({ uploaderIsVisible: true })
@@ -57,9 +63,7 @@ export default class Portal extends React.Component {
                         firstname={state.firstname}
                         lastname={state.lastname}
                         imageURL={state.profilePic}
-                        clickHandler={(e) =>
-                            this.props.setImage(this.fileUpload(e))
-                        }
+                        clickHandler={(image) => this.setImage(image)}
                     />
                 )}
             </React.Fragment>

@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axios from "./axios";
 
 export default class Uploader extends React.Component {
     constructor(props) {
@@ -9,30 +9,44 @@ export default class Uploader extends React.Component {
             lastname: props.lastname,
             imageURL: props.imageURL,
             clickHandler: props.clickHandler,
-            selectedFile: null,
+            //selectedFile: null,
         };
         console.log("this.state: ", this.state);
     }
 
-    handleChange(e) {
-        const { name, value } = e.target;
+    changeImg(img) {
+        this.props.clickHandler(img);
+    }
 
+    handleChange(e) {
+        const { name } = e.target;
+        console.log("props URL: ", this.props.imageURL);
         this.setState(
             {
-                [name]: value,
-                selectedFile: e.target.files[0],
+                // selectedFile: e.target.files[0],
+                [name]: e.target.files[0],
             },
-            () => console.log("handleChange: ", this.state)
+            () => console.log("File Upload: ", this.state.file)
         );
     }
 
-    fileUpload(file) {
-        const formData = new FormData();
-        formData.append("file", file);
+    fileUpload(e) {
+        e.preventDefault();
+        let formData = new FormData();
+        formData.append("file", this.state.file);
+        console.log("file: ", this.state.file);
+
         axios
-            .post("user/upload", formData)
+            .post("/user/upload", formData)
             .then((response) => {
                 console.log("/user/upload response: ", response);
+                this.setState({
+                    uploadedFile: response.data.image,
+                });
+            })
+            .then(() => {
+                this.changeImg(this.state.uploadedFile);
+                console.log(this.state.uploadedFile);
             })
             .catch(function (err) {
                 console.log("err in form POST /user/upload: ", err);
@@ -69,11 +83,7 @@ export default class Uploader extends React.Component {
                             accept="image/*"
                         />
                         <button
-                            onClick={() =>
-                                state.clickHandler(
-                                    this.fileUpload(state.selectedFile)
-                                )
-                            }
+                            onClick={(e) => this.fileUpload(e)}
                             className="upload"
                         >
                             Upload
