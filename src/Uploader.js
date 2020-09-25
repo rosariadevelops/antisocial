@@ -24,11 +24,23 @@ export default class Uploader extends React.Component {
             },
             () => console.log("handleChange: ", this.state)
         );
+    }
 
-        // if error is false, render message
+    fileUpload(file) {
+        const formData = new FormData();
+        formData.append("file", file);
+        axios
+            .post("user/upload", formData)
+            .then((response) => {
+                console.log("/user/upload response: ", response);
+            })
+            .catch(function (err) {
+                console.log("err in form POST /user/upload: ", err);
+            });
     }
 
     render() {
+        let state = this.state;
         return (
             <div className="modal-container">
                 <div className="modal">
@@ -37,12 +49,12 @@ export default class Uploader extends React.Component {
                         <span className="close-modal-right"></span>
                     </a>
                     <h2>
-                        Hey, {this.state.firstname} {this.state.lastname}
+                        Hey, {state.firstname} {state.lastname}
                     </h2>
                     <div className="profile-pic">
                         <img
-                            src={this.state.imageURL}
-                            alt={`${this.state.firstname} ${this.state.lastname}`}
+                            src={state.imageURL}
+                            alt={`${state.firstname} ${state.lastname}`}
                         />
                     </div>
                     <div className="change-pic">
@@ -58,7 +70,9 @@ export default class Uploader extends React.Component {
                         />
                         <button
                             onClick={() =>
-                                this.state.clickHandler(this.state.selectedFile)
+                                state.clickHandler(
+                                    this.fileUpload(state.selectedFile)
+                                )
                             }
                             className="upload"
                         >
