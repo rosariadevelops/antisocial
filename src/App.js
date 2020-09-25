@@ -21,6 +21,10 @@ export default class Portal extends React.Component {
         });
     }
 
+    closeModal() {
+        this.setState({ uploaderIsVisible: false });
+    }
+
     setImage(image) {
         /*         e.preventDefault();
         this.fileUpload(this.state.image_url).then((response) => {
@@ -64,6 +68,7 @@ export default class Portal extends React.Component {
                         lastname={state.lastname}
                         imageURL={state.profilePic}
                         clickHandler={(image) => this.setImage(image)}
+                        close={(e) => this.closeModal(e)}
                     />
                 )}
             </React.Fragment>

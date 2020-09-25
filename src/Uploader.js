@@ -8,14 +8,19 @@ export default class Uploader extends React.Component {
             firstname: props.firstname,
             lastname: props.lastname,
             imageURL: props.imageURL,
-            clickHandler: props.clickHandler,
+            // clickHandler: props.clickHandler,
             uploadedFile: null,
+            // close: props.close,
         };
         console.log("this.state: ", this.state);
     }
 
     changeImg(img) {
         this.props.clickHandler(img);
+    }
+
+    closeModal(e) {
+        this.props.close(e);
     }
 
     handleChange(e) {
@@ -58,7 +63,10 @@ export default class Uploader extends React.Component {
         return (
             <div className="modal-container">
                 <div className="modal">
-                    <a className="close-btn">
+                    <a
+                        className="close-btn"
+                        onClick={(e) => this.closeModal(e)}
+                    >
                         <span className="close-modal-left"></span>
                         <span className="close-modal-right"></span>
                     </a>
