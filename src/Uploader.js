@@ -8,9 +8,7 @@ export default class Uploader extends React.Component {
             firstname: props.firstname,
             lastname: props.lastname,
             imageURL: props.imageURL,
-            // clickHandler: props.clickHandler,
             uploadedFile: null,
-            // close: props.close,
         };
         console.log("this.state: ", this.state);
     }
@@ -28,7 +26,6 @@ export default class Uploader extends React.Component {
         console.log("props URL: ", this.props.imageURL);
         this.setState(
             {
-                // selectedFile: e.target.files[0],
                 [name]: e.target.files[0],
             },
             () => console.log("File Upload: ", this.state.file)

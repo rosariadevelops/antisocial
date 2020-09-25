@@ -202,3 +202,7 @@ body {
 .close-btn:hover span {
     background: greenyellow;
 }
+
+.profile-img-ctr img {
+    max-width: 300px;
+}

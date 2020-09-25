@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "./axios";
+import Profile from "./Profile";
 import ProfilePic from "./ProfilePic";
 import Uploader from "./Uploader";
 
@@ -26,14 +27,10 @@ export default class Portal extends React.Component {
     }
 
     setImage(image) {
-        /*         e.preventDefault();
-        this.fileUpload(this.state.image_url).then((response) => {
-            console.log("fileUpload data: ", response.data);
-            const newImage = response.data.image_url; */
         this.setState({
             profilePic: image,
+            uploaderIsVisible: false,
         });
-        // });
     }
 
     render() {
@@ -52,14 +49,20 @@ export default class Portal extends React.Component {
                     </div>
                     <div className="prof-pic">
                         <ProfilePic
-                            //firstname={state.firstname}
-                            //lastname={state.lastname}
                             imageURL={state.profilePic}
                             clickHandler={() =>
                                 this.setState({ uploaderIsVisible: true })
                             }
                         />
                     </div>
+                </div>
+
+                <div className="profile-container">
+                    <Profile
+                        firstname={state.firstname}
+                        lastname={state.lastname}
+                        imageURL={state.profilePic}
+                    />
                 </div>
 
                 {this.state.uploaderIsVisible && (
