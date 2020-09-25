@@ -9,7 +9,7 @@ export default class Uploader extends React.Component {
             lastname: props.lastname,
             imageURL: props.imageURL,
             clickHandler: props.clickHandler,
-            //selectedFile: null,
+            uploadedFile: null,
         };
         console.log("this.state: ", this.state);
     }
@@ -66,10 +66,18 @@ export default class Uploader extends React.Component {
                         Hey, {state.firstname} {state.lastname}
                     </h2>
                     <div className="profile-pic">
-                        <img
-                            src={state.imageURL}
-                            alt={`${state.firstname} ${state.lastname}`}
-                        />
+                        {this.state.uploadedFile === null && (
+                            <img
+                                src={state.imageURL}
+                                alt={`${state.firstname} ${state.lastname}`}
+                            />
+                        )}
+                        {this.state.uploadedFile !== null && (
+                            <img
+                                src={state.uploadedFile}
+                                alt={`${state.firstname} ${state.lastname}`}
+                            />
+                        )}
                     </div>
                     <div className="change-pic">
                         <label htmlFor="file">
