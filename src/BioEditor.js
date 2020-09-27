@@ -9,11 +9,34 @@ import axios from "./axios";
 export default class Profile extends React.Component {
     constructor(props) {
         super(props);
+        console.log("BIO EDITOR PROPS: ", props);
+
         this.state = {
             firstname: props.firstname,
             lastname: props.lastname,
             bioEditorIsVisible: false,
+            bioStatic: true,
+            bio: props.bio,
         };
+        console.log("BIO EDITOR STATE: ", this.state);
+    }
+
+    addBio(e) {
+        e.preventDefault();
+        this.setState({
+            bioEditorIsVisible: true,
+            bioStatic: false,
+        });
+        console.log("bioEditorIsVisible: ", this.state.bioEditorIsVisible);
+    }
+
+    editBio(e) {
+        e.preventDefault();
+        this.setState({
+            bioEditorIsVisible: true,
+            bioStatic: false,
+        });
+        console.log("bioEditorIsVisible: ", this.state.bioEditorIsVisible);
     }
 
     changeBio(bio) {
@@ -22,31 +45,26 @@ export default class Profile extends React.Component {
 
     handleChange(e) {
         const { value } = e.target;
-        this.setState(
-            {
-                newBio: [value],
-            },
-            () => console.log("Edit Bio Text: ", this.state)
-        );
+        this.setState({
+            newBio: [value],
+        });
     }
 
     saveBio(e) {
         e.preventDefault();
-        //let formData = new FormData();
-        //formData.append("file", this.state.file);
-        //console.log("file: ", this.state.file);
-
-        // click save and send the value to the state
         let newBio = this.state.newBio;
 
         axios
             .post("/profile/edit-bio", newBio)
             .then((response) => {
                 console.log("/user/upload response: ", response);
-                /* this.setState({
-                    uploadedFile: response.data.image,
-                }); */
-                this.changeBio(newBio);
+                this.setState({
+                    bio: response.data.newBio,
+                    bioEditorIsVisible: false,
+                    bioStatic: true,
+                });
+                this.changeBio(this.state.bio);
+                console.log("POST REQ STATE BIO: ", this.state.bio);
             })
             .catch(function (err) {
                 console.log("err in form POST /user/upload: ", err);
@@ -54,46 +72,66 @@ export default class Profile extends React.Component {
     }
 
     render() {
-        let state = this.state;
         return (
             <div className="bio-editor">
                 <h2>
-                    Hey, {state.firstname} {state.lastname}
+                    Hey, {this.state.firstname} {this.state.lastname}
                 </h2>
                 <div className="bio">
-                    {/*  This is where I want conditional rendering  */}
-                    {/*  state.bio === null  &&  */}
-                    <div className="addbio-link">
-                        Looks like your bio is empty.{" "}
-                        <button
-                            // onClick={(e) => this.fileUpload(e)}
-                            className="addBio"
-                        >
-                            Add one here
-                        </button>
-                        {/*  state.bio !== null  &&  */}
-                        {/* <div className="bio-text">
-                            <p>{state.bio}</p>
+                    {this.state.bioStatic && (
+                        <div>
+                            {this.state.bio === null && (
+                                <div className="addbio-ctr">
+                                    Looks like your bio is empty.{" "}
+                                    <button
+                                        onClick={(e) => this.addBio(e)}
+                                        className="addBio"
+                                    >
+                                        Add one here
+                                    </button>
+                                </div>
+                            )}
+                            {this.state.bio != null && (
+                                <div className="bio-text">
+                                    <p>{this.state.bio}</p>
+                                    <button
+                                        onClick={(e) => this.editBio(e)}
+                                        className="edit-bio-button"
+                                    >
+                                        Edit
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
+                    {this.state.bioEditorIsVisible && (
+                        <div className="edit-bio-ctr">
+                            {this.state.bio === null && (
+                                <textarea
+                                    onChange={(e) => this.handleChange(e)}
+                                    placeholder="Add your bio here"
+                                    cols="60"
+                                    rows="5"
+                                ></textarea>
+                            )}
+                            {this.state.bio != null && (
+                                <textarea
+                                    onChange={(e) => this.handleChange(e)}
+                                    placeholder={this.state.bio}
+                                    cols="60"
+                                    rows="5"
+                                ></textarea>
+                            )}
+
                             <button
-                                // onClick={(e) => this.editBio(e)}
-                                className="editBio"
-                            >
-                                Edit
-                            </button>
-                        </div> */}
-                        {/*  state.bioEditorIsVisible === true  &&  */}
-                        {/* <div className="editbio">
-                            <textarea 
-                                onChange={(e) => this.handleChange(e)} 
-                                value={state.bio}></textarea>
-                            <button
-                                // onClick={(e) => this.saveBio(e)}
+                                onClick={(e) => this.saveBio(e)}
                                 className="saveBio"
                             >
                                 Save
                             </button>
-                        </div> */}
-                    </div>
+                        </div>
+                    )}
                 </div>
             </div>
         );

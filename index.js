@@ -313,6 +313,37 @@ app.post("/user/upload", uploader.single("file"), s3.upload, (req, res) => {
     }
 });
 
+// GET // PROFILE
+app.get("/profile", (req, res) => {
+    res.sendFile(__dirname + "/index.html");
+});
+
+// POST // PROFILE CHANGE BIO
+app.post("/profile/edit-bio", (req, res) => {
+    //console.log("EDIT BIO REQ BODY: ", req.body);
+    //console.log("EDIT BIO REQ BODY: ", req.body[0]);
+    const bioInput = req.body[0];
+
+    if (bioInput != null) {
+        db.updateBio(req.session.userId, bioInput)
+            .then(({ rows }) => {
+                console.log("UPDATE BIO RESULT BIO: ", rows[0].bio);
+                res.json({
+                    newBio: rows[0].bio,
+                    success: true,
+                });
+            })
+            .catch((err) => {
+                console.log("err in updateBio: ", err);
+            });
+    } else {
+        res.json({
+            errorMsg: "Please enter a bio message.",
+            success: false,
+        });
+    }
+});
+
 app.get("*", function (req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");

@@ -62,3 +62,14 @@ module.exports.updateProfPic = (id, url) => {
         [id, url]
     );
 };
+
+module.exports.updateBio = (id, bio) => {
+    return db.query(
+        `
+        UPDATE users 
+        SET bio = ($2)
+        WHERE id = ($1)
+        RETURNING *;`,
+        [id, bio]
+    );
+};

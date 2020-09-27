@@ -14,7 +14,7 @@ export default class Portal extends React.Component {
     }
     componentDidMount() {
         axios.get("/user").then(({ data }) => {
-            console.log("/user result:", data);
+            console.log("APP DATA:", data);
             this.setState({
                 ...data,
                 profilePic: data.image_url || "/images/default.png",
@@ -35,7 +35,6 @@ export default class Portal extends React.Component {
 
     render() {
         let state = this.state;
-        console.log("render state", state);
         if (!this.state.id) {
             //return null;
             return <img src="/images/loading.gif" />;
@@ -62,6 +61,7 @@ export default class Portal extends React.Component {
                         firstname={state.firstname}
                         lastname={state.lastname}
                         imageURL={state.profilePic}
+                        bio={state.bio}
                     />
                 </div>
 

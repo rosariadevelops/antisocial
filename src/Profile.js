@@ -10,7 +10,9 @@ export default class Profile extends React.Component {
             profilePic: props.imageURL,
             firstname: props.firstname,
             lastname: props.lastname,
+            bio: props.bio,
         };
+        console.log("PROFILE DATA: ", this.state);
     }
 
     setBio(newBioText) {
@@ -36,6 +38,7 @@ export default class Profile extends React.Component {
                         firstname={state.firstname}
                         lastname={state.lastname}
                         imageURL={state.profilePic}
+                        bio={state.bio}
                         clickHandler={(e) => this.setBio(e)}
                     />
                 </div>
