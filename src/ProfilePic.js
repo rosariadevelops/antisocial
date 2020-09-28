@@ -8,8 +8,9 @@ export default function ({
 }) {
     return (
         <img
+            className="profpic"
             src={imageURL}
-            alt={`${firstname} ${lastname}`}
+            alt={firstname + " " + lastname}
             onClick={clickHandler}
         />
     );

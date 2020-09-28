@@ -51,6 +51,8 @@ export default class Portal extends React.Component {
                     </div>
                     <div className="prof-pic">
                         <ProfilePic
+                            firstname={state.firstname}
+                            lastname={state.lastname}
                             imageURL={state.profilePic}
                             clickHandler={() =>
                                 this.setState({ uploaderIsVisible: true })

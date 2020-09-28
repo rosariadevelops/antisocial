@@ -376,7 +376,7 @@ app.get(`/user/:id.json`, (req, res) => {
 });
 
 // GET // FRIENDS LIST
-app.get(`/friends`, (req, res) => {
+/* app.get(`/friends`, (req, res) => {
     console.log("/friends req.body: ", req.body);
     //console.log("/user req.session.userId: ", req.session.userId);
     if (!req.session.userId) {
@@ -400,11 +400,12 @@ app.get(`/friends`, (req, res) => {
                     lastname,
                     image_url,
                     bio,
-                }); */
+                });
             })
             .catch((err) => console.log("err in getFriends: ", err));
     }
 });
+ */
 
 app.get("*", function (req, res) {
     if (!req.session.userId) {
