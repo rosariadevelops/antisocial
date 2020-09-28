@@ -36,3 +36,19 @@
     font-weight: normal;
     font-style: normal;
 }
+
+@font-face {
+    font-family: "restoraextralight";
+    src: url("../fonts/Restora/restoraextralight-webfont.woff2") format("woff2"),
+        url("../fonts/Restora/restoraextralight-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "restorathin_italic";
+    src: url("../fonts/Restora/restorathinitalic-webfont.woff2") format("woff2"),
+        url("../fonts/Restora/restorathinitalic-webfont.woff") format("woff");
+    font-weight: normal;
+    font-style: normal;
+}

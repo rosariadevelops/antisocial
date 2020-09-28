@@ -344,6 +344,31 @@ app.post("/profile/edit-bio", (req, res) => {
     }
 });
 
+// GET // OTHER USER PROFILE PAGE
+app.get(`/user/:id.json`, (req, res) => {
+    console.log("/user/:id req.params: ", req.params);
+    //console.log("/user req.session.userId: ", req.session.userId);
+    if (!req.session.userId) {
+        res.redirect("/welcome");
+    } else {
+        db.getUserInfo(req.params.id)
+            .then(({ rows }) => {
+                res.sendFile(__dirname + "/index.html");
+                console.log("/user/:id response: ", rows);
+                const { id, firstname, lastname, image_url, bio } = rows[0];
+                //res.setHeader("Content-Type", "application/json");
+                res.json({
+                    id,
+                    firstname,
+                    lastname,
+                    image_url,
+                    bio,
+                });
+            })
+            .catch((err) => console.log("err in getUserInfo /user/:id: ", err));
+    }
+});
+
 app.get("*", function (req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");

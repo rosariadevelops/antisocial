@@ -3,6 +3,8 @@ import axios from "./axios";
 import Profile from "./Profile";
 import ProfilePic from "./ProfilePic";
 import Uploader from "./Uploader";
+import OtherProfile from "./OtherProfile";
+import { BrowserRouter, Route } from "react-router-dom";
 
 export default class Portal extends React.Component {
     constructor(props) {
@@ -41,10 +43,9 @@ export default class Portal extends React.Component {
         }
         return (
             <React.Fragment>
-                {state.error}
                 <div className="nav">
                     <div className="logo">
-                        Anti<span>Social</span>
+                        anti<span>social</span>
                     </div>
                     <div className="prof-pic">
                         <ProfilePic
@@ -56,14 +57,42 @@ export default class Portal extends React.Component {
                     </div>
                 </div>
 
-                <div className="profile-container">
+                {/* <div className="container profile-container">
                     <Profile
                         firstname={state.firstname}
                         lastname={state.lastname}
                         imageURL={state.profilePic}
                         bio={state.bio}
                     />
-                </div>
+                </div> */}
+
+                <BrowserRouter>
+                    <div className="container profile-container">
+                        <Route
+                            exact
+                            path="/"
+                            render={() => (
+                                <Profile
+                                    id={state.id}
+                                    firstname={state.firstname}
+                                    lastname={state.lastname}
+                                    imageURL={state.profilePic}
+                                    bio={state.bio}
+                                />
+                            )}
+                        />
+                        <Route
+                            path="/user/:id"
+                            render={(props) => (
+                                <OtherProfile
+                                    key={props.match.url}
+                                    match={props.match}
+                                    history={props.history}
+                                />
+                            )}
+                        />
+                    </div>
+                </BrowserRouter>
 
                 {this.state.uploaderIsVisible && (
                     <Uploader

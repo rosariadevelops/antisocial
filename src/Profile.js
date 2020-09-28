@@ -26,12 +26,7 @@ export default class Profile extends React.Component {
         return (
             <div className="profile">
                 <div className="profile-img-ctr">
-                    <ProfilePic
-                        imageURL={state.profilePic}
-                        /*                         clickHandler={() =>
-                            this.setState({ uploaderIsVisible: true })
-                        } */
-                    />
+                    <ProfilePic imageURL={state.profilePic} />
                 </div>
                 <div className="bio-ctr">
                     <BioEditor

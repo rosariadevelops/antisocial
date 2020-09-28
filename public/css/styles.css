@@ -9,25 +9,40 @@ body {
     font-family: "gangster_reg", Helvetica, Arial, sans-serif;
 }
 
+main {
+    display: flex;
+    align-items: center;
+    min-height: 100vh;
+}
+
 .nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    max-width: 80px;
+    height: 100vh;
+    border-right: 1px solid white;
 }
 
 .welcome.logo,
 .logo {
-    font-size: 26px;
-    font-family: "gangster_reg", Helvetica, Arial, sans-serif;
-    padding: 10px 20px;
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-family: "restoraextralight";
+    /* font-family: "gangster_reg", Helvetica, Arial, sans-serif; */
+    padding: 0;
+    transform: rotate(-90deg) translateY(-10px);
+    height: 80px;
+    line-height: 80px;
 }
 .welcome.logo span,
 .logo span {
     position: relative;
+    font-family: "restorathin_italic";
 }
-.welcome.logo span::before,
+/* .welcome.logo span::before,
 .logo span::before {
-    /*  text-decoration: line-through; */
+    /*  text-decoration: line-through; 
     content: "";
     display: block;
     position: absolute;
@@ -36,10 +51,13 @@ body {
     width: 70px;
     height: 2px;
     background-color: white;
-}
+} */
 
 .nav .prof-pic {
     padding: 10px 20px;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 .nav .prof-pic img {
     width: 45px;
@@ -48,6 +66,12 @@ body {
     -webkit-filter: invert(1);
     filter: invert(1);
     cursor: pointer;
+}
+
+.container {
+    width: -webkit-fill-available;
+    min-height: 100vh;
+    padding: 30px;
 }
 
 .rgtr-form,
@@ -205,4 +229,20 @@ body {
 
 .profile-img-ctr img {
     max-width: 300px;
+    display: none;
+}
+
+button {
+    background: black;
+    border: 1px solid;
+    color: white;
+    font-size: 16px;
+    font-family: "gangster_reg", Helvetica, Arial, sans-serif;
+    padding: 15px 30px;
+    display: block;
+    margin-top: 20px;
+}
+
+.profile-details img {
+    max-width: 150px;
 }

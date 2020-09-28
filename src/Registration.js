@@ -68,7 +68,7 @@ export default class Registration extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="rgtr-form">
+                <div className="container rgtr-form">
                     <h1>Create an Account</h1>
                     {this.state.error && (
                         <p className="error">{this.state.error}</p>

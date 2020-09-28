@@ -102,7 +102,7 @@ export default class ResetPassword extends React.Component {
                 <div className="welcome logo">
                     Anti<span>Social</span>
                 </div>
-                <div>
+                <div className="container">
                     {this.state.currentDisplay == 1 && (
                         <div className="pw-reset-form">
                             <h1>Reset your password</h1>

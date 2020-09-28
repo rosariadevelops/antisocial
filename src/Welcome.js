@@ -8,7 +8,7 @@ export default function Welcome() {
     return (
         <React.Fragment>
             <div className="welcome logo">
-                Anti<span>Social</span>
+                anti<span>social</span>
             </div>
             <HashRouter>
                 <div>
