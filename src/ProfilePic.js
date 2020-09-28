@@ -1,6 +1,11 @@
 import React from "react";
 
-export default function ({ imageURL, firstname, lastname, clickHandler }) {
+export default function ({
+    imageURL = "/images/default.png",
+    firstname,
+    lastname,
+    clickHandler,
+}) {
     return (
         <img
             src={imageURL}

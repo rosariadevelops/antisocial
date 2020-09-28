@@ -73,3 +73,12 @@ module.exports.updateBio = (id, bio) => {
         [id, bio]
     );
 };
+
+module.exports.getFriends = () => {
+    return db.query(
+        `
+    SELECT id, firstname, lastname, image_url FROM users 
+    ORDER BY id DESC
+    LIMIT 10;`
+    );
+};

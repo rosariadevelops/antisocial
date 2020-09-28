@@ -346,15 +346,21 @@ app.post("/profile/edit-bio", (req, res) => {
 
 // GET // OTHER USER PROFILE PAGE
 app.get(`/user/:id.json`, (req, res) => {
-    console.log("/user/:id req.params: ", req.params);
+    console.log("/user/:id req.params: ", req.params.id);
+    console.log("/user/:id req.session.userId: ", req.session.userId);
     //console.log("/user req.session.userId: ", req.session.userId);
     if (!req.session.userId) {
         res.redirect("/welcome");
+    } else if (req.session.userId == req.params.id) {
+        res.json({
+            redirect: true,
+            errorMsg: "You cannot view your own profile.",
+        });
     } else {
         db.getUserInfo(req.params.id)
             .then(({ rows }) => {
                 res.sendFile(__dirname + "/index.html");
-                console.log("/user/:id response: ", rows);
+                //console.log("/user/:id response: ", rows);
                 const { id, firstname, lastname, image_url, bio } = rows[0];
                 //res.setHeader("Content-Type", "application/json");
                 res.json({
@@ -366,6 +372,37 @@ app.get(`/user/:id.json`, (req, res) => {
                 });
             })
             .catch((err) => console.log("err in getUserInfo /user/:id: ", err));
+    }
+});
+
+// GET // FRIENDS LIST
+app.get(`/friends`, (req, res) => {
+    console.log("/friends req.body: ", req.body);
+    //console.log("/user req.session.userId: ", req.session.userId);
+    if (!req.session.userId) {
+        res.redirect("/welcome");
+    } else {
+        db.getFriends()
+            .then(({ rows }) => {
+                console.log("getFriends result: ", rows);
+                //res.sendFile(__dirname + "/index.html");
+                //for (let i = 0; i < rows.length; ++i) {
+                //const { id, firstname, lastname, image_url, bio } = rows[i];
+                res.json({
+                    ...rows,
+                });
+                //}
+                //const { id, firstname, lastname, image_url, bio } = rows[0];
+                //res.setHeader("Content-Type", "application/json");
+                /* res.json({
+                    id,
+                    firstname,
+                    lastname,
+                    image_url,
+                    bio,
+                }); */
+            })
+            .catch((err) => console.log("err in getFriends: ", err));
     }
 });
 

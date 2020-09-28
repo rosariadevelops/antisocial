@@ -2,9 +2,11 @@ import React from "react";
 import axios from "./axios";
 import Profile from "./Profile";
 import ProfilePic from "./ProfilePic";
+//import FriendsList from "./FriendsList";
 import Uploader from "./Uploader";
 import OtherProfile from "./OtherProfile";
 import { BrowserRouter, Route } from "react-router-dom";
+//import { Link } from "react-router-dom";
 
 export default class Portal extends React.Component {
     constructor(props) {
@@ -16,11 +18,11 @@ export default class Portal extends React.Component {
     }
     componentDidMount() {
         axios.get("/user").then(({ data }) => {
-            console.log("APP DATA:", data);
             this.setState({
                 ...data,
                 profilePic: data.image_url || "/images/default.png",
             });
+            console.log("APP DATA:", data);
         });
     }
 
@@ -93,6 +95,14 @@ export default class Portal extends React.Component {
                         />
                     </div>
                 </BrowserRouter>
+
+                {/* <div className="friends-container">
+                    <FriendsList
+                        firstname={state.firstname}
+                        lastname={state.lastname}
+                        imageURL={state.profilePic}
+                    />
+                </div> */}
 
                 {this.state.uploaderIsVisible && (
                     <Uploader

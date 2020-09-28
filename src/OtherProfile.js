@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "./axios";
 import ProfilePic from "./ProfilePic";
-import Profile from "./Profile";
+//import Profile from "./Profile";
 
 export default class OtherProfile extends React.Component {
     constructor(props) {
@@ -22,11 +22,23 @@ export default class OtherProfile extends React.Component {
         axios
             .get(`/user/${this.props.match.params.id}.json`)
             .then(({ data }) => {
-                console.log("OTHER PROFILE DATA:", data);
-                this.setState({
-                    ...data,
-                    profilePic: data.image_url || "/images/default.png",
-                });
+                console.log("OTHER PROFILE DATA MOUNTED:", data);
+
+                if (data.redirect) {
+                    this.props.history.push("/");
+                    console.log("You can't view your own profile");
+                    this.setState({
+                        ...data,
+                        profilePic:
+                            data.image_url /*  || "/images/default.png" */,
+                    });
+                } else {
+                    this.setState({
+                        ...data,
+                        profilePic:
+                            data.image_url /*  || "/images/default.png" */,
+                    });
+                }
             });
     }
 
@@ -49,13 +61,6 @@ export default class OtherProfile extends React.Component {
                     </div>
                     <p>{state.bio}</p>
                 </div>
-                {/* <Profile
-                    id={this.state.id}
-                    firstname={this.state.firstname}
-                    lastname={this.state.lastname}
-                    imageURL={this.state.profilePic}
-                    bio={this.state.bio}
-                /> */}
             </div>
         );
     }
