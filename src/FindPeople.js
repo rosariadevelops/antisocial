@@ -9,17 +9,13 @@ export default function findAntiUser() {
         let abort;
         if (!userInput) {
             console.log("should render first 3 users");
-            axios.get("/antiusers-search").then(({ data }) => {
+            (async () => {
+                const { data } = await axios.get(`/antiusers-search`);
                 console.log("result: ", data.antiusers[0]);
-                setAntiUsers(data.antiusers[0]);
-            });
-            /* (async () => {
-                const { data } = await axios.get(`/antiusers/`);
-                console.log("SEARCH DATA: ", data);
-                /* if (!abort) {
-                    setAntiUsers(data.searchResults);
-                } 
-            })(); */
+                if (!abort) {
+                    setAntiUsers(data.antiusers[0]);
+                }
+            })();
         } else {
             (async () => {
                 console.log("checking for users");
