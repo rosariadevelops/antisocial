@@ -112,7 +112,7 @@ export default class Portal extends React.Component {
                             )}
                         />
                         <Route
-                            path="/antiusers"
+                            path="/users"
                             render={() => (
                                 <FindPeople
                                     //key={props.match.url}

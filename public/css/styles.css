@@ -58,6 +58,9 @@ main {
     position: absolute;
     top: 0;
     right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .nav .prof-pic img {
     width: 45px;
@@ -245,4 +248,23 @@ button {
 
 .profile-details img {
     max-width: 150px;
+}
+
+input {
+    background: black;
+    border: 1px solid white;
+    color: white;
+    padding: 10px 20px;
+    font-size: 15px;
+}
+
+.search-link button {
+    padding: 0;
+    border: none;
+    margin: 0 10px;
+    font-size: 13px;
+}
+
+.search-results {
+    position: absolute;
 }

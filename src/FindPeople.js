@@ -4,18 +4,32 @@ import axios from "./axios";
 export default function findAntiUser() {
     const [userInput, setUserInput] = useState("");
     const [antiUsers, setAntiUsers] = useState();
-    //console.log("antiUsers: ", antiUsers);
-    //console.log("find people page: ", useState);
 
     useEffect(() => {
         let abort;
-        (async () => {
-            const { data } = await axios.get(`/antiusers/${userInput}.json`);
-            //console.log("SEARCH DATA: ", data.searchResults);
-            if (!abort) {
-                setAntiUsers(data.searchResults);
-            }
-        })();
+        if (!userInput) {
+            console.log("should render first 3 users");
+            axios.get("/antiusers-search").then(({ data }) => {
+                console.log("result: ", data.antiusers[0]);
+                setAntiUsers(data.antiusers[0]);
+            });
+            /* (async () => {
+                const { data } = await axios.get(`/antiusers/`);
+                console.log("SEARCH DATA: ", data);
+                /* if (!abort) {
+                    setAntiUsers(data.searchResults);
+                } 
+            })(); */
+        } else {
+            (async () => {
+                console.log("checking for users");
+                const { data } = await axios.get(`/antiusers/${userInput}`);
+                console.log("SEARCH DATA: ", data.searchResults);
+                if (!abort) {
+                    setAntiUsers(data.searchResults);
+                }
+            })();
+        }
         return () => {
             abort = true;
         };
@@ -32,6 +46,7 @@ export default function findAntiUser() {
         <div>
             <h1>Find people</h1>
             <p>These anti-users just joined:</p>
+
             <p>Search:</p>
             <input
                 onChange={handleChange}
