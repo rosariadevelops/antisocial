@@ -6,7 +6,7 @@ import ProfilePic from "./ProfilePic";
 import Uploader from "./Uploader";
 import OtherProfile from "./OtherProfile";
 import FindPeople from "./FindPeople";
-import { BrowserRouter, Route } from "react-router-dom";
+import { Link, BrowserRouter, Route } from "react-router-dom";
 
 export default class Portal extends React.Component {
     constructor(props) {
@@ -56,37 +56,29 @@ export default class Portal extends React.Component {
         }
         return (
             <React.Fragment>
-                <div className="nav">
-                    <div className="logo">
-                        anti<span>social</span>
-                    </div>
-                    <div className="prof-pic">
-                        <div className="search-link">
-                            <button onClick={() => this.findPeople()}>
-                                Find antiusers
-                            </button>
-                        </div>
-                        <ProfilePic
-                            firstname={state.firstname}
-                            lastname={state.lastname}
-                            imageURL={state.profilePic}
-                            clickHandler={() =>
-                                this.setState({ uploaderIsVisible: true })
-                            }
-                        />
-                    </div>
-                </div>
-
-                {/* <div className="container profile-container">
-                    <Profile
-                        firstname={state.firstname}
-                        lastname={state.lastname}
-                        imageURL={state.profilePic}
-                        bio={state.bio}
-                    />
-                </div> */}
-
                 <BrowserRouter>
+                    <div className="nav">
+                        <div className="logo">
+                            anti<span>social</span>
+                        </div>
+                        <div className="prof-pic">
+                            <div className="search-link">
+                                <Link to="/users">Find antiusers</Link>
+                                {/* <button onClick={() => this.findPeople()}>
+                                    Find antiusers
+                                </button> */}
+                            </div>
+                            <ProfilePic
+                                firstname={state.firstname}
+                                lastname={state.lastname}
+                                imageURL={state.profilePic}
+                                clickHandler={() =>
+                                    this.setState({ uploaderIsVisible: true })
+                                }
+                            />
+                        </div>
+                    </div>
+
                     <div className="container profile-container">
                         <Route
                             exact
@@ -111,17 +103,19 @@ export default class Portal extends React.Component {
                                 />
                             )}
                         />
-                        <Route
-                            path="/users"
-                            render={() => (
-                                <FindPeople
-                                    //key={props.match.url}
-                                    //match={props.match}
-                                    //history={props.history}
-                                    id={state.id}
-                                />
-                            )}
-                        />
+                        <div className="search-container">
+                            <Route
+                                path="/users"
+                                render={() => (
+                                    <FindPeople
+                                        //key={props.match.url}
+                                        //match={props.match}
+                                        //history={props.history}
+                                        id={state.id}
+                                    />
+                                )}
+                            />
+                        </div>
                     </div>
                 </BrowserRouter>
 

@@ -54,19 +54,21 @@ export default function findAntiUser() {
             {antiUsers != undefined && (
                 <div className="search-results">
                     {antiUsers.map((user) => (
-                        <div key={user.id}>
-                            <h3>{user.firstname}</h3>
+                        <div className="search-user" key={user.id}>
+                            <div className="search-img">
+                                <img
+                                    src={
+                                        user.image_url || "/images/default.png"
+                                    }
+                                />
+                            </div>
+                            <h3>
+                                {user.firstname} {user.lastname}
+                            </h3>
                         </div>
                     ))}
                 </div>
             )}
-            {/* <div className="search-results">
-                {antiUsers.map((user) => (
-                    <div key={user.id}>
-                        <h3>{user.firstname}</h3>
-                    </div>
-                ))}
-            </div> */}
         </div>
     );
 }
