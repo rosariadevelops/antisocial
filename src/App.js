@@ -5,8 +5,8 @@ import ProfilePic from "./ProfilePic";
 //import FriendsList from "./FriendsList";
 import Uploader from "./Uploader";
 import OtherProfile from "./OtherProfile";
+import FindPeople from "./FindPeople";
 import { BrowserRouter, Route } from "react-router-dom";
-//import { Link } from "react-router-dom";
 
 export default class Portal extends React.Component {
     constructor(props) {
@@ -17,7 +17,7 @@ export default class Portal extends React.Component {
         };
     }
     componentDidMount() {
-        axios.get("/user").then(({ data }) => {
+        axios.get("/antiuser").then(({ data }) => {
             this.setState({
                 ...data,
                 profilePic: data.image_url || "/images/default.png",
@@ -37,6 +37,17 @@ export default class Portal extends React.Component {
         });
     }
 
+    findPeople() {
+        console.log("Clicked");
+        /*         axios.get("/antiusers").then((result) => {
+            /* this.setState({
+                ...data,
+                profilePic: data.image_url || "/images/default.png",
+            }); 
+            console.log("FIND PEOPLE RESULT:", result);
+        }); */
+    }
+
     render() {
         let state = this.state;
         if (!this.state.id) {
@@ -50,6 +61,11 @@ export default class Portal extends React.Component {
                         anti<span>social</span>
                     </div>
                     <div className="prof-pic">
+                        <div className="search-link">
+                            <button onClick={() => this.findPeople()}>
+                                Find antiusers
+                            </button>
+                        </div>
                         <ProfilePic
                             firstname={state.firstname}
                             lastname={state.lastname}
@@ -86,12 +102,23 @@ export default class Portal extends React.Component {
                             )}
                         />
                         <Route
-                            path="/user/:id"
+                            path="/antiuser/:id"
                             render={(props) => (
                                 <OtherProfile
                                     key={props.match.url}
                                     match={props.match}
                                     history={props.history}
+                                />
+                            )}
+                        />
+                        <Route
+                            path="/antiusers"
+                            render={() => (
+                                <FindPeople
+                                    //key={props.match.url}
+                                    //match={props.match}
+                                    //history={props.history}
+                                    id={state.id}
                                 />
                             )}
                         />

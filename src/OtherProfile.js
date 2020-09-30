@@ -20,7 +20,7 @@ export default class OtherProfile extends React.Component {
 
     componentDidMount() {
         axios
-            .get(`/user/${this.props.match.params.id}.json`)
+            .get(`/antiuser/${this.props.match.params.id}.json`)
             .then(({ data }) => {
                 console.log("OTHER PROFILE DATA MOUNTED:", data);
 

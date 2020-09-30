@@ -263,7 +263,7 @@ app.post("/password/reset/verify", (req, res) => {
 });
 
 // GET // USER PAGE
-app.get("/user", (req, res) => {
+app.get("/antiuser", (req, res) => {
     console.log("/user req.body: ", req.body);
     console.log("/user req.session.userId: ", req.session.userId);
     if (!req.session.userId) {
@@ -287,7 +287,7 @@ app.get("/user", (req, res) => {
 });
 
 // POST // USER PAGE UPLOAD CHANGE PROFILE PIC
-app.post("/user/upload", uploader.single("file"), s3.upload, (req, res) => {
+app.post("/antiuser/upload", uploader.single("file"), s3.upload, (req, res) => {
     const filename = req.file.filename;
     const url = `${s3Url}${filename}`;
     console.log("filename being passed: ", filename);
@@ -345,9 +345,9 @@ app.post("/profile/edit-bio", (req, res) => {
 });
 
 // GET // OTHER USER PROFILE PAGE
-app.get(`/user/:id.json`, (req, res) => {
-    console.log("/user/:id req.params: ", req.params.id);
-    console.log("/user/:id req.session.userId: ", req.session.userId);
+app.get(`/antiuser/:id.json`, (req, res) => {
+    console.log("/antiuser/:id req.params: ", req.params.id);
+    console.log("/antiuser/:id req.session.userId: ", req.session.userId);
     //console.log("/user req.session.userId: ", req.session.userId);
     if (!req.session.userId) {
         res.redirect("/welcome");
@@ -372,6 +372,31 @@ app.get(`/user/:id.json`, (req, res) => {
                 });
             })
             .catch((err) => console.log("err in getUserInfo /user/:id: ", err));
+    }
+});
+
+// GET // SEARCH ANTIUSERS PAGE
+app.get("/antiusers", (req, res) => {
+    console.log("/antiusers req.body: ", req.body);
+    //console.log("/user req.session.userId: ", req.session.userId);
+    if (!req.session.userId) {
+        res.redirect("/welcome");
+    } else {
+        db.getAntiUsers()
+            .then(({ rows }) => {
+                //res.sendFile(__dirname + "/index.html");
+                console.log("/antiusers response: ", rows);
+                //const { id, firstname, lastname, image_url, bio } = rows[0];
+                //res.setHeader("Content-Type", "application/json");
+                /* res.json({
+                    id,
+                    firstname,
+                    lastname,
+                    image_url,
+                    bio,
+                }); */
+            })
+            .catch((err) => console.log("err in findAntiUsers: ", err));
     }
 });
 

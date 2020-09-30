@@ -57,7 +57,7 @@ export default class Profile extends React.Component {
         axios
             .post("/profile/edit-bio", newBio)
             .then((response) => {
-                console.log("/user/upload response: ", response);
+                console.log("/profile/edit-bio response: ", response);
                 this.setState({
                     bio: response.data.newBio,
                     bioEditorIsVisible: false,
@@ -67,7 +67,7 @@ export default class Profile extends React.Component {
                 console.log("POST REQ STATE BIO: ", this.state.bio);
             })
             .catch(function (err) {
-                console.log("err in form POST /user/upload: ", err);
+                console.log("err in form POST /profile/bio: ", err);
             });
     }
 

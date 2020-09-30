@@ -74,11 +74,20 @@ module.exports.updateBio = (id, bio) => {
     );
 };
 
-module.exports.getFriends = () => {
+module.exports.getAntiUsers = () => {
     return db.query(
         `
     SELECT id, firstname, lastname, image_url FROM users 
     ORDER BY id DESC
-    LIMIT 10;`
+    LIMIT 3;`
+    );
+};
+
+module.exports.findAntiUsers = (val) => {
+    return db.query(
+        `
+    SELECT id, firstname, lastname, image_url FROM users 
+    WHERE firstname ILIKE $1;`,
+        [val + "%"]
     );
 };
