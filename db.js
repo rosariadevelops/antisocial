@@ -74,7 +74,7 @@ module.exports.updateBio = (id, bio) => {
     );
 };
 
-module.exports.getAntiUsers = () => {
+module.exports.getLatestUsers = () => {
     return db.query(
         `
     SELECT id, firstname, lastname, image_url FROM users 
@@ -83,7 +83,7 @@ module.exports.getAntiUsers = () => {
     );
 };
 
-module.exports.findAntiUsers = (val) => {
+module.exports.findPeople = (val) => {
     return db.query(
         `
     SELECT id, firstname, lastname, image_url FROM users 

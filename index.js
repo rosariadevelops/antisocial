@@ -264,15 +264,15 @@ app.post("/password/reset/verify", (req, res) => {
 
 // GET // USER PAGE
 app.get("/antiuser", (req, res) => {
-    console.log("/user req.body: ", req.body);
-    console.log("/user req.session.userId: ", req.session.userId);
+    //console.log("/user req.body: ", req.body);
+    //console.log("/user req.session.userId: ", req.session.userId);
     if (!req.session.userId) {
         res.redirect("/welcome");
     } else {
         db.getUserInfo(req.session.userId)
             .then(({ rows }) => {
                 res.sendFile(__dirname + "/index.html");
-                console.log("/user response: ", rows);
+                //console.log("/user response: ", rows);
                 const { id, firstname, lastname, image_url, bio } = rows[0];
                 res.json({
                     id,
@@ -346,8 +346,8 @@ app.post("/profile/edit-bio", (req, res) => {
 
 // GET // OTHER USER PROFILE PAGE
 app.get(`/antiuser/:id.json`, (req, res) => {
-    console.log("/antiuser/:id req.params: ", req.params.id);
-    console.log("/antiuser/:id req.session.userId: ", req.session.userId);
+    //console.log("/antiuser/:id req.params: ", req.params.id);
+    //console.log("/antiuser/:id req.session.userId: ", req.session.userId);
     //console.log("/user req.session.userId: ", req.session.userId);
     if (!req.session.userId) {
         res.redirect("/welcome");
@@ -376,28 +376,59 @@ app.get(`/antiuser/:id.json`, (req, res) => {
 });
 
 // GET // SEARCH ANTIUSERS PAGE
-app.get("/antiusers", (req, res) => {
-    console.log("/antiusers req.body: ", req.body);
-    //console.log("/user req.session.userId: ", req.session.userId);
+app.get(`/antiusers/:userInput.json`, (req, res) => {
+    console.log("/antiusers/:userInput req.params: ", req.params.userInput);
+
     if (!req.session.userId) {
         res.redirect("/welcome");
     } else {
-        db.getAntiUsers()
+        if (!req.params.userInput) {
+            db.getLatestUsers()
+                .then(({ rows }) => {
+                    //res.sendFile(__dirname + "/index.html");
+                    console.log("getLatestUsers response: ", rows);
+                    res.json({
+                        antiusers: [rows],
+                    });
+                })
+                .catch((err) => console.log("err in GETAntiUsers: ", err));
+        } else {
+            db.findPeople(req.params.userInput)
+                .then(({ rows }) => {
+                    //res.sendFile(__dirname + "/index.html");
+                    console.log("FIND PEOPLE response: ", rows);
+                    res.json({
+                        searchResults: rows,
+                    });
+                })
+                .catch((err) => console.log("err in FINDAntiUsers: ", err));
+        }
+    }
+    //console.log("/user req.session.userId: ", req.session.userId);
+    /* if (!req.session.userId) {
+        res.redirect("/welcome");
+    } else if (req.session.userId == req.params.id) {
+        res.json({
+            redirect: true,
+            errorMsg: "You cannot view your own profile.",
+        });
+    } else {
+        db.getUserInfo(req.params.id)
             .then(({ rows }) => {
-                //res.sendFile(__dirname + "/index.html");
-                console.log("/antiusers response: ", rows);
-                //const { id, firstname, lastname, image_url, bio } = rows[0];
+                res.sendFile(__dirname + "/index.html");
+                //console.log("/user/:id response: ", rows);
+                const { id, firstname, lastname, image_url, bio } = rows[0];
                 //res.setHeader("Content-Type", "application/json");
-                /* res.json({
+                res.json({
                     id,
                     firstname,
                     lastname,
                     image_url,
                     bio,
-                }); */
+                });
             })
-            .catch((err) => console.log("err in findAntiUsers: ", err));
-    }
+            .catch((err) => console.log("err in getUserInfo /user/:id: ", err));
+    } */
 });
 
 // GET // FRIENDS LIST
