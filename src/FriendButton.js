@@ -13,15 +13,15 @@ export default function friendRequest({ otherUserId }) {
             const { data } = await axios.get(`/friend-status/${otherUserId}`);
             console.log("result: ", data);
             if (!abort) {
-                if (data.buttonAdd) {
-                    setfriendshipStatus(data.buttonAdd);
-                } else if (data.buttonCancel) {
+                //if (data.buttonText) {
+                setfriendshipStatus(data.buttonText);
+                /* } else if (data.buttonCancel) {
                     setfriendshipStatus(data.buttonCancel);
                 } else if (data.buttonAccept) {
                     setfriendshipStatus(data.buttonAccept);
                 } else if (data.buttonEnd) {
                     setfriendshipStatus(data.buttonEnd);
-                }
+                } */
             }
         })();
         return () => {
@@ -43,7 +43,10 @@ export default function friendRequest({ otherUserId }) {
                     setfriendshipStatus(data.status);
                 })
                 .catch(function (err) {
-                    console.log("err in form POST /profile/bio: ", err);
+                    console.log(
+                        "err in form POST /friend-status/add-friend: ",
+                        err
+                    );
                 });
         }
 
@@ -56,7 +59,42 @@ export default function friendRequest({ otherUserId }) {
                     setfriendshipStatus(data.status);
                 })
                 .catch(function (err) {
-                    console.log("err in form POST /profile/bio: ", err);
+                    console.log(
+                        "err in form POST /friend-status/cancel-request: ",
+                        err
+                    );
+                });
+        }
+
+        if (friendshipStatus === "Accept friend request") {
+            console.log("friendshipStatus: CANCEL REQUEST");
+            axios
+                .post(`/friend-status/${otherUserId}/accept-friend`)
+                .then(({ data }) => {
+                    console.log("/accept-friend response: ", data);
+                    setfriendshipStatus(data.status);
+                })
+                .catch(function (err) {
+                    console.log(
+                        "err in form POST /friend-status/cancel-request: ",
+                        err
+                    );
+                });
+        }
+
+        if (friendshipStatus === "Delete friend") {
+            console.log("friendshipStatus: DELETE FRIENDSHIP");
+            axios
+                .post(`/friend-status/${otherUserId}/delete-friend`)
+                .then(({ data }) => {
+                    console.log("/add-friend response: ", data);
+                    setfriendshipStatus(data.status);
+                })
+                .catch(function (err) {
+                    console.log(
+                        "err in form POST /friend-status/delete-friend: ",
+                        err
+                    );
                 });
         }
     }

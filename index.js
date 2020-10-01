@@ -412,21 +412,32 @@ app.get(`/friend-status/:otherUserId`, (req, res) => {
                 console.log("FRIEND STATUS response: ", rows);
                 if (rows.length > 0) {
                     console.log("friendship req PENDING");
-                    if (rows[0].sender_id === req.session.userId) {
+                    if (
+                        rows[0].sender_id === req.session.userId &&
+                        rows[0].accepted === false
+                    ) {
                         console.log("logged in user SENT the request");
                         res.json({
-                            buttonCancel: "Cancel friend request",
+                            buttonText: "Cancel friend request",
                         });
-                    } else {
+                    } else if (rows[0].accepted === true) {
+                        console.log("These guys are friends");
+                        res.json({
+                            buttonText: "Delete friend",
+                        });
+                    } else if (
+                        rows[0].recipient_id === req.session.userId &&
+                        rows[0].accepted === false
+                    ) {
                         console.log("logged in user RECEIVED the request");
                         res.json({
-                            buttonAccept: "Accept friend request",
+                            buttonText: "Accept friend request",
                         });
                     }
                 } else {
                     console.log("NO friendship existing");
                     res.json({
-                        buttonAdd: "Add friend",
+                        buttonText: "Add friend",
                     });
                 }
             })
@@ -457,7 +468,6 @@ app.post("/friend-status/:otherUserId/add-friend", (req, res) => {
             });
     } else {
         res.json({
-            errorMsg: "Please enter a bio message.",
             success: false,
         });
     }
@@ -465,12 +475,12 @@ app.post("/friend-status/:otherUserId/add-friend", (req, res) => {
 
 // POST // FRIEND BUTTON CANCEL REQUEST
 app.post("/friend-status/:otherUserId/cancel-friend", (req, res) => {
-    console.log("post add friend: ", req.params.otherUserId);
+    console.log("post cancel friend: ", req.params.otherUserId);
 
     if (req.params.otherUserId) {
         db.cancelFriendshipRequest(req.session.userId, req.params.otherUserId)
             .then(({ rows }) => {
-                console.log("INSERT ADD FRIEND RESULT: ", rows[0]);
+                console.log("CANCEL FRIEND RESULT: ", rows[0]);
                 const { id, sender_id, recipient_id, accepted } = rows[0];
                 res.json({
                     id,
@@ -486,7 +496,62 @@ app.post("/friend-status/:otherUserId/cancel-friend", (req, res) => {
             });
     } else {
         res.json({
-            errorMsg: "Please enter a bio message.",
+            success: false,
+        });
+    }
+});
+
+// POST // FRIEND BUTTON CANCEL REQUEST
+app.post("/friend-status/:otherUserId/accept-friend", (req, res) => {
+    console.log("post accept friend: ", req.params.otherUserId);
+
+    if (req.params.otherUserId) {
+        db.acceptFriendshipRequest(req.session.userId, req.params.otherUserId)
+            .then(({ rows }) => {
+                console.log("ACCEPT FRIEND RESULT: ", rows[0]);
+                const { id, sender_id, recipient_id, accepted } = rows[0];
+                res.json({
+                    id,
+                    sender_id,
+                    recipient_id,
+                    accepted,
+                    status: "Delete friend",
+                    success: true,
+                });
+            })
+            .catch((err) => {
+                console.log("err in cancelFriendshipRequest: ", err);
+            });
+    } else {
+        res.json({
+            success: false,
+        });
+    }
+});
+
+// POST // FRIEND BUTTON DELETE FRIENDSHIP
+app.post("/friend-status/:otherUserId/delete-friend", (req, res) => {
+    console.log("post add friend: ", req.params.otherUserId);
+
+    if (req.params.otherUserId) {
+        db.deleteFriendship(req.session.userId, req.params.otherUserId)
+            .then(({ rows }) => {
+                console.log("DELETE FRIEND RESULT: ", rows[0]);
+                const { id, sender_id, recipient_id, accepted } = rows[0];
+                res.json({
+                    id,
+                    sender_id,
+                    recipient_id,
+                    accepted,
+                    status: "Add friend",
+                    success: true,
+                });
+            })
+            .catch((err) => {
+                console.log("err in deleteFriendship: ", err);
+            });
+    } else {
+        res.json({
             success: false,
         });
     }
