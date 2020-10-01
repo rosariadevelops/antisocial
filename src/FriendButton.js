@@ -1,51 +1,62 @@
 import React, { useState, useEffect } from "react";
 import axios from "./axios";
 
-export default function friendRequest(props) {
+export default function friendRequest({ otherUserId }) {
     const [friendshipStatus, setfriendshipStatus] = useState("");
-    let otherUserId = props.otherUserId;
+    const [buttonClick, setButtonClick] = useState();
     console.log("outside useEffect: ", otherUserId);
 
     useEffect(() => {
-        //let abort;
-        //if (!userInput) {
+        let abort;
         (async () => {
             console.log("otherUserId: ", otherUserId);
             const { data } = await axios.get(`/friend-status/${otherUserId}`);
             console.log("result: ", data);
-            // if (!abort) {
-            if (data.buttonAdd) {
-                setfriendshipStatus(data.buttonAdd);
-            } else if (data.buttonCancel) {
-                setfriendshipStatus(data.buttonCancel);
-            } else if (data.buttonAccept) {
-                setfriendshipStatus(data.buttonAccept);
-            }
-            //}
-        })();
-        /* } else {
-            (async () => {
-                console.log("checking for users");
-                const { data } = await axios.get(`/antiusers/${userInput}`);
-                console.log("SEARCH DATA: ", data.searchResults);
-                if (!abort) {
-                    setAntiUsers(data.searchResults);
+            if (!abort) {
+                if (data.buttonAdd) {
+                    setfriendshipStatus(data.buttonAdd);
+                } else if (data.buttonCancel) {
+                    setfriendshipStatus(data.buttonCancel);
+                } else if (data.buttonAccept) {
+                    setfriendshipStatus(data.buttonAccept);
+                } else if (data.buttonEnd) {
+                    setfriendshipStatus(data.buttonEnd);
                 }
-            })();
-        } */
-        /* return () => {
+            }
+        })();
+        return () => {
             abort = true;
-        }; */
-    }, []);
+        };
+    });
 
-    /* function handleChange(e) {
-        console.log("handle change: ", e.target.value);
-        setUserInput(e.target.value);
-    } */
+    function sendStatus() {
+        console.log("friendshipStatus: ", friendshipStatus);
+        //let abort;
+        //(async () => {
+        if (friendshipStatus === "Add friend") {
+            setButtonClick();
+            console.log("friendshipStatus: ADD FRIEND");
+            axios
+                .post(`/friend-status/${otherUserId}/add-friend`)
+                .then(({ data }) => {
+                    console.log("/add-friend response: ", data);
+                    setfriendshipStatus(data.status);
+                })
+                .catch(function (err) {
+                    console.log("err in form POST /profile/bio: ", err);
+                });
+        }
+    }
 
     return (
         <div className="friend-button">
-            <button>{friendshipStatus}</button>
+            <button onClick={sendStatus}>{friendshipStatus}</button>
         </div>
     );
 }
+
+/* else if (friendshipStatus === "Cancel request") {
+            axios.post(`/friend-status/${otherUserId}/cancel-request`);
+        } else if (friendshipStatus === "Unfriend") {
+            axios.post(`/friend-status/${otherUserId}/unfriend`);
+        } */

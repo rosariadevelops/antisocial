@@ -320,8 +320,6 @@ app.get("/profile", (req, res) => {
 
 // POST // PROFILE CHANGE BIO
 app.post("/profile/edit-bio", (req, res) => {
-    //console.log("EDIT BIO REQ BODY: ", req.body);
-    //console.log("EDIT BIO REQ BODY: ", req.body[0]);
     const bioInput = req.body[0];
 
     if (bioInput != null) {
@@ -346,9 +344,6 @@ app.post("/profile/edit-bio", (req, res) => {
 
 // GET // OTHER USER PROFILE PAGE
 app.get(`/antiuser/:id.json`, (req, res) => {
-    //console.log("/antiuser/:id req.params: ", req.params.id);
-    //console.log("/antiuser/:id req.session.userId: ", req.session.userId);
-    //console.log("/user req.session.userId: ", req.session.userId);
     if (!req.session.userId) {
         res.redirect("/welcome");
     } else if (req.session.userId == req.params.id) {
@@ -360,9 +355,7 @@ app.get(`/antiuser/:id.json`, (req, res) => {
         db.getUserInfo(req.params.id)
             .then(({ rows }) => {
                 res.sendFile(__dirname + "/index.html");
-                //console.log("/user/:id response: ", rows);
                 const { id, firstname, lastname, image_url, bio } = rows[0];
-                //res.setHeader("Content-Type", "application/json");
                 res.json({
                     id,
                     firstname,
@@ -431,6 +424,35 @@ app.get(`/friend-status/:otherUserId`, (req, res) => {
                 }
             })
             .catch((err) => console.log("err in friend status GET: ", err));
+    }
+});
+
+// POST // FRIEND BUTTON REQUESTED
+app.post("/friend-status/:otherUserId/add-friend", (req, res) => {
+    console.log("post add friend: ", req.params.otherUserId);
+
+    if (req.params.otherUserId) {
+        db.insertFriendship(req.session.userId, req.params.otherUserId)
+            .then(({ rows }) => {
+                console.log("INSERT ADD FRIEND RESULT: ", rows[0]);
+                const { id, sender_id, recipient_id, accepted } = rows[0];
+                res.json({
+                    id,
+                    sender_id,
+                    recipient_id,
+                    accepted,
+                    status: "Cancel friend request",
+                    success: true,
+                });
+            })
+            .catch((err) => {
+                console.log("err in insertFriendship: ", err);
+            });
+    } else {
+        res.json({
+            errorMsg: "Please enter a bio message.",
+            success: false,
+        });
     }
 });
 

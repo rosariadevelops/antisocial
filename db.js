@@ -102,14 +102,14 @@ module.exports.selectFriendship = (recipientId, senderId) => {
     );
 };
 
-module.exports.insertFriendship = (otherUserId) => {
+module.exports.insertFriendship = (senderId, recipientId) => {
     return db.query(
         `
-        INSERT INTO friendships (otherUserId)
-        VALUES ($1, $2)
+        INSERT INTO friendships (sender_id, recipient_id, accepted)
+        VALUES ($1, $2, false)
         RETURNING *
         `,
-        []
+        [recipientId, senderId]
     );
 };
 
