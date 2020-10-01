@@ -139,9 +139,7 @@ app.post("/login", (req, res) => {
                         .then((result) => {
                             console.log("compare result:", result);
                             if (result) {
-                                // console.log("result:", result);
                                 const userId = results.rows[0].id;
-                                //console.log("userId", userId);
                                 req.session.userId = userId;
                                 res.json({
                                     success: true,
@@ -413,11 +411,20 @@ app.get(`/friend-status/:otherUserId`, (req, res) => {
             .then(({ rows }) => {
                 console.log("FRIEND STATUS response: ", rows);
                 if (rows.length > 0) {
-                    res.json({
-                        buttonCancel: "Cancel friend request",
-                    });
+                    console.log("friendship req PENDING");
+                    if (rows[0].sender_id === req.session.userId) {
+                        console.log("logged in user SENT the request");
+                        res.json({
+                            buttonCancel: "Cancel friend request",
+                        });
+                    } else {
+                        console.log("logged in user RECEIVED the request");
+                        res.json({
+                            buttonAccept: "Accept friend request",
+                        });
+                    }
                 } else {
-                    console.log("no friendship existing");
+                    console.log("NO friendship existing");
                     res.json({
                         buttonAdd: "Add friend",
                     });
@@ -447,6 +454,35 @@ app.post("/friend-status/:otherUserId/add-friend", (req, res) => {
             })
             .catch((err) => {
                 console.log("err in insertFriendship: ", err);
+            });
+    } else {
+        res.json({
+            errorMsg: "Please enter a bio message.",
+            success: false,
+        });
+    }
+});
+
+// POST // FRIEND BUTTON CANCEL REQUEST
+app.post("/friend-status/:otherUserId/cancel-friend", (req, res) => {
+    console.log("post add friend: ", req.params.otherUserId);
+
+    if (req.params.otherUserId) {
+        db.cancelFriendshipRequest(req.session.userId, req.params.otherUserId)
+            .then(({ rows }) => {
+                console.log("INSERT ADD FRIEND RESULT: ", rows[0]);
+                const { id, sender_id, recipient_id, accepted } = rows[0];
+                res.json({
+                    id,
+                    sender_id,
+                    recipient_id,
+                    accepted,
+                    status: "Add friend",
+                    success: true,
+                });
+            })
+            .catch((err) => {
+                console.log("err in cancelFriendshipRequest: ", err);
             });
     } else {
         res.json({

@@ -52,7 +52,7 @@ export default class Portal extends React.Component {
                         </div>
                         <div className="prof-pic">
                             <div className="search-link">
-                                <Link to="/users">Find antiusers</Link>
+                                <Link to="/antiusers">Find antiusers</Link>
                                 {/* <button onClick={() => this.findPeople()}>
                                     Find antiusers
                                 </button> */}
@@ -89,6 +89,10 @@ export default class Portal extends React.Component {
                                     key={props.match.url}
                                     match={props.match}
                                     history={props.history}
+                                    imageURL={state.profilePic}
+                                    id={state.id}
+                                    firstname={state.firstname}
+                                    lastname={state.lastname}
                                 />
                             )}
                         />

@@ -34,10 +34,23 @@ export default function friendRequest({ otherUserId }) {
         //let abort;
         //(async () => {
         if (friendshipStatus === "Add friend") {
-            setButtonClick();
+            //setButtonClick();
             console.log("friendshipStatus: ADD FRIEND");
             axios
                 .post(`/friend-status/${otherUserId}/add-friend`)
+                .then(({ data }) => {
+                    console.log("/add-friend response: ", data);
+                    setfriendshipStatus(data.status);
+                })
+                .catch(function (err) {
+                    console.log("err in form POST /profile/bio: ", err);
+                });
+        }
+
+        if (friendshipStatus === "Cancel friend request") {
+            console.log("friendshipStatus: CANCEL REQUEST");
+            axios
+                .post(`/friend-status/${otherUserId}/cancel-friend`)
                 .then(({ data }) => {
                     console.log("/add-friend response: ", data);
                     setfriendshipStatus(data.status);

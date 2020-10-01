@@ -113,13 +113,36 @@ module.exports.insertFriendship = (senderId, recipientId) => {
     );
 };
 
-module.exports.updateFriendship = (id, bio) => {
+module.exports.cancelFriendshipRequest = (senderId, recipientId) => {
+    return db.query(
+        `
+        DELETE FROM friendships
+        WHERE (recipient_id = $1 AND sender_id = $2)
+        OR (recipient_id = $2 AND sender_id = $1)
+        RETURNING *;`,
+        [senderId, recipientId]
+    );
+};
+
+module.exports.acceptFriendshipRequest = (senderId, recipientId) => {
     return db.query(
         `
         UPDATE friendships 
-        SET bio = ($2)
-        WHERE id = ($1)
+        SET accepted = true
+        WHERE (recipient_id = $1 AND sender_id = $2)
+        OR (recipient_id = $2 AND sender_id = $1)
         RETURNING *;`,
-        [id, bio]
+        [senderId, recipientId]
+    );
+};
+
+module.exports.deleteFriendship = (senderId, recipientId) => {
+    return db.query(
+        `
+        DELETE FROM friendships
+        WHERE (recipient_id = $1 AND sender_id = $2)
+        OR (recipient_id = $2 AND sender_id = $1)
+        RETURNING *;`,
+        [senderId, recipientId]
     );
 };

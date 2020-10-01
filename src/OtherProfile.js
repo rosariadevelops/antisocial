@@ -23,12 +23,12 @@ export default class OtherProfile extends React.Component {
                     console.log("You can't view your own profile");
                     this.setState({
                         ...data,
-                        profilePic: data.image_url,
+                        profilePic: data.image_url || "/images/default.png",
                     });
                 } else {
                     this.setState({
                         ...data,
-                        profilePic: data.image_url,
+                        profilePic: data.image_url || "/images/default.png",
                     });
                     console.log("OTHER USER DATA: ", this.state);
                 }
@@ -40,7 +40,11 @@ export default class OtherProfile extends React.Component {
         return (
             <div className="profile">
                 <div className="profile-img-ctr">
-                    <ProfilePic imageURL={state.profilePic} />
+                    <ProfilePic
+                        imageURL={state.profilePic}
+                        firstname={state.firstname}
+                        lastname={state.lastname}
+                    />
                 </div>
                 <div className="profile-details">
                     <h1>

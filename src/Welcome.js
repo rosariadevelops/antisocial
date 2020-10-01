@@ -1,7 +1,7 @@
 import React from "react";
 import { HashRouter, Route } from "react-router-dom";
 import RegistrationCustomHooks from "./RegistrationCustomHooks";
-import LoginCustomHooks from "./LoginCustomHooks";
+import Login from "./Login";
 import ResetPassword from "./ResetPassword";
 
 export default function Welcome() {
@@ -13,7 +13,7 @@ export default function Welcome() {
             <HashRouter>
                 <div>
                     <Route exact path="/" component={RegistrationCustomHooks} />
-                    <Route path="/login" component={LoginCustomHooks} />
+                    <Route path="/login" component={Login} />
                     <Route path="/password/reset" component={ResetPassword} />
                 </div>
             </HashRouter>
