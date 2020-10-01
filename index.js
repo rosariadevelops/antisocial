@@ -393,9 +393,7 @@ app.get("/antiusers-search", (req, res) => {
 
 // GET // SEARCH ANTIUSERS PAGE
 app.get(`/antiusers/:userInput`, (req, res) => {
-    console.log("/antiusers/:userInput req.params: ", req.params);
     console.log("/antiusers/:userInput req.params: ", req.params.userInput);
-    console.log("is this even working?");
     if (!req.session.userId) {
         res.redirect("/welcome");
     } else {
@@ -408,16 +406,31 @@ app.get(`/antiusers/:userInput`, (req, res) => {
                     });
                 })
                 .catch((err) => console.log("err in FINDAntiUsers: ", err));
-        } else {
-            db.getLatestUsers()
-                .then(({ rows }) => {
-                    console.log("getLatestUsers response: ", rows);
-                    res.json({
-                        antiusers: [rows],
-                    });
-                })
-                .catch((err) => console.log("err in GETAntiUsers: ", err));
         }
+    }
+});
+
+// GET // FRIEND BUTTON
+app.get(`/friend-status/:otherUserId`, (req, res) => {
+    console.log("/friend-status/:otherUserId req.params: ", req.params);
+    if (!req.session.userId) {
+        res.redirect("/welcome");
+    } else {
+        db.selectFriendship(req.params.otherUserId, req.session.userId)
+            .then(({ rows }) => {
+                console.log("FRIEND STATUS response: ", rows);
+                if (rows.length > 0) {
+                    res.json({
+                        buttonCancel: "Cancel friend request",
+                    });
+                } else {
+                    console.log("no friendship existing");
+                    res.json({
+                        buttonAdd: "Add friend",
+                    });
+                }
+            })
+            .catch((err) => console.log("err in friend status GET: ", err));
     }
 });
 

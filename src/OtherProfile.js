@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "./axios";
 import ProfilePic from "./ProfilePic";
-//import Profile from "./Profile";
+import FriendButton from "./FriendButton";
 
 export default class OtherProfile extends React.Component {
     constructor(props) {
@@ -11,33 +11,26 @@ export default class OtherProfile extends React.Component {
             firstname: props.firstname,
             lastname: props.lastname,
             bio: props.bio,
-            //key: props.key,
-            //match: props.match,
-            //history: props.history,
         };
-        console.log("OTHER PROFILE DATA: ", this.state);
     }
 
     componentDidMount() {
         axios
             .get(`/antiuser/${this.props.match.params.id}.json`)
             .then(({ data }) => {
-                console.log("OTHER PROFILE DATA MOUNTED:", data);
-
                 if (data.redirect) {
                     this.props.history.push("/");
                     console.log("You can't view your own profile");
                     this.setState({
                         ...data,
-                        profilePic:
-                            data.image_url /*  || "/images/default.png" */,
+                        profilePic: data.image_url,
                     });
                 } else {
                     this.setState({
                         ...data,
-                        profilePic:
-                            data.image_url /*  || "/images/default.png" */,
+                        profilePic: data.image_url,
                     });
+                    console.log("OTHER USER DATA: ", this.state);
                 }
             });
     }
@@ -60,6 +53,7 @@ export default class OtherProfile extends React.Component {
                         />
                     </div>
                     <p>{state.bio}</p>
+                    <FriendButton otherUserId={state.id} />
                 </div>
             </div>
         );

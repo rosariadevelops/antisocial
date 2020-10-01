@@ -37,17 +37,6 @@ export default class Portal extends React.Component {
         });
     }
 
-    findPeople() {
-        console.log("Clicked");
-        /*         axios.get("/antiusers").then((result) => {
-            /* this.setState({
-                ...data,
-                profilePic: data.image_url || "/images/default.png",
-            }); 
-            console.log("FIND PEOPLE RESULT:", result);
-        }); */
-    }
-
     render() {
         let state = this.state;
         if (!this.state.id) {
@@ -105,15 +94,8 @@ export default class Portal extends React.Component {
                         />
                         <div className="search-container">
                             <Route
-                                path="/users"
-                                render={() => (
-                                    <FindPeople
-                                        //key={props.match.url}
-                                        //match={props.match}
-                                        //history={props.history}
-                                        id={state.id}
-                                    />
-                                )}
+                                path="/antiusers"
+                                render={() => <FindPeople id={state.id} />}
                             />
                         </div>
                     </div>

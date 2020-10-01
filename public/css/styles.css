@@ -258,7 +258,9 @@ input {
     font-size: 15px;
 }
 
-.search-link button {
+.search-link a {
+    color: white;
+    text-decoration: none;
     padding: 0;
     border: none;
     margin: 0 10px;
@@ -266,6 +268,7 @@ input {
 }
 
 .search-results {
+    padding-top: 20px;
     position: absolute;
     width: 80vw;
 }
@@ -273,11 +276,12 @@ input {
 .search-user {
     display: flex;
     align-items: center;
+    padding-bottom: 20px;
 }
 
 .search-img {
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
     position: relative;
     overflow: hidden;
     border-radius: 50%;
@@ -285,5 +289,6 @@ input {
 }
 .search-img img {
     object-fit: cover;
+    height: 100%;
     width: 100%;
 }

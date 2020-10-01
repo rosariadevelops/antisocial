@@ -91,3 +91,35 @@ module.exports.findPeople = (val) => {
         [val + "%"]
     );
 };
+
+module.exports.selectFriendship = (recipientId, senderId) => {
+    return db.query(
+        `
+    SELECT * FROM friendships 
+    WHERE (recipient_id = $1 AND sender_id = $2)
+    OR (recipient_id = $2 AND sender_id = $1);`,
+        [recipientId, senderId]
+    );
+};
+
+module.exports.insertFriendship = (otherUserId) => {
+    return db.query(
+        `
+        INSERT INTO friendships (otherUserId)
+        VALUES ($1, $2)
+        RETURNING *
+        `,
+        []
+    );
+};
+
+module.exports.updateFriendship = (id, bio) => {
+    return db.query(
+        `
+        UPDATE friendships 
+        SET bio = ($2)
+        WHERE id = ($1)
+        RETURNING *;`,
+        [id, bio]
+    );
+};
