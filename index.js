@@ -557,6 +557,23 @@ app.post("/friend-status/:otherUserId/delete-friend", (req, res) => {
     }
 });
 
+// GET // FRIENDS PAGE
+app.get(`/friends.json`, (req, res) => {
+    console.log("/friends: ", req.params);
+    if (!req.session.userId) {
+        res.redirect("/welcome");
+    } else {
+        db.getRelationship(req.session.userId)
+            .then(({ rows }) => {
+                console.log("FIND FRIENDS response: ", rows);
+                res.json({
+                    users: rows,
+                });
+            })
+            .catch((err) => console.log("err in getRelationship: ", err));
+    }
+});
+
 // GET // FRIENDS LIST
 /* app.get(`/friends`, (req, res) => {
     console.log("/friends req.body: ", req.body);

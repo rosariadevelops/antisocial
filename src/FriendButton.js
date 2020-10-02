@@ -3,7 +3,7 @@ import axios from "./axios";
 
 export default function friendRequest({ otherUserId }) {
     const [friendshipStatus, setfriendshipStatus] = useState("");
-    const [buttonClick, setButtonClick] = useState();
+    //const [buttonClick, setButtonClick] = useState();
     console.log("outside useEffect: ", otherUserId);
 
     useEffect(() => {

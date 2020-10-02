@@ -6,6 +6,7 @@ import ProfilePic from "./ProfilePic";
 import Uploader from "./Uploader";
 import OtherProfile from "./OtherProfile";
 import FindPeople from "./FindPeople";
+import Friends from "./Friends";
 import { Link, BrowserRouter, Route } from "react-router-dom";
 
 export default class Portal extends React.Component {
@@ -52,10 +53,8 @@ export default class Portal extends React.Component {
                         </div>
                         <div className="prof-pic">
                             <div className="search-link">
-                                <Link to="/antiusers">Find antiusers</Link>
-                                {/* <button onClick={() => this.findPeople()}>
-                                    Find antiusers
-                                </button> */}
+                                <Link to="/antiusers">Search antiusers</Link>
+                                <Link to="/friends">Find friends</Link>
                             </div>
                             <ProfilePic
                                 firstname={state.firstname}
@@ -96,10 +95,25 @@ export default class Portal extends React.Component {
                                 />
                             )}
                         />
+
                         <div className="search-container">
                             <Route
                                 path="/antiusers"
                                 render={() => <FindPeople id={state.id} />}
+                            />
+                            <Route
+                                path="/friends"
+                                render={(props) => (
+                                    <Friends
+                                        key={props.match.url}
+                                        match={props.match}
+                                        history={props.history}
+                                        imageURL={state.profilePic}
+                                        id={state.id}
+                                        firstname={state.firstname}
+                                        lastname={state.lastname}
+                                    />
+                                )}
                             />
                         </div>
                     </div>
