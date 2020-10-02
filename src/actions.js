@@ -21,6 +21,7 @@ export async function acceptFriendReq(otherUserId) {
         type: "ACCEPT FRIEND",
         status: data.status,
         accepted: data.accepted,
+        id: otherUserId,
     };
 }
 
@@ -33,6 +34,7 @@ export async function unfriend(otherUserId) {
     return {
         type: "DELETE FRIEND",
         status: data.status,
-        deleted: data.accepted,
+        deleted: data.deleted,
+        id: otherUserId,
     };
 }

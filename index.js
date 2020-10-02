@@ -549,6 +549,7 @@ app.post("/friend-status/:otherUserId/delete-friend", (req, res) => {
                     accepted,
                     status: "Add friend",
                     success: true,
+                    deleted: true,
                 });
             })
             .catch((err) => {

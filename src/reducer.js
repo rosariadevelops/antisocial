@@ -7,10 +7,10 @@ export default function (state = {}, action) {
         state = {
             ...state,
             users: state.users.map((user) => {
-                // console.log("action.id", action.id);
-                // console.log('user.id: ',user.id);
-                if (action.id == user.id) {
-                    console.log("ACCEPT FRIEND REDUCER: ", user);
+                console.log("action.id", action.id);
+                console.log("user.id: ", user.id);
+                if (action.id === user.id) {
+                    console.log("made it to the IF", user);
                     return {
                         ...user,
                         accepted: true,
@@ -20,23 +20,13 @@ export default function (state = {}, action) {
                 }
             }),
         };
+        console.log("ACCEPT FRIEND REDUCER: ", state.user);
     } else if (action.type === "DELETE FRIEND") {
         state = {
             ...state,
-            users: state.users.map((user) => {
-                console.log("action.id", action.id);
-                console.log("user.id: ", user.id);
-                if (action.id == user.id) {
-                    console.log("DELETE FRIEND REDUCER: ", user);
-                    return {
-                        ...user,
-                        deleted: true,
-                    };
-                } else {
-                    return user;
-                }
-            }),
+            users: state.users.filter((user) => action.id != user.id),
         };
+        console.log("DELETE FRIEND REDUCER: ", state.user);
     }
     console.log("reducer data: ", state.users);
     return state;
