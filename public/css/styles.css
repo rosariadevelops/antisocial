@@ -39,6 +39,7 @@ main {
 .logo span {
     position: relative;
     font-family: "restorathin_italic";
+    color: #00fd97;
 }
 /* .welcome.logo span::before,
 .logo span::before {
@@ -291,4 +292,11 @@ input {
     object-fit: cover;
     height: 100%;
     width: 100%;
+}
+
+.friends-img-ctr img {
+    max-width: 300px;
+    -webkit-filter: invert(1);
+    filter: invert(1);
+    display: none;
 }

@@ -501,7 +501,7 @@ app.post("/friend-status/:otherUserId/cancel-friend", (req, res) => {
     }
 });
 
-// POST // FRIEND BUTTON CANCEL REQUEST
+// POST // FRIEND BUTTON ACCEPT REQUEST
 app.post("/friend-status/:otherUserId/accept-friend", (req, res) => {
     console.log("post accept friend: ", req.params.otherUserId);
 
@@ -509,12 +509,16 @@ app.post("/friend-status/:otherUserId/accept-friend", (req, res) => {
         db.acceptFriendshipRequest(req.session.userId, req.params.otherUserId)
             .then(({ rows }) => {
                 console.log("ACCEPT FRIEND RESULT: ", rows[0]);
-                const { id, sender_id, recipient_id, accepted } = rows[0];
+                const {
+                    id,
+                    sender_id,
+                    recipient_id /* , accepted  */,
+                } = rows[0];
                 res.json({
                     id,
                     sender_id,
                     recipient_id,
-                    accepted,
+                    accepted: false,
                     status: "Delete friend",
                     success: true,
                 });

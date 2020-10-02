@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "./axios";
 
 export async function recieveFriendsWannabes() {
     const { data } = await axios.get("/friends.json");
@@ -9,24 +9,30 @@ export async function recieveFriendsWannabes() {
     };
 }
 
-export async function acceptFriendReq() {
-    const { data } = await axios.get(
-        "/friend-status/:otherUserId/accept-friend"
+// returns a promise that is resolved after the query has been performed on the correct row in the db
+export async function acceptFriendReq(otherUserId) {
+    console.log("ACCEPT FRIEND ID: ", otherUserId);
+    const { data } = await axios.post(
+        `/friend-status/${otherUserId}/accept-friend`
     );
+
     console.log("ACCEPT FRIEND WANNABES: ", data);
-    /* return {
-        type: "RECIEVE FRIEND WANNABES",
-        friendsWannabes: data.users,
-    }; */
+    return {
+        type: "ACCEPT FRIEND",
+        status: data.status,
+        accepted: data.accepted,
+    };
 }
 
-export async function unfriend() {
-    const { data } = await axios.get(
-        "/friend-status/:otherUserId/delete-friend"
+export async function unfriend(otherUserId) {
+    const { data } = await axios.post(
+        `/friend-status/${otherUserId}/delete-friend`
     );
+    console.log("DELETE FRIEND ID: ", otherUserId);
     console.log("DELETE FRIEND WANNABES: ", data);
-    /* return {
-        type: "RECEIVE_USERS",
-        users: data.users,
-    }; */
+    return {
+        type: "DELETE FRIEND",
+        status: data.status,
+        deleted: data.accepted,
+    };
 }
