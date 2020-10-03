@@ -413,7 +413,7 @@ app.get(`/friend-status/:otherUserId`, (req, res) => {
                 if (rows.length > 0) {
                     console.log("friendship req PENDING");
                     if (
-                        rows[0].sender_id === req.session.userId &&
+                        rows[0].recipient_id === req.session.userId &&
                         rows[0].accepted === false
                     ) {
                         console.log("logged in user SENT the request");
@@ -426,7 +426,7 @@ app.get(`/friend-status/:otherUserId`, (req, res) => {
                             buttonText: "Delete friend",
                         });
                     } else if (
-                        rows[0].recipient_id === req.session.userId &&
+                        rows[0].sender_id === req.session.userId &&
                         rows[0].accepted === false
                     ) {
                         console.log("logged in user RECEIVED the request");
@@ -454,14 +454,25 @@ app.post("/friend-status/:otherUserId/add-friend", (req, res) => {
             .then(({ rows }) => {
                 console.log("INSERT ADD FRIEND RESULT: ", rows[0]);
                 const { id, sender_id, recipient_id, accepted } = rows[0];
-                res.json({
-                    id,
-                    sender_id,
-                    recipient_id,
-                    accepted,
-                    status: "Cancel friend request",
-                    success: true,
-                });
+                if (req.session.userId === rows[0].recipient_id) {
+                    res.json({
+                        id,
+                        sender_id,
+                        recipient_id,
+                        accepted,
+                        status: "Cancel friend request",
+                        success: true,
+                    });
+                } else {
+                    res.json({
+                        id,
+                        sender_id,
+                        recipient_id,
+                        accepted,
+                        status: "Accept friend request",
+                        success: true,
+                    });
+                }
             })
             .catch((err) => {
                 console.log("err in insertFriendship: ", err);
