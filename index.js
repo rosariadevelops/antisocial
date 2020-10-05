@@ -14,6 +14,8 @@ const cookieSession = require("cookie-session");
 const csurf = require("csurf");
 const { sendEmail } = require("./ses");
 const cryptoRandomString = require("crypto-random-string");
+const server = require("http").Server(app); // constructor for server object
+const io = require("socket.io")(server, { origins: "localhost:8080" });
 
 app.use(express.static("./public"));
 app.use(express.json());
@@ -61,6 +63,15 @@ app.use(function (req, res, next) {
     //console.log("csurf token: ", req.csrfToken());
     res.cookie("mytoken", req.csrfToken());
     next();
+});
+
+// I want to know every time a client connects
+// socket is an object that means connection
+io.on("connection", (socket) => {
+    console.log(`Socket with ID ${socket.id} has CONNECTED`);
+    socket.on("disconnect", () => {
+        console.log(`Socket with ID ${socket.id} has DISCONNECTED`);
+    });
 });
 
 // GET // REGISTRATION PAGE
@@ -590,38 +601,6 @@ app.get(`/friends.json`, (req, res) => {
     }
 });
 
-// GET // FRIENDS LIST
-/* app.get(`/friends`, (req, res) => {
-    console.log("/friends req.body: ", req.body);
-    //console.log("/user req.session.userId: ", req.session.userId);
-    if (!req.session.userId) {
-        res.redirect("/welcome");
-    } else {
-        db.getFriends()
-            .then(({ rows }) => {
-                console.log("getFriends result: ", rows);
-                //res.sendFile(__dirname + "/index.html");
-                //for (let i = 0; i < rows.length; ++i) {
-                //const { id, firstname, lastname, image_url, bio } = rows[i];
-                res.json({
-                    ...rows,
-                });
-                //}
-                //const { id, firstname, lastname, image_url, bio } = rows[0];
-                //res.setHeader("Content-Type", "application/json");
-                /* res.json({
-                    id,
-                    firstname,
-                    lastname,
-                    image_url,
-                    bio,
-                });
-            })
-            .catch((err) => console.log("err in getFriends: ", err));
-    }
-});
- */
-
 app.get("*", function (req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");
@@ -630,6 +609,6 @@ app.get("*", function (req, res) {
     }
 });
 
-app.listen(8080, function () {
+server.listen(8080, function () {
     console.log("I'm listening.");
 });

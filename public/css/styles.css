@@ -4,24 +4,26 @@
 
 body {
     margin: 0;
-    background-color: black;
-    color: white;
-    font-family: "gangster_reg", Helvetica, Arial, sans-serif;
+    background: url("/images/background/gradient-4.jpg");
+    background-size: cover;
+    color: black;
+    font-family: "sk-modernistregular";
 }
 
 main {
-    display: flex;
-    align-items: center;
     min-height: 100vh;
 }
 
 .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 80px;
-    height: 100vh;
-    border-right: 1px solid white;
+    width: 100vw;
+    height: 60px;
 }
 
 .welcome.logo,
@@ -29,36 +31,24 @@ main {
     font-size: 20px;
     letter-spacing: 1px;
     font-family: "restoraextralight";
-    /* font-family: "gangster_reg", Helvetica, Arial, sans-serif; */
     padding: 0;
-    transform: rotate(-90deg) translateY(-10px);
-    height: 80px;
-    line-height: 80px;
+    height: 40px;
+    line-height: 40px;
+    color: black;
+    position: absolute;
+    right: 40px;
 }
 .welcome.logo span,
 .logo span {
     position: relative;
     font-family: "restorathin_italic";
-    color: #00fd97;
 }
-/* .welcome.logo span::before,
-.logo span::before {
-    /*  text-decoration: line-through; 
-    content: "";
-    display: block;
-    position: absolute;
-    top: 18px;
-    right: 0;
-    width: 70px;
-    height: 2px;
-    background-color: white;
-} */
 
 .nav .prof-pic {
-    padding: 10px 20px;
+    padding: 10px 20px 10px 40px;
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -67,15 +57,29 @@ main {
     width: 45px;
     height: 45px;
     display: block;
-    -webkit-filter: invert(1);
-    filter: invert(1);
     cursor: pointer;
+}
+.search-link {
+    margin-left: 80px;
+}
+.search-link a {
+    color: black;
+    text-decoration: none;
+    padding: 0;
+    border: none;
+    margin-right: 50px;
+    font-size: 14px;
+}
+
+.ctr {
+    padding-top: 40px;
 }
 
 .container {
     width: -webkit-fill-available;
     min-height: 100vh;
     padding: 30px;
+    padding-top: 40px;
 }
 
 .rgtr-form,
@@ -85,11 +89,13 @@ main {
     display: flex;
     flex-direction: column;
     margin: 0 auto;
+    padding: 30px 0 0;
 }
 .rgtr-form h1,
 .login-form h1,
 .pw-reset-form h1 {
-    font-family: "right_groteskwide_medium", Helvetica, Arial, sans-serif;
+    text-align: center;
+    margin: 0 0 40px;
 }
 
 .rgtr-form label,
@@ -101,13 +107,12 @@ main {
 .rgtr-form input,
 .login-form input,
 .pw-reset-form input {
-    border: 1px solid white;
     background: white;
     color: black;
-    border-radius: 2px;
-    padding: 10px 7px;
+    border-radius: 4px;
+    padding: 12px 7px;
     font-size: 16px;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
 }
 .rgtr-form input::placeholder,
 .login-form input::placeholder,
@@ -115,19 +120,25 @@ main {
     color: black;
     opacity: 0.4;
 }
+.rgtr-form .pwd-input::placeholder,
+.login-form .pwd-input::placeholder,
+.pw-reset-form .pwd-input::placeholder {
+    color: black;
+    opacity: 0.4;
+    font-size: 8px;
+}
 .rgtr-form button,
 .login-form button,
 .pw-reset-form button {
-    border: 1px solid white;
-    background: black;
     color: white;
-    border-radius: 2px;
+    border-radius: 4px;
     padding: 15px 7px;
     font-size: 20px;
-    margin-bottom: 30px;
-    font-family: "gangster_reg", Helvetica, Arial, sans-serif;
+    margin-bottom: 25px;
+    margin-top: 8px;
     transition: 500ms ease;
     cursor: pointer;
+    background: #000;
 }
 .rgtr-form input:focus,
 .rgtr-form input:active,
@@ -153,8 +164,7 @@ main {
 .rgtr-form button:hover,
 .login-form button:hover,
 .pw-reset-form button:hover {
-    border-color: greenyellow;
-    color: greenyellow;
+    background: #0004ff;
 }
 
 .rgtr-link,
@@ -165,7 +175,7 @@ main {
 .rgtr-link a,
 .login-link a,
 .pw-reset-link a {
-    color: greenyellow;
+    color: #0004ff;
     display: block;
 }
 
@@ -228,7 +238,7 @@ main {
     transform: rotate(-45deg) translate(-10px, 10px);
 }
 .close-btn:hover span {
-    background: greenyellow;
+    background: #0004ff;
 }
 
 .profile-img-ctr img {
@@ -238,13 +248,10 @@ main {
 
 button {
     background: black;
-    border: 1px solid;
     color: white;
     font-size: 16px;
-    font-family: "gangster_reg", Helvetica, Arial, sans-serif;
     padding: 15px 30px;
-    display: block;
-    margin-top: 20px;
+    border: none;
 }
 
 .profile-details img {
@@ -252,20 +259,10 @@ button {
 }
 
 input {
-    background: black;
-    border: 1px solid white;
-    color: white;
+    background: white;
+    color: black;
     padding: 10px 20px;
     font-size: 15px;
-}
-
-.search-link a {
-    color: white;
-    text-decoration: none;
-    padding: 0;
-    border: none;
-    margin: 0 10px;
-    font-size: 13px;
 }
 
 .search-results {

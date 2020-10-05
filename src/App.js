@@ -41,21 +41,13 @@ export default class Portal extends React.Component {
     render() {
         let state = this.state;
         if (!this.state.id) {
-            //return null;
-            return <img src="/images/loading.gif" />;
+            return null;
         }
         return (
             <React.Fragment>
                 <BrowserRouter>
                     <div className="nav">
-                        <div className="logo">
-                            anti<span>social</span>
-                        </div>
                         <div className="prof-pic">
-                            <div className="search-link">
-                                <Link to="/antiusers">Search antiusers</Link>
-                                <Link to="/friends">Find friends</Link>
-                            </div>
                             <ProfilePic
                                 firstname={state.firstname}
                                 lastname={state.lastname}
@@ -64,6 +56,14 @@ export default class Portal extends React.Component {
                                     this.setState({ uploaderIsVisible: true })
                                 }
                             />
+                            <div className="search-link">
+                                <Link to="/">Profile</Link>
+                                <Link to="/friends">Friends</Link>
+                                <Link to="/antiusers">Search</Link>
+                            </div>
+                        </div>
+                        <div className="logo">
+                            anti<span>social</span>
                         </div>
                     </div>
 

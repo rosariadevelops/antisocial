@@ -7,11 +7,13 @@ import ResetPassword from "./ResetPassword";
 export default function Welcome() {
     return (
         <React.Fragment>
-            <div className="welcome logo">
-                anti<span>social</span>
+            <div className="nav">
+                <div className="welcome logo">
+                    anti<span>social</span>
+                </div>
             </div>
             <HashRouter>
-                <div>
+                <div className="ctr">
                     <Route exact path="/" component={RegistrationCustomHooks} />
                     <Route path="/login" component={Login} />
                     <Route path="/password/reset" component={ResetPassword} />

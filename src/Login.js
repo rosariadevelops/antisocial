@@ -63,19 +63,21 @@ export default class Login extends React.Component {
                     {this.state.error && (
                         <p className="error">{this.state.error}</p>
                     )}
-                    <label htmlFor="email">Enter your Email:</label>
+                    <label htmlFor="email">Email Address:</label>
                     <input
                         onChange={(e) => this.handleChange(e)}
                         type="email"
                         name="email"
-                        placeholder="Email address"
+                        autoComplete="false"
+                        placeholder="rosaparks@blm.com"
                     />
-                    <label htmlFor="password">Enter your password:</label>
+                    <label htmlFor="password">Password:</label>
                     <input
                         onChange={(e) => this.handleChange(e)}
                         type="password"
                         name="password"
-                        placeholder="Password"
+                        autoComplete="false"
+                        placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
                         required
                     />
                     <button

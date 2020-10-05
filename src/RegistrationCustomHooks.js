@@ -11,33 +11,38 @@ export default function Registration() {
         <div className="container rgtr-form">
             <h1>Create an Account</h1>
             {error && <p className="error">{error}</p>}
-            <label htmlFor="first">Enter your first name:</label>
+            <label htmlFor="first">First name:</label>
             <input
                 onChange={handleChange}
                 type="text"
                 name="first"
-                placeholder="First name"
+                autoComplete="false"
+                placeholder="Roald"
             />
-            <label htmlFor="last">Enter your last name:</label>
+            <label htmlFor="last">Last name:</label>
             <input
                 onChange={handleChange}
                 type="text"
                 name="last"
-                placeholder="Last name"
+                autoComplete="false"
+                placeholder="Dahl"
             />
-            <label htmlFor="email">Enter your Email:</label>
+            <label htmlFor="email">Email Address:</label>
             <input
                 onChange={handleChange}
                 type="email"
                 name="email"
-                placeholder="Email address"
+                autoComplete="false"
+                placeholder="roalddahl@bfg.com"
             />
-            <label htmlFor="password">Create a password:</label>
+            <label htmlFor="password">Password:</label>
             <input
+                className="pwd-input"
+                autoComplete="false"
                 onChange={handleChange}
                 type="password"
                 name="password"
-                placeholder="Enter password"
+                placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;"
                 required
             />
             <button
@@ -46,7 +51,7 @@ export default function Registration() {
                 name="submitted"
                 value="registered"
             >
-                Register
+                Become antisocial
             </button>
             <div className="login-link">
                 Already have an account? <Link to="/login">Log in here</Link>
