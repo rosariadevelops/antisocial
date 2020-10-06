@@ -31,7 +31,7 @@ CREATE TABLE friendships(
 DROP TABLE IF EXISTS chats;
 
 CREATE TABLE chats(
-      id SERIAL PRIMARY KEY,
+      id SERIAL PRIMARY KEY UNIQUE,
       sender_id INT REFERENCES users(id) NOT NULL,
       chat_msg VARCHAR NOT NULL,
       written_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP

@@ -642,13 +642,5 @@ io.on("connection", (socket) => {
     socket.on("Latest chat message", (newMessage) => {
         console.log("this message is coming from Chat.js: ", newMessage);
         console.log("who sent this: ", loggedUser);
-
-        /*
-        1. Do a db query to store the chat message in the table
-        2. Do a db query to get info about the user
-        3. Make sure that new chat message object looks like the one we recieved from getLastTenMessages (array of objects)
-        4. Once you have the obj, you want to emit the obj to everyone to see immediately
-            io.sockets.emit('addChatMsg', newMessage);
-        */
     });
 });

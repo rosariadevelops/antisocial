@@ -163,9 +163,10 @@ module.exports.getRelationship = (recipientId) => {
 module.exports.getLastTenMessages = () => {
     return db.query(
         `
-    SELECT * FROM chats 
+    SELECT chats.id, sender_id, chat_msg, firstname, lastname, image_url, written_at 
+    FROM chats 
     JOIN users
-    ON (sender_id = users.id)
+    ON sender_id = users.id
     ORDER BY written_at DESC
     LIMIT 10;`
     );

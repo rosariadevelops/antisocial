@@ -46,10 +46,10 @@ export default function Chat() {
                                     />
                                 </div>
                                 <div className="msg-content">
-                                    <h4>{msg.chat_msg}</h4>
                                     <p>
                                         {msg.firstname} {msg.lastname}
                                     </p>
+                                    <h4>{msg.chat_msg}</h4>
                                 </div>
                             </div>
                         );
