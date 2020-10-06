@@ -182,3 +182,13 @@ module.exports.addMessage = (sender_id, chat) => {
         [sender_id, chat]
     );
 };
+
+module.exports.renderNewMessage = (sender_id) => {
+    return db.query(
+        `
+    SELECT firstname, lastname, image_url 
+    FROM users 
+    where id = ($1);`,
+        [sender_id]
+    );
+};

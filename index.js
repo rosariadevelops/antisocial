@@ -647,7 +647,14 @@ io.on("connection", (socket) => {
 
         db.addMessage(loggedUser, newMessage).then(({ rows }) => {
             console.log("addMessage result: ", rows);
-            io.sockets.emit("chatMessage", rows);
+            db.renderNewMessage(loggedUser).then((result) => {
+                const newInfo = {
+                    ...rows[0],
+                    ...result.rows[0],
+                };
+                console.log("newInfo: ", newInfo);
+                io.sockets.emit("chatMessage", newInfo);
+            });
         });
     });
 });
