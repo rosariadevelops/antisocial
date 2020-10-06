@@ -1,5 +1,5 @@
 import * as io from "socket.io-client";
-import { chatMessages, chatMessage } from "./actions";
+import { chatMessages, addNewMessage } from "./actions";
 
 export let socket;
 
@@ -15,9 +15,9 @@ export const init = (store) => {
 
         //socket.on("chatMessage", (msg) => store.dispatch(chatMessage(msg)));
 
-        /* socket.on("chatMessage", (msg) => {
+        socket.on("chatMessage", (msg) => {
             console.log(" Got a message in the client. My message is: ", msg);
-            store.dispatch(chatMessage(msg));
-        }); */
+            store.dispatch(addNewMessage(msg));
+        });
     }
 };

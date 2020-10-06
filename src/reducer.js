@@ -33,7 +33,12 @@ export default function (state = {}, action) {
             ...state,
             latestMessages: action.latestMessages,
         };
+    } else if (action.type === "NEW MESSAGE ADDED") {
+        console.log("NEW MESSAGE ADDED REDUCER: ", action);
+        state = {
+            ...state,
+            newMessage: action.newMessage,
+        };
     }
-    console.log("reducer data: ", state.users);
     return state;
 }

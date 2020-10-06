@@ -634,13 +634,20 @@ io.on("connection", (socket) => {
     // now we retrieve the last 10 messages, because we are connected
     db.getLastTenMessages().then(({ rows }) => {
         console.log("messages: ", rows);
-        io.sockets.emit("chatMessages", rows);
+        const reverseMsgs = rows.reverse();
+        console.log("reverseMsgs: ", reverseMsgs);
+        io.sockets.emit("chatMessages", reverseMsgs);
         // arguments are ('message that you want to make', dataYouWantToSend)
     });
 
     // arguments: event coming from Chat.js, info coming along with the emit
     socket.on("Latest chat message", (newMessage) => {
-        console.log("this message is coming from Chat.js: ", newMessage);
+        console.log("this message is coming from index.js: ", newMessage);
         console.log("who sent this: ", loggedUser);
+
+        db.addMessage(loggedUser, newMessage).then(({ rows }) => {
+            console.log("addMessage result: ", rows);
+            io.sockets.emit("chatMessage", rows);
+        });
     });
 });

@@ -171,3 +171,14 @@ module.exports.getLastTenMessages = () => {
     LIMIT 10;`
     );
 };
+
+module.exports.addMessage = (sender_id, chat) => {
+    return db.query(
+        `
+    INSERT INTO chats 
+    (sender_id, chat_msg) 
+    VALUES ($1, $2)
+    RETURNING *;`,
+        [sender_id, chat]
+    );
+};

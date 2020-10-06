@@ -6,17 +6,17 @@ import { socket } from "./socket";
 
 export default function Chat() {
     const chatMessages = useSelector((state) => state && state.latestMessages);
+    //const newMessage = useSelector((state) => state && state.newMessage);
     const elemRef = useRef();
 
     useEffect(() => {
         // scrollTop = scrollHeight - clientHeight
         elemRef.current.scrollTop =
             elemRef.current.scrollHeight - elemRef.current.clientHeight;
-    }, []);
+    }, [chatMessages]);
 
     const keyCheck = (e) => {
         if (e.key === "Enter") {
-            //console.log("message: ", e.target.value);
             e.preventDefault();
             socket.emit("Latest chat message", e.target.value);
             e.target.value === "";
@@ -26,7 +26,8 @@ export default function Chat() {
     if (!chatMessages) {
         return null;
     }
-    console.log("CHAT COMPONENT: ", chatMessages);
+    console.log("CHAT COMPONENT chatMessages: ", chatMessages);
+    console.log("CHAT COMPONENT newMessage: ", newMessage);
 
     return (
         <div>
@@ -49,6 +50,7 @@ export default function Chat() {
                                     <p>
                                         {msg.firstname} {msg.lastname}
                                     </p>
+                                    <p>{msg.written_at}</p>
                                     <h4>{msg.chat_msg}</h4>
                                 </div>
                             </div>
