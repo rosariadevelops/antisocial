@@ -51,6 +51,6 @@ export async function addNewMessage(msg) {
     console.log("NEW MESSAGE ACTION: ", msg);
     return {
         type: "NEW MESSAGE ADDED",
-        newMessage: msg[0],
+        newMessage: msg,
     };
 }

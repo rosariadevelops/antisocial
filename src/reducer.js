@@ -34,10 +34,13 @@ export default function (state = {}, action) {
             latestMessages: action.latestMessages,
         };
     } else if (action.type === "NEW MESSAGE ADDED") {
-        console.log("NEW MESSAGE ADDED REDUCER: ", action);
+        console.log("NEW MESSAGE ADDED REDUCER: ", action.newMessage);
+        console.log("NEW MESSAGE ADDED state: ", state.latestMessages);
+        let newMessageArray = state.latestMessages.concat(action.newMessage);
+        console.log("newMessageArray: ", newMessageArray);
         state = {
             ...state,
-            newMessage: action.newMessage,
+            latestMessages: newMessageArray,
         };
     }
     return state;

@@ -19,7 +19,7 @@ export default function Chat() {
         if (e.key === "Enter") {
             e.preventDefault();
             socket.emit("Latest chat message", e.target.value);
-            e.target.value === "";
+            e.target.value = "";
         }
     };
 
@@ -27,7 +27,7 @@ export default function Chat() {
         return null;
     }
     console.log("CHAT COMPONENT chatMessages: ", chatMessages);
-    console.log("CHAT COMPONENT newMessage: ", newMessage);
+    //console.log("CHAT COMPONENT newMessage: ", newMessage);
 
     return (
         <div>
