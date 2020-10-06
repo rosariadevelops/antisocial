@@ -38,3 +38,11 @@ export async function unfriend(otherUserId) {
         id: otherUserId,
     };
 }
+
+export async function chatMessages(msgs) {
+    console.log("LATEST TEN MESSAGES ACTIONS: ", msgs);
+    return {
+        type: "LATEST TEN MESSAGES",
+        latestMessages: msgs,
+    };
+}

@@ -27,6 +27,12 @@ export default function (state = {}, action) {
             users: state.users.filter((user) => action.id != user.id),
         };
         console.log("DELETE FRIEND REDUCER: ", state.user);
+    } else if (action.type === "LATEST TEN MESSAGES") {
+        console.log("LATEST TEN MESSAGES REDUCER: ", action);
+        state = {
+            ...state,
+            latestMessages: action.latestMessages,
+        };
     }
     console.log("reducer data: ", state.users);
     return state;

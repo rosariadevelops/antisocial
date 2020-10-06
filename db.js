@@ -159,3 +159,14 @@ module.exports.getRelationship = (recipientId) => {
         [recipientId]
     );
 };
+
+module.exports.getLastTenMessages = () => {
+    return db.query(
+        `
+    SELECT * FROM chats 
+    JOIN users
+    ON (sender_id = users.id)
+    ORDER BY written_at DESC
+    LIMIT 10;`
+    );
+};

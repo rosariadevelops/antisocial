@@ -7,9 +7,10 @@ import Uploader from "./Uploader";
 import OtherProfile from "./OtherProfile";
 import FindPeople from "./FindPeople";
 import Friends from "./Friends";
+import Chat from "./Chat";
 import { Link, BrowserRouter, Route } from "react-router-dom";
 
-export default class Portal extends React.Component {
+export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,10 +19,18 @@ export default class Portal extends React.Component {
         };
     }
     componentDidMount() {
+        let bgImages = [
+            "/images/background/gradient-1.jpg",
+            "/images/background/gradient-2.jpg",
+            "/images/background/gradient-3.jpg",
+            "/images/background/gradient-4.jpg",
+        ];
+        let selectBG = bgImages[Math.floor(Math.random() * bgImages.length)];
+        document.body.style.backgroundImage = `url(${selectBG})`;
         axios.get("/antiuser").then(({ data }) => {
             this.setState({
                 ...data,
-                profilePic: data.image_url || "/images/default.png",
+                profilePic: data.image_url || "/images/default-user.png",
             });
             console.log("APP DATA:", data);
         });
@@ -95,6 +104,7 @@ export default class Portal extends React.Component {
                                 />
                             )}
                         />
+                        <Route path="/chat" component={Chat} />
 
                         <div className="search-container">
                             <Route

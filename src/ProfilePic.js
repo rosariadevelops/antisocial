@@ -1,7 +1,7 @@
 import React from "react";
 
 export default function ({
-    imageURL = "/images/default.png",
+    imageURL = "/images/default-user.png",
     firstname,
     lastname,
     clickHandler,

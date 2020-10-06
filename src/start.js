@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import Welcome from "./Welcome";
 import App from "./App";
+import { init } from "./socket";
 
 // REDUX
 import { createStore, applyMiddleware } from "redux";
@@ -15,7 +16,8 @@ const store = createStore(
 );
 
 let component;
-if (location.pathname === "/welcome") {
+const userIsLoggedIn = location.pathname != "/welcome";
+/* if (location.pathname === "/welcome") {
     component = <Welcome />;
 } else {
     component = (
@@ -23,6 +25,17 @@ if (location.pathname === "/welcome") {
             <App />
         </Provider>
     );
+}
+ */
+if (userIsLoggedIn) {
+    init(store);
+    component = (
+        <Provider store={store}>
+            <App />
+        </Provider>
+    );
+} else {
+    component = <Welcome />;
 }
 
 ReactDOM.render(component, document.querySelector("main"));

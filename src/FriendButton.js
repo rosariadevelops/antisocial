@@ -3,7 +3,6 @@ import axios from "./axios";
 
 export default function friendRequest({ otherUserId }) {
     const [friendshipStatus, setfriendshipStatus] = useState("");
-    //const [buttonClick, setButtonClick] = useState();
     console.log("outside useEffect: ", otherUserId);
 
     useEffect(() => {
@@ -13,15 +12,7 @@ export default function friendRequest({ otherUserId }) {
             const { data } = await axios.get(`/friend-status/${otherUserId}`);
             console.log("result: ", data);
             if (!abort) {
-                //if (data.buttonText) {
                 setfriendshipStatus(data.buttonText);
-                /* } else if (data.buttonCancel) {
-                    setfriendshipStatus(data.buttonCancel);
-                } else if (data.buttonAccept) {
-                    setfriendshipStatus(data.buttonAccept);
-                } else if (data.buttonEnd) {
-                    setfriendshipStatus(data.buttonEnd);
-                } */
             }
         })();
         return () => {
@@ -105,9 +96,3 @@ export default function friendRequest({ otherUserId }) {
         </div>
     );
 }
-
-/* else if (friendshipStatus === "Cancel request") {
-            axios.post(`/friend-status/${otherUserId}/cancel-request`);
-        } else if (friendshipStatus === "Unfriend") {
-            axios.post(`/friend-status/${otherUserId}/unfriend`);
-        } */

@@ -4,7 +4,7 @@
 
 body {
     margin: 0;
-    background: url("/images/background/gradient-4.jpg");
+    /* background: url("/images/background/gradient-4.jpg"); */
     background-size: cover;
     color: black;
     font-family: "sk-modernistregular";
@@ -29,8 +29,8 @@ main {
 .welcome.logo,
 .logo {
     font-size: 20px;
-    letter-spacing: 1px;
-    font-family: "restoraextralight";
+    letter-spacing: 0.5px;
+    font-family: "restorathin_italic";
     padding: 0;
     height: 40px;
     line-height: 40px;
@@ -41,11 +41,11 @@ main {
 .welcome.logo span,
 .logo span {
     position: relative;
-    font-family: "restorathin_italic";
+    font-family: "restoraextralight";
 }
 
 .nav .prof-pic {
-    padding: 10px 20px 10px 40px;
+    padding: 19px 20px 19px 40px;
     position: absolute;
     top: 0;
     left: 0;
@@ -54,8 +54,8 @@ main {
     align-items: center;
 }
 .nav .prof-pic img {
-    width: 45px;
-    height: 45px;
+    width: 20px;
+    height: auto;
     display: block;
     cursor: pointer;
 }
@@ -241,9 +241,25 @@ main {
     background: #0004ff;
 }
 
+.profile-img-ctr {
+    background: white;
+    width: 100px;
+    height: 100px;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: inset 0px -1px 3px rgba(0, 0, 0, 0.15);
+}
 .profile-img-ctr img {
-    max-width: 300px;
-    display: none;
+    object-fit: contain;
+    object-position: bottom center;
+    width: 85%;
+    height: 85%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
 }
 
 button {
@@ -296,4 +312,10 @@ input {
     -webkit-filter: invert(1);
     filter: invert(1);
     display: none;
+}
+
+.chat-ctr {
+    height: 500px;
+    width: 70%;
+    overflow-y: scroll;
 }

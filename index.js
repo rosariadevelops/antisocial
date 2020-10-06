@@ -15,7 +15,7 @@ const csurf = require("csurf");
 const { sendEmail } = require("./ses");
 const cryptoRandomString = require("crypto-random-string");
 const server = require("http").Server(app); // constructor for server object
-const io = require("socket.io")(server, { origins: "localhost:8080" });
+const io = require("socket.io")(server, { origins: "localhost:8080" }); // socket needs a native node server in order to work
 
 app.use(express.static("./public"));
 app.use(express.json());
@@ -51,27 +51,33 @@ if (process.env.NODE_ENV != "production") {
     app.use("/bundle.js", (req, res) => res.sendFile(`${__dirname}/bundle.js`));
 }
 
-app.use(
-    cookieSession({
-        secret: `something secret`,
-        maxAge: 1000 * 60 * 60 * 24,
-    })
-);
+// SOCKET.IO
+// I want to know every time a client connects
+// socket is an object that means connection
+/* io.on("connection", (socket) => {
+    console.log(`Socket with ID ${socket.id} has CONNECTED`);
+    socket.on("disconnect", () => {
+        console.log(`Socket with ID ${socket.id} has DISCONNECTED`);
+    });
+}); */
 
+// COOKIE SESSION
+const cookieSessionMiddleware = cookieSession({
+    secret: `I'm always angry.`,
+    maxAge: 1000 * 60 * 60 * 24 * 90,
+});
+
+app.use(cookieSessionMiddleware);
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+}); // creating middleware to give socket access to our cookie session
+
+// CSURF
 app.use(csurf());
 app.use(function (req, res, next) {
     //console.log("csurf token: ", req.csrfToken());
     res.cookie("mytoken", req.csrfToken());
     next();
-});
-
-// I want to know every time a client connects
-// socket is an object that means connection
-io.on("connection", (socket) => {
-    console.log(`Socket with ID ${socket.id} has CONNECTED`);
-    socket.on("disconnect", () => {
-        console.log(`Socket with ID ${socket.id} has DISCONNECTED`);
-    });
 });
 
 // GET // REGISTRATION PAGE
@@ -611,4 +617,38 @@ app.get("*", function (req, res) {
 
 server.listen(8080, function () {
     console.log("I'm listening.");
+});
+
+// SOCKET.IO
+io.on("connection", (socket) => {
+    // all socket code has to be inside this socket function
+    console.log(`socket.id ${socket.id} is now connected`);
+    // checking socket working
+
+    // checking the if user is logged in, using socket defined cookie session
+    const loggedUser = socket.request.session.userId;
+    if (!loggedUser) {
+        return socket.disconnect(true);
+    }
+
+    // now we retrieve the last 10 messages, because we are connected
+    db.getLastTenMessages().then(({ rows }) => {
+        console.log("messages: ", rows);
+        io.sockets.emit("chatMessages", rows);
+        // arguments are ('message that you want to make', dataYouWantToSend)
+    });
+
+    // arguments: event coming from Chat.js, info coming along with the emit
+    socket.on("Latest chat message", (newMessage) => {
+        console.log("this message is coming from Chat.js: ", newMessage);
+        console.log("who sent this: ", loggedUser);
+
+        /*
+        1. Do a db query to store the chat message in the table
+        2. Do a db query to get info about the user
+        3. Make sure that new chat message object looks like the one we recieved from getLastTenMessages (array of objects)
+        4. Once you have the obj, you want to emit the obj to everyone to see immediately
+            io.sockets.emit('addChatMsg', newMessage);
+        */
+    });
 });
