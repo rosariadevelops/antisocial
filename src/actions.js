@@ -54,3 +54,11 @@ export async function addNewMessage(msg) {
         newMessage: msg,
     };
 }
+
+export async function addToOnlineUsers(arrOnliners) {
+    console.log("ALL ONLINE USERS ACTIONS: ", arrOnliners);
+    return {
+        type: "ALL ONLINE USERS",
+        onlineUsers: arrOnliners,
+    };
+}

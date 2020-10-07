@@ -2,6 +2,7 @@ import React from "react";
 // import axios from "./axios";
 import BioEditor from "./BioEditor";
 import ProfilePic from "./ProfilePic";
+import OnlineUsers from "./OnlineUsers";
 
 export default class Profile extends React.Component {
     constructor(props) {
@@ -28,7 +29,10 @@ export default class Profile extends React.Component {
                 <div className="profile-img-ctr">
                     <ProfilePic imageURL={state.profilePic} />
                 </div>
-                <div className="bio-ctr">
+                <div className="profile-content-ctr">
+                    <h2>
+                        {this.state.firstname} {this.state.lastname}
+                    </h2>
                     <BioEditor
                         firstname={state.firstname}
                         lastname={state.lastname}
@@ -36,6 +40,9 @@ export default class Profile extends React.Component {
                         bio={state.bio}
                         clickHandler={(e) => this.setBio(e)}
                     />
+                </div>
+                <div className="online-users-ctr">
+                    <OnlineUsers imageURL={state.profilePic} />
                 </div>
             </div>
         );

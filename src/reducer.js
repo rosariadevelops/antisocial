@@ -39,6 +39,12 @@ export default function (state = {}, action) {
             ...state,
             latestMessages: [...state.latestMessages, action.newMessage],
         };
+    } else if (action.type === "ALL ONLINE USERS") {
+        console.log("ALL ONLINE USERS REDCUER: ", action);
+        state = {
+            ...state,
+            onlineUsers: action.onlineUsers,
+        };
     }
     return state;
 }

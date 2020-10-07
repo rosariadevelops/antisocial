@@ -1,18 +1,17 @@
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
-//import { chatMessages } from "./actions";
 import { socket } from "./socket";
 // useSelecter grabs things that are in the global state
 
 export default function Chat() {
     const chatMessages = useSelector((state) => state && state.latestMessages);
-    //const newMessage = useSelector((state) => state && state.newMessage);
     const elemRef = useRef();
 
     useEffect(() => {
-        // scrollTop = scrollHeight - clientHeight
-        elemRef.current.scrollTop =
-            elemRef.current.scrollHeight - elemRef.current.clientHeight;
+        if (elemRef.current) {
+            elemRef.current.scrollTop =
+                elemRef.current.scrollHeight - elemRef.current.clientHeight;
+        }
     }, [chatMessages]);
 
     const keyCheck = (e) => {
@@ -26,8 +25,6 @@ export default function Chat() {
     if (!chatMessages) {
         return null;
     }
-    console.log("CHAT COMPONENT chatMessages: ", chatMessages);
-    //console.log("CHAT COMPONENT newMessage: ", newMessage);
 
     return (
         <div>

@@ -620,9 +620,10 @@ server.listen(8080, function () {
 });
 
 // SOCKET.IO
+let onlineUsers = {};
 io.on("connection", (socket) => {
     // all socket code has to be inside this socket function
-    console.log(`socket.id ${socket.id} is now connected`);
+    //console.log(`socket.id ${socket.id} is now connected`);
     // checking socket working
 
     // checking the if user is logged in, using socket defined cookie session
@@ -633,28 +634,54 @@ io.on("connection", (socket) => {
 
     // now we retrieve the last 10 messages, because we are connected
     db.getLastTenMessages().then(({ rows }) => {
-        console.log("messages: ", rows);
+        //console.log("messages: ", rows);
         const reverseMsgs = rows.reverse();
-        console.log("reverseMsgs: ", reverseMsgs);
+        //console.log("reverseMsgs: ", reverseMsgs);
         io.sockets.emit("chatMessages", reverseMsgs);
         // arguments are ('message that you want to make', dataYouWantToSend)
     });
 
-    // arguments: event coming from Chat.js, info coming along with the emit
     socket.on("Latest chat message", (newMessage) => {
-        console.log("this message is coming from index.js: ", newMessage);
-        console.log("who sent this: ", loggedUser);
+        // arguments: event coming from Chat.js, info coming along with the emit
+        //console.log("this message is coming from index.js: ", newMessage);
+        //console.log("who sent this: ", loggedUser);
 
         db.addMessage(loggedUser, newMessage).then(({ rows }) => {
-            console.log("addMessage result: ", rows);
+            //console.log("addMessage result: ", rows);
             db.renderNewMessage(loggedUser).then((result) => {
                 const newInfo = {
                     ...rows[0],
                     ...result.rows[0],
                 };
-                console.log("newInfo: ", newInfo);
+                //console.log("newInfo: ", newInfo);
                 io.sockets.emit("chatMessage", newInfo);
             });
         });
+    });
+
+    // User comes online
+    if (loggedUser === onlineUsers[socket.id]) {
+        return null;
+    } else {
+        onlineUsers[socket.id] = loggedUser;
+        console.log("onlineUsers: ", onlineUsers);
+        console.log("loggedUser: ", loggedUser);
+        console.log("onlineUsers id: ", onlineUsers[socket.id]);
+        io.sockets.emit("User has joined", onlineUsers[socket.id]);
+    }
+
+    // Online users being displayed
+    let arrOnliners = Object.values(onlineUsers);
+    db.getUsersByIds(arrOnliners).then(({ rows }) => {
+        console.log("onliners: ", rows);
+        io.sockets.emit("allOnlineUsers", rows);
+    });
+
+    // User goes offline
+    socket.on("Disconnect", () => {
+        if (!socket.id) {
+            delete onlineUsers[socket.id];
+            io.sockets.emit("userLeft", onlineUsers);
+        }
     });
 });

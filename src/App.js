@@ -67,8 +67,11 @@ export default class App extends React.Component {
                             />
                             <div className="search-link">
                                 <Link to="/">Profile</Link>
-                                <Link to="/friends">Friends</Link>
-                                <Link to="/antiusers">Search</Link>
+                                <Link to="/friends">Connections</Link>
+                                <Link to="/antiusers">
+                                    Search antisocialites
+                                </Link>
+                                <Link to="/anti">Go anti</Link>
                             </div>
                         </div>
                         <div className="logo">

@@ -192,3 +192,8 @@ module.exports.renderNewMessage = (sender_id) => {
         [sender_id]
     );
 };
+
+module.exports.getUsersByIds = (arrayOfIds) => {
+    const query = `SELECT id, firstname, lastname, image_url FROM users WHERE id = ANY($1)`;
+    return db.query(query, [arrayOfIds]);
+};

@@ -74,65 +74,65 @@ export default class Profile extends React.Component {
     render() {
         return (
             <div className="bio-editor">
-                <h2>
-                    Hey, {this.state.firstname} {this.state.lastname}
-                </h2>
-                <div className="bio">
-                    {this.state.bioStatic && (
-                        <div>
-                            {this.state.bio === null && (
-                                <div className="addbio-ctr">
-                                    Looks like your bio is empty.{" "}
-                                    <button
-                                        onClick={(e) => this.addBio(e)}
-                                        className="addBio"
-                                    >
-                                        Add one here
-                                    </button>
-                                </div>
-                            )}
-                            {this.state.bio != null && (
-                                <div className="bio-text">
-                                    <p>{this.state.bio}</p>
-                                    <button
-                                        onClick={(e) => this.editBio(e)}
-                                        className="edit-bio-button"
-                                    >
-                                        Edit
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                    )}
+                {this.state.bioStatic && (
+                    <div>
+                        <p className="bio-tag">
+                            What would you like to present to the world?
+                        </p>
+                        {this.state.bio === null && (
+                            <div className="addbio-ctr">
+                                <p className="text">
+                                    Looks like your bio is empty.
+                                </p>
+                                <button
+                                    onClick={(e) => this.addBio(e)}
+                                    className="addBio"
+                                >
+                                    Add one here
+                                </button>
+                            </div>
+                        )}
+                        {this.state.bio != null && (
+                            <div className="bio-ctr">
+                                <p className="text">{this.state.bio}</p>
+                                <button
+                                    onClick={(e) => this.editBio(e)}
+                                    className="edit-bio-button"
+                                >
+                                    Edit
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                )}
 
-                    {this.state.bioEditorIsVisible && (
-                        <div className="edit-bio-ctr">
-                            {this.state.bio === null && (
-                                <textarea
-                                    onChange={(e) => this.handleChange(e)}
-                                    placeholder="Add your bio here"
-                                    cols="60"
-                                    rows="5"
-                                ></textarea>
-                            )}
-                            {this.state.bio != null && (
-                                <textarea
-                                    onChange={(e) => this.handleChange(e)}
-                                    placeholder={this.state.bio}
-                                    cols="60"
-                                    rows="5"
-                                ></textarea>
-                            )}
+                {this.state.bioEditorIsVisible && (
+                    <div className="editbio-ctr">
+                        <p className="bio-tag">Self-proclaimed bio</p>
+                        {this.state.bio === null && (
+                            <textarea
+                                onChange={(e) => this.handleChange(e)}
+                                placeholder="Add your bio here"
+                                cols="60"
+                                rows="5"
+                            ></textarea>
+                        )}
+                        {this.state.bio != null && (
+                            <textarea
+                                onChange={(e) => this.handleChange(e)}
+                                placeholder={this.state.bio}
+                                rows="5"
+                            ></textarea>
+                        )}
 
-                            <button
-                                onClick={(e) => this.saveBio(e)}
-                                className="saveBio"
-                            >
-                                Save
-                            </button>
-                        </div>
-                    )}
-                </div>
+                        <button
+                            onClick={(e) => this.saveBio(e)}
+                            className="saveBio"
+                        >
+                            Save
+                        </button>
+                    </div>
+                )}
             </div>
         );
     }
