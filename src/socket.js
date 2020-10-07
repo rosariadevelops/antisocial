@@ -1,5 +1,11 @@
 import * as io from "socket.io-client";
-import { chatMessages, addNewMessage, addToOnlineUsers } from "./actions";
+import {
+    chatMessages,
+    addNewMessage,
+    allOnlineUsers,
+    addToOnlineUsers,
+    removeFromOnlineUsers,
+} from "./actions";
 
 export let socket;
 
@@ -19,7 +25,17 @@ export const init = (store) => {
 
         socket.on("allOnlineUsers", (arrOnliners) => {
             console.log("All online users SOCKET: ", arrOnliners);
-            store.dispatch(addToOnlineUsers(arrOnliners));
+            store.dispatch(allOnlineUsers(arrOnliners));
+        });
+
+        socket.on("userJoined", (user) => {
+            console.log("This user joined SOCKET: ", user);
+            store.dispatch(addToOnlineUsers(user));
+        });
+
+        socket.on("userLeft", (user) => {
+            console.log("This user left SOCKET: ", user);
+            store.dispatch(removeFromOnlineUsers(user));
         });
     }
 };

@@ -40,10 +40,23 @@ export default function (state = {}, action) {
             latestMessages: [...state.latestMessages, action.newMessage],
         };
     } else if (action.type === "ALL ONLINE USERS") {
-        console.log("ALL ONLINE USERS REDCUER: ", action);
+        //console.log("ALL ONLINE USERS REDCUER: ", action);
+        //
         state = {
             ...state,
             onlineUsers: action.onlineUsers,
+        };
+    } else if (action.type === "A USER IS ONLINE") {
+        console.log("A USER JOINED ONLINE REDCUER: ", action);
+        state = {
+            ...state,
+            onlineUsers: [...state.onlineUsers, action.newUser],
+        };
+    } else if (action.type === "A USER HAS LEFT ONLINE") {
+        console.log("A USER LEFT ONLINE REDCUER: ", action);
+        state = {
+            ...state,
+            onlineUsers: state.onlineUsers.splice(action.userLeft),
         };
     }
     return state;

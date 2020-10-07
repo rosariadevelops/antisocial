@@ -55,10 +55,25 @@ export async function addNewMessage(msg) {
     };
 }
 
-export async function addToOnlineUsers(arrOnliners) {
+export async function allOnlineUsers(arrOnliners) {
     console.log("ALL ONLINE USERS ACTIONS: ", arrOnliners);
     return {
         type: "ALL ONLINE USERS",
         onlineUsers: arrOnliners,
+    };
+}
+
+export async function addToOnlineUsers(newUser) {
+    console.log("THIS USER JOINED ACTIONS: ", newUser);
+    return {
+        type: "A USER JOINED",
+        newUser: newUser,
+    };
+}
+export async function removeFromOnlineUsers(userLeft) {
+    console.log("ALL ONLINE USERS ACTIONS: ", userLeft);
+    return {
+        type: "A USER LEFT",
+        userLeft: userLeft,
     };
 }

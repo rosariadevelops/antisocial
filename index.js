@@ -622,9 +622,7 @@ server.listen(8080, function () {
 // SOCKET.IO
 let onlineUsers = {};
 io.on("connection", (socket) => {
-    // all socket code has to be inside this socket function
     //console.log(`socket.id ${socket.id} is now connected`);
-    // checking socket working
 
     // checking the if user is logged in, using socket defined cookie session
     const loggedUser = socket.request.session.userId;
@@ -634,9 +632,7 @@ io.on("connection", (socket) => {
 
     // now we retrieve the last 10 messages, because we are connected
     db.getLastTenMessages().then(({ rows }) => {
-        //console.log("messages: ", rows);
         const reverseMsgs = rows.reverse();
-        //console.log("reverseMsgs: ", reverseMsgs);
         io.sockets.emit("chatMessages", reverseMsgs);
         // arguments are ('message that you want to make', dataYouWantToSend)
     });
@@ -660,26 +656,29 @@ io.on("connection", (socket) => {
     });
 
     // User comes online
-    if (loggedUser === onlineUsers[socket.id]) {
-        return null;
-    } else {
+    let arrOnliners = Object.values(onlineUsers);
+
+    console.log("onlineUsers: ", onlineUsers);
+    if (loggedUser) {
         onlineUsers[socket.id] = loggedUser;
-        console.log("onlineUsers: ", onlineUsers);
-        console.log("loggedUser: ", loggedUser);
-        console.log("onlineUsers id: ", onlineUsers[socket.id]);
         io.sockets.emit("User has joined", onlineUsers[socket.id]);
     }
 
-    // Online users being displayed
-    let arrOnliners = Object.values(onlineUsers);
+    // Online users being displayed upong logging it
     db.getUsersByIds(arrOnliners).then(({ rows }) => {
-        console.log("onliners: ", rows);
-        io.sockets.emit("allOnlineUsers", rows);
+        const renderOnlyOthers = rows.filter((users) => users.id != loggedUser);
+        console.log("renderOnlyOthers: ", renderOnlyOthers);
+        io.sockets.emit("allOnlineUsers", renderOnlyOthers);
     });
 
     // User goes offline
     socket.on("Disconnect", () => {
-        if (!socket.id) {
+        const userLeft = arrOnliners.filter(
+            (user) => user === onlineUsers[socket.id]
+        );
+        console.log("userLeft: ", userLeft);
+        if (userLeft.length >= 2) {
+            console.log("only the socket disconnected not the user");
             delete onlineUsers[socket.id];
             io.sockets.emit("userLeft", onlineUsers);
         }
