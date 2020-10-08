@@ -40,7 +40,7 @@ export async function unfriend(otherUserId) {
 }
 
 export async function chatMessages(msgs) {
-    console.log("LATEST TEN MESSAGES ACTIONS: ", msgs);
+    //console.log("LATEST TEN MESSAGES ACTIONS: ", msgs);
     return {
         type: "LATEST TEN MESSAGES",
         latestMessages: msgs,
@@ -48,7 +48,7 @@ export async function chatMessages(msgs) {
 }
 
 export async function addNewMessage(msg) {
-    console.log("NEW MESSAGE ACTION: ", msg);
+    //console.log("NEW MESSAGE ACTION: ", msg);
     return {
         type: "NEW MESSAGE ADDED",
         newMessage: msg,

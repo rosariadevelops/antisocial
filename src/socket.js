@@ -15,7 +15,7 @@ export const init = (store) => {
 
         socket.on("chatMessages", (msgs) => {
             store.dispatch(chatMessages(msgs));
-            console.log("LATEST TEN MESSAGES SOCKET: ", msgs);
+            //console.log("LATEST TEN MESSAGES SOCKET: ", msgs);
         });
 
         socket.on("chatMessage", (msg) => {
@@ -23,11 +23,13 @@ export const init = (store) => {
             store.dispatch(addNewMessage(msg));
         });
 
+        // This should emitted by server and is sent only to user who just connected
         socket.on("allOnlineUsers", (arrOnliners) => {
             console.log("All online users SOCKET: ", arrOnliners);
             store.dispatch(allOnlineUsers(arrOnliners));
         });
 
+        // This should be emitted by the server and sent to all BUT the user who just joined
         socket.on("userJoined", (user) => {
             console.log("This user joined SOCKET: ", user);
             store.dispatch(addToOnlineUsers(user));

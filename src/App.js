@@ -9,6 +9,7 @@ import FindPeople from "./FindPeople";
 import Friends from "./Friends";
 import Chat from "./Chat";
 import { Link, BrowserRouter, Route } from "react-router-dom";
+//import { Transition } from "react-transition-group";
 
 export default class App extends React.Component {
     constructor(props) {
@@ -55,69 +56,52 @@ export default class App extends React.Component {
         return (
             <React.Fragment>
                 <BrowserRouter>
-                    <div className="nav">
-                        <div className="prof-pic">
-                            <ProfilePic
-                                firstname={state.firstname}
-                                lastname={state.lastname}
-                                imageURL={state.profilePic}
-                                clickHandler={() =>
-                                    this.setState({ uploaderIsVisible: true })
-                                }
-                            />
-                            <div className="search-link">
-                                <Link to="/">Profile</Link>
-                                <Link to="/friends">Connections</Link>
-                                <Link to="/antiusers">
-                                    Search antisocialites
-                                </Link>
-                                <Link to="/anti">Go anti</Link>
+                    <div className="main-ctr">
+                        <div className="nav">
+                            <div className="prof-pic">
+                                <ProfilePic
+                                    firstname={state.firstname}
+                                    lastname={state.lastname}
+                                    imageURL={state.profilePic}
+                                    clickHandler={() =>
+                                        this.setState({
+                                            uploaderIsVisible: true,
+                                        })
+                                    }
+                                />
+                                <div className="search-link">
+                                    <Link to="/">Profile</Link>
+                                    <Link to="/friends">Connections</Link>
+                                    <Link to="/antiusers">
+                                        Search antisocialites
+                                    </Link>
+                                    <Link to="/anti">Go anti</Link>
+                                    <Link to="/log-out">Log out</Link>
+                                </div>
+                            </div>
+                            <div className="logo">
+                                anti<span>social</span>
                             </div>
                         </div>
-                        <div className="logo">
-                            anti<span>social</span>
-                        </div>
-                    </div>
 
-                    <div className="container profile-container">
-                        <Route
-                            exact
-                            path="/"
-                            render={() => (
-                                <Profile
-                                    id={state.id}
-                                    firstname={state.firstname}
-                                    lastname={state.lastname}
-                                    imageURL={state.profilePic}
-                                    bio={state.bio}
-                                />
-                            )}
-                        />
-                        <Route
-                            path="/antiuser/:id"
-                            render={(props) => (
-                                <OtherProfile
-                                    key={props.match.url}
-                                    match={props.match}
-                                    history={props.history}
-                                    imageURL={state.profilePic}
-                                    id={state.id}
-                                    firstname={state.firstname}
-                                    lastname={state.lastname}
-                                />
-                            )}
-                        />
-                        <Route path="/chat" component={Chat} />
-
-                        <div className="search-container">
+                        <div className="container profile-container">
                             <Route
-                                path="/antiusers"
-                                render={() => <FindPeople id={state.id} />}
+                                exact
+                                path="/"
+                                render={() => (
+                                    <Profile
+                                        id={state.id}
+                                        firstname={state.firstname}
+                                        lastname={state.lastname}
+                                        imageURL={state.profilePic}
+                                        bio={state.bio}
+                                    />
+                                )}
                             />
                             <Route
-                                path="/friends"
+                                path="/antiuser/:id"
                                 render={(props) => (
-                                    <Friends
+                                    <OtherProfile
                                         key={props.match.url}
                                         match={props.match}
                                         history={props.history}
@@ -128,6 +112,28 @@ export default class App extends React.Component {
                                     />
                                 )}
                             />
+                            <Route path="/chat" component={Chat} />
+
+                            <div className="search-container">
+                                <Route
+                                    path="/antiusers"
+                                    render={() => <FindPeople id={state.id} />}
+                                />
+                                <Route
+                                    path="/friends"
+                                    render={(props) => (
+                                        <Friends
+                                            key={props.match.url}
+                                            match={props.match}
+                                            history={props.history}
+                                            imageURL={state.profilePic}
+                                            id={state.id}
+                                            firstname={state.firstname}
+                                            lastname={state.lastname}
+                                        />
+                                    )}
+                                />
+                            </div>
                         </div>
                     </div>
                 </BrowserRouter>

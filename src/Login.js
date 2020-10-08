@@ -9,6 +9,8 @@ export default class Login extends React.Component {
             email: null,
             password: null,
             error: false,
+            errorMsg:
+                "The entered email or password are incorrect. Please try again",
         };
     }
 
@@ -22,12 +24,11 @@ export default class Login extends React.Component {
 
     handleLogin(e) {
         e.preventDefault();
-        const { name, value } = e.target;
-        console.log("this.state.error:", this.state.error);
+        //const { name, value } = e.target;
 
-        const { email, password } = this.state;
+        //const { email, password } = this.state;
 
-        if (email === null || password === null) {
+        /* if (email === null || password === null || this.state.errorMsg) {
             this.setState({
                 error: true,
             });
@@ -35,34 +36,35 @@ export default class Login extends React.Component {
             this.setState({
                 [name]: value,
                 error: false,
-            });
+            }); */
 
-            axios
-                .post("/login", this.state)
-                .then(function (response) {
-                    console.log("login response:", response);
-                    if (response) {
-                        location.replace("/");
-                    } else {
-                        this.setState({
-                            error: true,
-                        });
-                    }
-                })
-                .catch(function (err) {
-                    console.log("err in  POST /login: ", err);
-                });
-        }
+        axios
+            .post("/login", this.state)
+            .then(function (response) {
+                console.log("login response:", response.data);
+                if (response.data.error) {
+                    this.setState({
+                        error: true,
+                    });
+                } else {
+                    location.replace("/");
+                }
+            })
+            .catch(function (err) {
+                console.log("err in  POST /login: ", err);
+            });
+        //}
+        console.log("login state:", this.state);
     }
 
     render() {
+        let state = this.state;
         return (
             <React.Fragment>
                 <div className="login-form">
                     <h1>Log in</h1>
-                    {this.state.error && (
-                        <p className="error">{this.state.error}</p>
-                    )}
+                    {state.error && <p className="error">{state.errorMsg}</p>}
+
                     <label htmlFor="email">Email Address:</label>
                     <input
                         onChange={(e) => this.handleChange(e)}

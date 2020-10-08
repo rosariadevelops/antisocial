@@ -120,18 +120,14 @@ app.post("/welcome", (req, res) => {
 
 // GET // LOGIN PAGE
 app.get("/login", (req, res) => {
-    if (req.session.userId) {
-        res.redirect("/");
-    } else {
-        res.sendFile(__dirname + "/index.html");
-    }
+    res.sendFile(__dirname + "/index.html");
 });
 
 // POST // LOGIN PAGE
 app.post("/login", (req, res) => {
     const { email, password } = req.body;
 
-    if (email === "" || password === "") {
+    if (email === "" || password === "" || !email || !password) {
         res.json({
             errorMsg: "Please make sure all input fields have been filled.",
             success: false,
@@ -140,16 +136,9 @@ app.post("/login", (req, res) => {
         db.checkEmail(email)
             .then((results) => {
                 console.log("results: ", results.rows);
-                if (
-                    results.rows.length === 0 ||
-                    results.rows[0].email === "" ||
-                    results.rows[0].pword === ""
-                ) {
-                    console.log("entered login details are somewhat empty");
+                if (results.rows.length === 0) {
                     res.json({
-                        errorMsg:
-                            "The entered email or password are incorrect. Please try again",
-                        success: false,
+                        error: true,
                     });
                 } else {
                     bc.compare(password, results.rows[0].pword)
@@ -607,6 +596,13 @@ app.get(`/friends.json`, (req, res) => {
     }
 });
 
+// GET // LOGOUT PAGE
+app.get(`/log-out`, (req, res) => {
+    req.session.userId = null;
+    res.redirect("/");
+    console.log("req.session.userId: ", req.session.userId);
+});
+
 app.get("*", function (req, res) {
     if (!req.session.userId) {
         res.redirect("/welcome");
@@ -655,21 +651,37 @@ io.on("connection", (socket) => {
         });
     });
 
-    // User comes online
+    // ONLINE USERS CONNECTIONS
     let arrOnliners = Object.values(onlineUsers);
+    onlineUsers[socket.id] = loggedUser;
+    //console.log("arrOnliners: ", arrOnliners);
+    console.log("onlineUSers: ", onlineUsers);
 
-    console.log("onlineUsers: ", onlineUsers);
-    if (loggedUser) {
-        onlineUsers[socket.id] = loggedUser;
-        io.sockets.emit("User has joined", onlineUsers[socket.id]);
+    // Online users being displayed upon user logging in
+    // This should emitted by server and is sent ONLY to USER who just connected
+    if (onlineUsers[socket.id] === loggedUser) {
+        db.getUsersByIds(arrOnliners).then(({ rows }) => {
+            const renderOnlyOthers = rows.filter(
+                (users) => users.id !== loggedUser
+            );
+            console.log(`renderOnlyOthers ${loggedUser}: `, renderOnlyOthers);
+            io.to(socket.id).emit("allOnlineUsers", renderOnlyOthers);
+        });
     }
 
-    // Online users being displayed upong logging it
-    db.getUsersByIds(arrOnliners).then(({ rows }) => {
-        const renderOnlyOthers = rows.filter((users) => users.id != loggedUser);
-        console.log("renderOnlyOthers: ", renderOnlyOthers);
-        io.sockets.emit("allOnlineUsers", renderOnlyOthers);
+    // This should be emitted by the server and sent to ALL BUT the user who just joined
+    // need to check if logged user is UNequal to the user who just joined
+    //if (onlineUsers[socket.id] != loggedUser) {
+    console.log("onlineUsers user just joined: ", onlineUsers[socket.id]);
+    db.getUsersByIds([loggedUser]).then(({ rows }) => {
+        console.log("single user: ", rows);
+        console.log("single user socket: ", onlineUsers[socket.id]);
+        console.log("single user loggeduser: ", loggedUser);
+        //if (onlineUsers[socket.id] !== loggedUser) {
+        socket.broadcast.emit("userJoined", rows[0]);
+        //}
     });
+    //}
 
     // User goes offline
     socket.on("Disconnect", () => {

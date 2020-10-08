@@ -59,6 +59,7 @@ export default class Uploader extends React.Component {
         let state = this.state;
         return (
             <div className="modal-container">
+                <div className="overlay"></div>
                 <div className="modal">
                     <a
                         className="close-btn"
@@ -67,9 +68,10 @@ export default class Uploader extends React.Component {
                         <span className="close-modal-left"></span>
                         <span className="close-modal-right"></span>
                     </a>
-                    <h2>
-                        Hey, {state.firstname} {state.lastname}
-                    </h2>
+                    <p>
+                        Your profile picture shows up in your profile the
+                        community chat.
+                    </p>
                     <div className="profile-pic">
                         {this.state.uploadedFile === null && (
                             <img
@@ -85,9 +87,7 @@ export default class Uploader extends React.Component {
                         )}
                     </div>
                     <div className="change-pic">
-                        <label htmlFor="file">
-                            <span>↸</span> Edit
-                        </label>
+                        <label htmlFor="file">Upload</label>
                         <input
                             onChange={(e) => this.handleChange(e)}
                             type="file"

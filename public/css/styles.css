@@ -112,6 +112,7 @@ main {
     padding: 12px 7px;
     font-size: 16px;
     margin-bottom: 25px;
+    border: none;
 }
 .rgtr-form input::placeholder,
 .login-form input::placeholder,
@@ -169,6 +170,15 @@ textarea:visited {
     display: block;
 }
 
+.overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+}
+
 .modal-container {
     position: fixed;
     top: 0;
@@ -180,26 +190,62 @@ textarea:visited {
     align-items: center;
 }
 .modal-container .modal {
-    width: 500px;
-    height: 350px;
+    width: 600px;
+    height: 450px;
     background: white;
-    border-radius: 3px;
-    /* box-shadow: 0px 1px 10px #5ec8e894, 0px 11px 40px rgba(94, 200, 232, 0.37); */
+    border-radius: 10px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 1px 1px rgba(0, 0, 0, 0.1);
     color: black;
-    /* border: 1px solid #5ec8e8; */
-    padding: 20px;
+    padding: 80px 40px 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
 }
-.modal h2 {
-    font-size: 50px;
-    margin: 10px 0 20px;
+.modal p {
+    margin: 0 0 20px;
+    opacity: 0.6;
+    font-size: 15px;
+}
+.modal .profile-pic {
+    background: white;
+    width: 180px;
+    height: 180px;
+    position: relative;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: inset 0px -2px 4px rgba(0, 0, 0, 0.05),
+        inset 0px -1px 1px rgba(0, 0, 0, 0.1);
+    margin-right: 35px;
 }
 .modal .profile-pic img {
-    width: 120px;
-    height: 120px;
+    object-fit: contain;
+    object-position: bottom center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+.change-pic {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.change-pic label {
+    /* color: #0004ff; */
+    background: black;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: 500ms ease;
+    color: white;
+    font-size: 16px;
+    padding: 15px 30px;
+    border: none;
+    width: 250px;
 }
 .close-btn {
     display: block;
@@ -247,8 +293,8 @@ textarea:visited {
 .profile-img-ctr img {
     object-fit: contain;
     object-position: bottom center;
-    width: 85%;
-    height: 85%;
+    width: 100%;
+    height: 100%;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -271,12 +317,7 @@ textarea:visited {
     width: 100%;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 1px 1px rgba(0, 0, 0, 0.1);
 }
-/* .bio-editor .addbio-ctr,
-.bio-editor .bio-ctr,
-.bio-editor .editbio-ctr {
-    display: flex;
-    flex-direction: column;
-} */
+
 .bio-editor .bio-tag {
     margin: 0 0 20px;
     opacity: 0.6;
