@@ -76,7 +76,7 @@ export default class App extends React.Component {
                                         Search antisocialites
                                     </Link>
                                     <Link to="/anti">Go anti</Link>
-                                    <Link to="/log-out">Log out</Link>
+                                    <a href="/logout">Log out</a>
                                 </div>
                             </div>
                             <div className="logo">

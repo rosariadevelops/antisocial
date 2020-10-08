@@ -597,10 +597,10 @@ app.get(`/friends.json`, (req, res) => {
 });
 
 // GET // LOGOUT PAGE
-app.get(`/log-out`, (req, res) => {
-    req.session.userId = null;
-    res.redirect("/");
-    console.log("req.session.userId: ", req.session.userId);
+app.get("/logout", (req, res) => {
+    req.session = null;
+    console.log("/logout req.session: ", req.session);
+    res.redirect("/welcome");
 });
 
 app.get("*", function (req, res) {
@@ -664,7 +664,7 @@ io.on("connection", (socket) => {
             const renderOnlyOthers = rows.filter(
                 (users) => users.id !== loggedUser
             );
-            console.log(`renderOnlyOthers ${loggedUser}: `, renderOnlyOthers);
+            //console.log(`renderOnlyOthers ${loggedUser}: `, renderOnlyOthers);
             io.to(socket.id).emit("allOnlineUsers", renderOnlyOthers);
         });
     }
@@ -672,27 +672,43 @@ io.on("connection", (socket) => {
     // This should be emitted by the server and sent to ALL BUT the user who just joined
     // need to check if logged user is UNequal to the user who just joined
     //if (onlineUsers[socket.id] != loggedUser) {
-    console.log("onlineUsers user just joined: ", onlineUsers[socket.id]);
+    //console.log("onlineUsers user just joined: ", onlineUsers[socket.id]);
     db.getUsersByIds([loggedUser]).then(({ rows }) => {
-        console.log("single user: ", rows);
-        console.log("single user socket: ", onlineUsers[socket.id]);
-        console.log("single user loggeduser: ", loggedUser);
+        //console.log("single user: ", rows);
+        //console.log("single user socket: ", onlineUsers[socket.id]);
+        //console.log("single user loggeduser: ", loggedUser);
         //if (onlineUsers[socket.id] !== loggedUser) {
         socket.broadcast.emit("userJoined", rows[0]);
         //}
     });
     //}
 
-    // User goes offline
-    socket.on("Disconnect", () => {
-        const userLeft = arrOnliners.filter(
-            (user) => user === onlineUsers[socket.id]
-        );
-        console.log("userLeft: ", userLeft);
-        if (userLeft.length >= 2) {
-            console.log("only the socket disconnected not the user");
-            delete onlineUsers[socket.id];
-            io.sockets.emit("userLeft", onlineUsers);
-        }
-    });
+    console.log(
+        "socket.request.session BEFORE BEFORE: ",
+        socket.request.session
+    );
+    if (loggedUser === null) {
+        // User goes offline
+        console.log("socket.request.session BEFORE: ", socket.request.session);
+        socket.on("Disconnect", () => {
+            console.log(
+                "socket.request.session AFTER: ",
+                socket.request.session
+            );
+            /* db.getUsersByIds([onlineUsers[socket.id]]).then(({ rows }) => {
+                socket.broadcast.emit("userLeft", rows[0]);
+                console.log("loggedUser has left QUERY: ", rows[0]);
+            }); */
+
+            const userLeft = arrOnliners.filter(
+                (user) => user === onlineUsers[socket.id]
+            );
+            console.log("userLeft: ", userLeft);
+            if (userLeft.length >= 2) {
+                console.log("only the socket disconnected not the user");
+                delete onlineUsers[socket.id];
+                io.sockets.emit("userLeft", onlineUsers);
+            }
+        });
+    }
 });

@@ -49,13 +49,15 @@ export default function (state = {}, action) {
     } else if (action.type === "A USER JOINED") {
         console.log("A USER JOINED ONLINE REDCUER: ", action);
         // action.newUser.id
-        console.log("action.newUser.id: ", action.newUser.id);
-        console.log("state.onlineUsers: ", state.onlineUsers);
+        //console.log("action.newUser.id: ", action.newUser.id);
+        //console.log("state.onlineUsers: ", state.onlineUsers);
         const filterExisting = state.onlineUsers.filter(
             (users) => users.id === action.newUser.id
         );
         console.log("filterExisting: ", filterExisting);
-        if (!filterExisting) {
+        if (filterExisting.length >= 1) {
+            return null;
+        } else {
             state = {
                 ...state,
                 onlineUsers: [...state.onlineUsers, action.newUser],

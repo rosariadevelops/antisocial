@@ -25,13 +25,13 @@ export const init = (store) => {
 
         // This should emitted by server and is sent only to user who just connected
         socket.on("allOnlineUsers", (arrOnliners) => {
-            console.log("All online users SOCKET: ", arrOnliners);
+            //console.log("All online users SOCKET: ", arrOnliners);
             store.dispatch(allOnlineUsers(arrOnliners));
         });
 
         // This should be emitted by the server and sent to all BUT the user who just joined
         socket.on("userJoined", (user) => {
-            console.log("This user joined SOCKET: ", user);
+            //console.log("This user joined SOCKET: ", user);
             store.dispatch(addToOnlineUsers(user));
         });
 
