@@ -70,10 +70,10 @@ export async function addToOnlineUsers(newUser) {
         newUser: newUser,
     };
 }
-export async function removeFromOnlineUsers(userLeft) {
-    console.log("ALL ONLINE USERS ACTIONS: ", userLeft);
+export async function removeFromOnlineUsers(userId) {
+    console.log("ALL ONLINE USERS ACTIONS: ", userId);
     return {
         type: "A USER LEFT",
-        userLeft: userLeft,
+        userLeft: userId,
     };
 }

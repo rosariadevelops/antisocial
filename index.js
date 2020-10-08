@@ -655,7 +655,7 @@ io.on("connection", (socket) => {
     let arrOnliners = Object.values(onlineUsers);
     onlineUsers[socket.id] = loggedUser;
     //console.log("arrOnliners: ", arrOnliners);
-    console.log("onlineUSers: ", onlineUsers);
+    //console.log("onlineUSers: ", onlineUsers);
 
     // Online users being displayed upon user logging in
     // This should emitted by server and is sent ONLY to USER who just connected
@@ -683,32 +683,32 @@ io.on("connection", (socket) => {
     });
     //}
 
-    console.log(
-        "socket.request.session BEFORE BEFORE: ",
-        socket.request.session
-    );
-    if (loggedUser === null) {
-        // User goes offline
-        console.log("socket.request.session BEFORE: ", socket.request.session);
-        socket.on("Disconnect", () => {
-            console.log(
-                "socket.request.session AFTER: ",
-                socket.request.session
-            );
-            /* db.getUsersByIds([onlineUsers[socket.id]]).then(({ rows }) => {
-                socket.broadcast.emit("userLeft", rows[0]);
-                console.log("loggedUser has left QUERY: ", rows[0]);
-            }); */
+    // User goes offline
+    socket.on("disconnect", () => {
+        delete onlineUsers[socket.id];
+        let arrOnliners = Object.values(onlineUsers);
+        console.log(`arrOnliners after disconnect: ${arrOnliners}`);
 
-            const userLeft = arrOnliners.filter(
-                (user) => user === onlineUsers[socket.id]
-            );
-            console.log("userLeft: ", userLeft);
-            if (userLeft.length >= 2) {
-                console.log("only the socket disconnected not the user");
-                delete onlineUsers[socket.id];
-                io.sockets.emit("userLeft", onlineUsers);
+        for (let i = 0; i < arrOnliners.length; ++i) {
+            if (loggedUser != arrOnliners[i]) {
+                console.log(`logged out!`);
+                io.sockets.emit("userLeft", loggedUser);
             }
-        });
-    }
+        }
+
+        //for (const [key, value] of Object.entries(onlineUsers)) {
+        /* console.log(`OBJ VALUES: ${key}, ${value}`);
+            console.log("online users: ", onlineUsers);
+            if (loggedUser === value) {
+                return;
+            } else {
+                console.log(`LOGGEDUSER VALUE: ${loggedUser}, ${value}`);
+                db.getUsersByIds([loggedUser]).then(({ rows }) => {
+                    io.sockets.emit("userLeft", rows[0]);
+                    socket.broadcast.emit("userLeft", rows[0]);
+                    console.log("loggedUser has left QUERY: ", rows[0]);
+                });
+            } */
+        //}
+    });
 });

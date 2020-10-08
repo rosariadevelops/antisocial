@@ -35,9 +35,9 @@ export const init = (store) => {
             store.dispatch(addToOnlineUsers(user));
         });
 
-        socket.on("userLeft", (user) => {
-            console.log("This user left SOCKET: ", user);
-            store.dispatch(removeFromOnlineUsers(user));
+        socket.on("userLeft", (userId) => {
+            console.log("This user left SOCKET: ", userId);
+            store.dispatch(removeFromOnlineUsers(userId));
         });
     }
 };

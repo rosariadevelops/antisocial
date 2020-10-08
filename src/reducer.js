@@ -40,7 +40,7 @@ export default function (state = {}, action) {
             latestMessages: [...state.latestMessages, action.newMessage],
         };
     } else if (action.type === "ALL ONLINE USERS") {
-        //console.log("ALL ONLINE USERS REDCUER: ", action);
+        console.log("ALL ONLINE USERS REDCUER: ", action);
         //
         state = {
             ...state,
@@ -50,13 +50,13 @@ export default function (state = {}, action) {
         console.log("A USER JOINED ONLINE REDCUER: ", action);
         // action.newUser.id
         //console.log("action.newUser.id: ", action.newUser.id);
-        //console.log("state.onlineUsers: ", state.onlineUsers);
+        console.log("state.onlineUsers: ", state.onlineUsers);
         const filterExisting = state.onlineUsers.filter(
             (users) => users.id === action.newUser.id
         );
         console.log("filterExisting: ", filterExisting);
         if (filterExisting.length >= 1) {
-            return null;
+            return state;
         } else {
             state = {
                 ...state,
@@ -65,9 +65,12 @@ export default function (state = {}, action) {
         }
     } else if (action.type === "A USER LEFT") {
         console.log("A USER LEFT ONLINE REDCUER: ", action);
+        const usersAfterOneLeft = state.onlineUsers.filter(
+            (users) => users.id != action.userLeft
+        );
         state = {
             ...state,
-            onlineUsers: state.onlineUsers.splice(action.userLeft),
+            onlineUsers: usersAfterOneLeft,
         };
     }
     return state;

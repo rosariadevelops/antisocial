@@ -8,6 +8,7 @@ import OtherProfile from "./OtherProfile";
 import FindPeople from "./FindPeople";
 import Friends from "./Friends";
 import Chat from "./Chat";
+
 import { Link, BrowserRouter, Route } from "react-router-dom";
 //import { Transition } from "react-transition-group";
 
@@ -48,6 +49,12 @@ export default class App extends React.Component {
         });
     }
 
+    goDark(e) {
+        e.preventDefault();
+        document.body.classList.add("dark-theme");
+        console.log("dark mode!");
+    }
+
     render() {
         let state = this.state;
         if (!this.state.id) {
@@ -69,14 +76,19 @@ export default class App extends React.Component {
                                         })
                                     }
                                 />
-                                <div className="search-link">
-                                    <Link to="/">Profile</Link>
-                                    <Link to="/friends">Connections</Link>
-                                    <Link to="/antiusers">
-                                        Search antisocialites
-                                    </Link>
-                                    <Link to="/anti">Go anti</Link>
-                                    <a href="/logout">Log out</a>
+                            </div>
+                            <div className="search-link">
+                                <Link to="/">Profile</Link>
+                                <Link to="/friends">Connections</Link>
+                                <Link to="/antiusers">
+                                    Search antisocialites
+                                </Link>
+                                <Link to="/chat">Socialise</Link>
+                                <div className="negatives">
+                                    <button onClick={(e) => this.goDark(e)}>
+                                        Go anti
+                                    </button>
+                                    <a href="/logout">Logout</a>
                                 </div>
                             </div>
                             <div className="logo">
@@ -137,14 +149,6 @@ export default class App extends React.Component {
                         </div>
                     </div>
                 </BrowserRouter>
-
-                {/* <div className="friends-container">
-                    <FriendsList
-                        firstname={state.firstname}
-                        lastname={state.lastname}
-                        imageURL={state.profilePic}
-                    />
-                </div> */}
 
                 {this.state.uploaderIsVisible && (
                     <Uploader

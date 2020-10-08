@@ -45,30 +45,60 @@ main {
 }
 
 .nav .prof-pic {
-    padding: 19px 20px 19px 40px;
+    margin: 19px 0 19px 30px;
     position: absolute;
     top: 0;
     left: 0;
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 99;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    border: 1px solid;
+    overflow: hidden;
+    cursor: pointer;
+    transition: 500ms ease;
+}
+.nav .prof-pic:hover {
+    transform: rotate(360deg);
 }
 .nav .prof-pic img {
-    width: 20px;
-    height: auto;
-    display: block;
-    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
+
 .search-link {
-    margin-left: 80px;
+    padding: 70px 30px 0;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 210px;
+    display: flex;
+    flex-direction: column;
+    z-index: 9;
 }
 .search-link a {
     color: black;
     text-decoration: none;
     padding: 0;
     border: none;
-    margin-right: 50px;
-    font-size: 14px;
+    margin-bottom: 20px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 500ms ease;
+}
+.search-link a:hover {
+    color: #0004ff;
+}
+.search-link .negatives {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .ctr {
@@ -78,7 +108,7 @@ main {
 .container {
     width: -webkit-fill-available;
     min-height: 100vh;
-    padding: 100px 8% 30px;
+    padding: 100px 8% 30px calc(4% + 180px);
 }
 
 .rgtr-form,
@@ -279,10 +309,13 @@ textarea:visited {
 
 .profile {
     display: flex;
+    position: relative;
 }
 .profile-img-ctr {
     background: white;
-    width: 100px;
+    flex-basis: 100px;
+    flex-grow: 0;
+    flex-shrink: 0;
     height: 100px;
     position: relative;
     border-radius: 50%;
@@ -291,19 +324,15 @@ textarea:visited {
     margin-right: 35px;
 }
 .profile-img-ctr img {
-    object-fit: contain;
-    object-position: bottom center;
+    object-fit: cover;
+    object-position: center;
     width: 100%;
     height: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
     margin: 0 auto;
 }
 
 .profile-content-ctr {
-    width: calc(80% - 100px);
+    width: calc(100% - 100px);
 }
 .profile-content-ctr h2 {
     font-size: 40px;
@@ -317,6 +346,20 @@ textarea:visited {
     width: 100%;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 1px 1px rgba(0, 0, 0, 0.1);
 }
+.friend-button {
+    position: absolute;
+    top: 25px;
+    right: 0;
+    text-align: right;
+}
+.friend-button button {
+    transition: 500ms ease;
+    cursor: pointer;
+}
+.friend-button button:hover {
+    transition: 500ms ease;
+    background: #0004ff;
+}
 
 .bio-editor .bio-tag {
     margin: 0 0 20px;
@@ -325,12 +368,14 @@ textarea:visited {
 }
 .bio-editor .text {
     font-size: 20px;
-    line-height: 25px;
+    line-height: 32px;
     opacity: 0.3;
     margin: 0;
 }
 .bio-editor .bio-ctr .text {
     opacity: 1;
+    transform: translateY(-20px);
+    padding-right: 8%;
 }
 
 .bio-editor textarea {
@@ -344,11 +389,12 @@ textarea:visited {
 }
 .bio-editor button {
     background: none;
-    color: #0004ff;
-    font-size: 20px;
+    color: rgba(0, 0, 0, 0.25);
+    font-size: 16px;
     padding: 0;
     border: none;
-    margin-top: 20px;
+    transform: translateY(-40px);
+    margin: 0 0 0 auto;
     text-decoration: underline;
     display: inherit;
     cursor: pointer;
@@ -365,6 +411,9 @@ textarea:visited {
 }
 .bio-editor .editbio-ctr button:hover {
     background: #0004ff;
+}
+.bio-editor button:hover {
+    color: #0004ff;
 }
 
 button {
@@ -421,11 +470,14 @@ input {
 
 .chat-ctr {
     height: 500px;
-    width: 70%;
+    width: 100%;
     overflow-y: scroll;
     background: white;
     border-radius: 4px;
     padding: 10px 10px 0;
+}
+.chat-constrain {
+    width: calc(100% - 160px);
 }
 .msg-ctr {
     display: flex;
@@ -467,4 +519,48 @@ input {
 }
 .msg-content h4 {
     margin: 0;
+}
+
+.online-users-ctr {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    padding: 130px 30px 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 9999999;
+    width: 190px;
+    border-left: 1px solid #fff;
+}
+.online-users-ctr h3 {
+    margin: 0 0 30px;
+    font-size: 15px;
+    font-weight: 100;
+}
+.online-user {
+    margin-bottom: 20px;
+}
+.online-user-img {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+}
+.online-user-img img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+}
+.online-user .name {
+    padding-left: 5px;
+    overflow-x: hidden;
+    display: inline-block;
+    vertical-align: middle;
+}
+.name h4 {
+    margin: 0;
+    font-size: 13px;
 }

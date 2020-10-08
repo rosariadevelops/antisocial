@@ -46,17 +46,13 @@ export default class OtherProfile extends React.Component {
                         lastname={state.lastname}
                     />
                 </div>
-                <div className="profile-details">
-                    <h1>
+                <div className="profile-content-ctr">
+                    <h2>
                         {state.firstname} {state.lastname}
-                    </h1>
-                    <div>
-                        <img
-                            src={state.profilePic}
-                            alt={`${state.firstname} ${state.lastname}`}
-                        />
+                    </h2>
+                    <div className="bio-editor">
+                        <p>{state.bio}</p>
                     </div>
-                    <p>{state.bio}</p>
                     <FriendButton otherUserId={state.id} />
                 </div>
             </div>

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { socket } from "./socket";
+import OnlineUsers from "./OnlineUsers";
 // useSelecter grabs things that are in the global state
 
 export default function Chat() {
@@ -27,7 +28,7 @@ export default function Chat() {
     }
 
     return (
-        <div>
+        <div className="chat-constrain">
             <p>Welcome to Chat</p>
             <div className="chat-ctr" ref={elemRef}>
                 {chatMessages &&
@@ -61,6 +62,10 @@ export default function Chat() {
                 rows="2"
                 onKeyDown={keyCheck}
             ></textarea>
+
+            <div className="online-users-ctr">
+                <OnlineUsers />
+            </div>
         </div>
     );
 }

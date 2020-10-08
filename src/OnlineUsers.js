@@ -1,8 +1,6 @@
 import React, { useEffect, useRef } from "react";
-//import axios from "./axios";
 import { useDispatch, useSelector } from "react-redux";
-//import { socket } from "./socket";
-//import { getUsersByIds } from "./actions";
+//import { Link } from "react-router-dom";
 
 export default function displayOnlineUsers() {
     //
@@ -17,29 +15,36 @@ export default function displayOnlineUsers() {
         (state) => state.users && state.users.filter((user) => !user.accepted)
     ); */
 
-    if (!onlineUsers) {
+    /* if (!onlineUsers) {
         return null;
-    }
+    } */
     return (
         <div>
             <h3>Others online</h3>
             {onlineUsers &&
                 onlineUsers.map(function (user) {
                     return (
-                        <div className="friend-ctr" key={user.id}>
-                            <div className="friends-img-ctr">
-                                <img
-                                    src={
-                                        user.profilePic || "/images/default.png"
-                                    }
-                                    alt={`${user.firstname} ${user.lastname}`}
-                                />
-                            </div>
-                            <div className="name">
-                                <h4>
-                                    {user.firstname} {user.lastname}
-                                </h4>
-                            </div>
+                        <div
+                            className="online-user"
+                            key={user.id}
+                            onClick={() => this.selectedUser(user)}
+                        >
+                            <a href={"/antiuser/" + user.id}>
+                                <div className="online-user-img">
+                                    <img
+                                        src={
+                                            user.profilePic ||
+                                            "/images/default-user.png"
+                                        }
+                                        alt={`${user.firstname} ${user.lastname}`}
+                                    />
+                                </div>
+                                <div className="name">
+                                    <h4>
+                                        {user.firstname} {user.lastname}
+                                    </h4>
+                                </div>
+                            </a>
                         </div>
                     );
                 })}

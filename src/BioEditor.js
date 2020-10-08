@@ -94,13 +94,13 @@ export default class Profile extends React.Component {
                         )}
                         {this.state.bio != null && (
                             <div className="bio-ctr">
-                                <p className="text">{this.state.bio}</p>
                                 <button
                                     onClick={(e) => this.editBio(e)}
                                     className="edit-bio-button"
                                 >
                                     Edit
                                 </button>
+                                <p className="text">{this.state.bio}</p>
                             </div>
                         )}
                     </div>
