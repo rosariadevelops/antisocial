@@ -8,10 +8,18 @@ body {
     background-size: cover;
     color: black;
     font-family: "sk-modernistregular";
+    transition: 500ms ease;
+}
+
+.dark {
+    color: white;
 }
 
 main {
     min-height: 100vh;
+}
+.dark main {
+    background: rgba(0, 0, 0, 0.4);
 }
 
 .nav {
@@ -43,6 +51,9 @@ main {
     position: relative;
     font-family: "restoraextralight";
 }
+.dark .logo {
+    color: white;
+}
 
 .nav .prof-pic {
     margin: 19px 0 19px 30px;
@@ -56,7 +67,6 @@ main {
     border-radius: 50%;
     width: 30px;
     height: 30px;
-    border: 1px solid;
     overflow: hidden;
     cursor: pointer;
     transition: 500ms ease;
@@ -91,14 +101,40 @@ main {
     cursor: pointer;
     transition: 500ms ease;
 }
+.dark .search-link a {
+    color: white;
+}
 .search-link a:hover {
     color: #0004ff;
+}
+.dark .search-link a:hover {
+    color: #b9b9b9;
 }
 .search-link .negatives {
     position: absolute;
     bottom: 0;
     display: flex;
     flex-direction: column;
+}
+.negatives button {
+    color: black;
+    text-decoration: none;
+    padding: 0;
+    border: none;
+    margin-bottom: 20px;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 500ms ease;
+    background: none;
+}
+.negatives button:hover {
+    color: #0004ff;
+}
+.dark .negatives button {
+    color: white;
+}
+.dark .negatives button:hover {
+    color: #b9b9b9;
 }
 
 .ctr {
@@ -108,7 +144,8 @@ main {
 .container {
     width: -webkit-fill-available;
     min-height: 100vh;
-    padding: 100px 8% 30px calc(4% + 180px);
+    padding: 100px 8% 30px calc(4% + 200px);
+    max-width: 1150px;
 }
 
 .rgtr-form,
@@ -200,13 +237,18 @@ textarea:visited {
     display: block;
 }
 
+.blur-me .main-ctr {
+    -webkit-filter: blur(10px);
+    filter: blur(10px);
+    transition: 100ms ease;
+}
 .overlay {
     position: fixed;
     left: 0;
     top: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.2);
 }
 
 .modal-container {
@@ -218,19 +260,25 @@ textarea:visited {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 99999999;
 }
 .modal-container .modal {
     width: 600px;
-    height: 450px;
+    height: auto;
     background: white;
     border-radius: 10px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 1px 1px rgba(0, 0, 0, 0.1);
     color: black;
-    padding: 80px 40px 40px;
+    padding: 40px;
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
+}
+.dark .modal-container .modal {
+    background: black;
+    color: white;
+    border: 1px solid #2f2f2f;
 }
 .modal p {
     margin: 0 0 20px;
@@ -246,7 +294,7 @@ textarea:visited {
     overflow: hidden;
     box-shadow: inset 0px -2px 4px rgba(0, 0, 0, 0.05),
         inset 0px -1px 1px rgba(0, 0, 0, 0.1);
-    margin-right: 35px;
+    margin-bottom: 20px;
 }
 .modal .profile-pic img {
     object-fit: contain;
@@ -264,18 +312,66 @@ textarea:visited {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 30px auto 0;
 }
 .change-pic label {
-    /* color: #0004ff; */
-    background: black;
-    margin-top: 20px;
+    color: #0004ff;
+    text-decoration: underline;
     cursor: pointer;
     transition: 500ms ease;
-    color: white;
     font-size: 16px;
     padding: 15px 30px;
     border: none;
     width: 250px;
+}
+.dark .change-pic label {
+    color: white;
+}
+.change-pic label:hover {
+    opacity: 0.7;
+}
+
+.change-pic input {
+    width: 230px;
+    text-indent: -999px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    margin: 0 auto 25px;
+    font-size: 12px;
+    cursor: text;
+    transition: 500ms ease;
+    opacity: 0.5;
+}
+.dark .change-pic input {
+    color: white;
+}
+.profile-goods {
+    display: flex;
+    text-align: left;
+    margin: 20px auto;
+}
+.change-pic button {
+    width: 80%;
+    color: white;
+    border-radius: 4px;
+    padding: 15px 7px;
+    font-size: 20px;
+    transition: 500ms ease;
+    cursor: pointer;
+    background: #000;
+}
+.dark .change-pic button {
+    color: black;
+    background: white;
+}
+.change-pic button:hover {
+    background: #0004ff;
+}
+.dark .change-pic button:hover {
+    color: black;
+    background: white;
+    opacity: 0.7;
 }
 .close-btn {
     display: block;
@@ -339,12 +435,19 @@ textarea:visited {
     margin: 25px 0 40px;
     font-weight: 100;
 }
+.dark .profile-content-ctr h2 {
+    color: #fff;
+}
 .profile-content-ctr .bio-editor {
     background: white;
     border-radius: 20px;
     padding: 40px;
     width: 100%;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 1px 1px rgba(0, 0, 0, 0.1);
+}
+.dark .profile-content-ctr .bio-editor {
+    background: black;
+    color: white;
 }
 .friend-button {
     position: absolute;
@@ -356,9 +459,20 @@ textarea:visited {
     transition: 500ms ease;
     cursor: pointer;
 }
+.dark .friend-button button {
+    border: 1px solid white;
+    color: white;
+    background: black;
+}
 .friend-button button:hover {
     transition: 500ms ease;
     background: #0004ff;
+}
+.dark .friend-button button:hover {
+    border: 1px solid white;
+    color: white;
+    background: black;
+    opacity: 0.7;
 }
 
 .bio-editor .bio-tag {
@@ -386,11 +500,18 @@ textarea:visited {
     line-height: 23px;
     width: 100%;
     color: black;
+    height: 210px;
+}
+.dark .bio-editor textarea {
+    background: black;
+    border: 1px solid white;
+    color: white;
+    overflow-y: scroll;
 }
 .bio-editor button {
     background: none;
     color: rgba(0, 0, 0, 0.25);
-    font-size: 16px;
+    font-size: 15px;
     padding: 0;
     border: none;
     transform: translateY(-40px);
@@ -399,6 +520,13 @@ textarea:visited {
     display: inherit;
     cursor: pointer;
     transition: 500ms ease;
+}
+
+.dark .bio-editor button {
+    color: rgba(255, 255, 255, 0.65);
+}
+.dark .bio-editor button:hover {
+    color: rgba(255, 255, 255, 0.25);
 }
 .bio-editor .editbio-ctr button {
     width: 100%;
@@ -409,11 +537,19 @@ textarea:visited {
     border: none;
     text-decoration: none;
 }
+.dark .bio-editor .editbio-ctr button {
+    background: white;
+    color: black;
+}
 .bio-editor .editbio-ctr button:hover {
     background: #0004ff;
 }
 .bio-editor button:hover {
     color: #0004ff;
+}
+.dark .bio-editor .editbio-ctr button:hover {
+    background: rgb(196, 196, 196);
+    color: black;
 }
 
 button {
@@ -438,13 +574,29 @@ input {
 .search-results {
     padding-top: 20px;
     position: absolute;
-    width: 80vw;
+    width: 330px;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
 }
-
+.srch {
+    text-align: center;
+}
 .search-user {
+    padding-bottom: 20px;
+}
+.search-user a {
+    display: flex;
     display: flex;
     align-items: center;
-    padding-bottom: 20px;
+    color: black;
+    text-decoration: none;
+}
+.dark .search-user a {
+    color: white;
+}
+.search-user h3 {
+    font-weight: 100;
 }
 
 .search-img {
@@ -461,23 +613,131 @@ input {
     width: 100%;
 }
 
-.friends-img-ctr img {
-    max-width: 300px;
-    -webkit-filter: invert(1);
-    filter: invert(1);
-    display: none;
+.pending,
+.friends {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    gap: 10px 10px;
+    grid-template-areas: ". .";
+}
+.friends-user {
+    padding-bottom: 40px;
+    margin-right: 40px;
+    display: flex;
+    align-items: center;
+}
+.dark .friends-user h3 {
+    color: white;
+}
+.friends-user h3 {
+    font-weight: 100;
+    margin: 10px 0;
+    font-size: 22px;
 }
 
+.friends-img {
+    width: 100px;
+    height: 100px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+.friends-img img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+.friend-or-wannabe button {
+    background: none;
+    color: #0004ff;
+    text-decoration: underline;
+    padding: 0;
+    transition: 500ms ease;
+    cursor: pointer;
+    font-size: 15px;
+}
+.friends .friend-or-wannabe button,
+.dark .friends .friend-or-wannabe button {
+    color: #e20909;
+}
+.friends .friend-or-wannabe button:hover {
+    opacity: 0.4;
+}
+.dark .friend-or-wannabe button {
+    color: #00b4ff;
+}
+.friend-or-wannabe a {
+    background: none;
+    text-decoration: underline;
+    padding: 0;
+    transition: 500ms ease;
+    cursor: pointer;
+    display: initial;
+    margin-left: 20px;
+    color: black;
+    font-size: 15px;
+}
+.dark .friend-or-wannabe a {
+    color: white;
+}
+.friend-or-wannabe a:hover {
+    color: #0004ff;
+}
+.dark .friend-or-wannabe button:hover {
+    opacity: 0.4;
+}
+.dark .friend-or-wannabe a:hover {
+    opacity: 0.4;
+    color: white;
+}
+
+.chat-container h1 {
+    font-size: 40px;
+    margin: 25px 0 20px;
+    font-weight: 100;
+    text-align: center;
+}
 .chat-ctr {
-    height: 500px;
     width: 100%;
     overflow-y: scroll;
-    background: white;
-    border-radius: 4px;
     padding: 10px 10px 0;
+    position: relative;
+    height: 60vh;
+}
+.chat-constrain h1 {
+    font-size: 40px;
+    margin: 25px 0 40px;
+    font-weight: 100;
 }
 .chat-constrain {
-    width: calc(100% - 160px);
+    max-width: calc(100% - 200px);
+    width: 70%;
+    border-radius: 20px;
+    background: white;
+    height: 70vh;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 1px 1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+.dark .chat-constrain {
+    background: black;
+    border: 1px solid #5a5a5a;
+}
+.chat-constrain textarea {
+    border: none;
+    border-top: 1px solid #5a5a5a;
+    width: 100%;
+    background: white;
+    color: black;
+    padding: 10px 20px;
+    font-size: 15px;
+    overflow-y: scroll;
+    height: 10vh;
+}
+.dark .chat-constrain textarea {
+    background: black;
+    color: white;
 }
 .msg-ctr {
     display: flex;
@@ -491,8 +751,8 @@ input {
     position: relative;
     border-radius: 50%;
     overflow: hidden;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 1px 1px rgba(0, 0, 0, 0.1);
     margin: 0 5px;
+    border: 1px solid #eaeaea;
 }
 .msg-img-ctr img {
     object-fit: contain;
@@ -507,9 +767,12 @@ input {
 }
 .msg-content {
     background: white;
-    border-radius: 4px;
-    padding: 10px;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 1px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 10px 15px;
+    border: 1px solid #eaeaea;
+}
+.dark .msg-content {
+    background: black;
 }
 .msg-content p {
     margin: 0 0 10px;
@@ -523,20 +786,42 @@ input {
 
 .online-users-ctr {
     position: fixed;
-    top: 0;
-    right: 0;
+    top: 194px;
+    right: 8%;
     bottom: 0;
-    padding: 130px 30px 0;
+    margin: 0 30px 0;
     display: flex;
     flex-direction: column;
     z-index: 9999999;
-    width: 190px;
-    border-left: 1px solid #fff;
+    height: 70vh;
+    width: 250px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 1px 1px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 20px;
+    background: white;
+    color: black;
+    padding: 40px;
 }
-.online-users-ctr h3 {
+.dark .online-users-ctr {
+    background: black;
+    border: 1px solid #5a5a5a;
+}
+.online-users-ctr h2 {
     margin: 0 0 30px;
-    font-size: 15px;
+    font-size: 25px;
     font-weight: 100;
+}
+.dark .online-users-ctr h2 {
+    color: white;
+}
+.online-users-ctr a,
+.online-users-ctr div h4 {
+    color: black;
+}
+.dark .online-users-ctr h3,
+.dark .online-users-ctr a,
+.dark .online-users-ctr div h4 {
+    color: white;
 }
 .online-user {
     margin-bottom: 20px;
@@ -563,4 +848,24 @@ input {
 .name h4 {
     margin: 0;
     font-size: 13px;
+}
+
+.search-container h1 {
+    font-size: 40px;
+    margin: 25px 0 40px;
+    font-weight: 100;
+}
+
+.search-container input {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1), 0px 1px 1px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 40px;
+    width: 400px;
+    height: 50px;
+}
+
+@media screen and (max-width: 1100px) {
+    .online-users-ctr {
+        right: 0;
+    }
 }

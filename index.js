@@ -628,8 +628,23 @@ io.on("connection", (socket) => {
 
     // now we retrieve the last 10 messages, because we are connected
     db.getLastTenMessages().then(({ rows }) => {
+        // console.log("rows:", rows);
         const reverseMsgs = rows.reverse();
         io.sockets.emit("chatMessages", reverseMsgs);
+        //let loggedMessages = [];
+        /* for (let i = 0; i < reverseMsgs.length; ++i) {
+            //console.log("reverseMsgs[i]:", reverseMsgs[i]);
+            //console.log("loggedUser:", loggedUser);
+
+            if (loggedUser === reverseMsgs[i].sender_id) {
+                loggedMessages.push(reverseMsgs[i]);
+            }
+        }
+        if (loggedMessages.length >= 1) {
+            console.log("loggedMessages:", loggedMessages);
+            io.sockets.emit("messagesSentByUser", loggedMessages);
+        } */
+
         // arguments are ('message that you want to make', dataYouWantToSend)
     });
 
@@ -654,8 +669,7 @@ io.on("connection", (socket) => {
     // ONLINE USERS CONNECTIONS
     let arrOnliners = Object.values(onlineUsers);
     onlineUsers[socket.id] = loggedUser;
-    //console.log("arrOnliners: ", arrOnliners);
-    //console.log("onlineUSers: ", onlineUsers);
+    console.log("ONLINERS: ", onlineUsers);
 
     // Online users being displayed upon user logging in
     // This should emitted by server and is sent ONLY to USER who just connected
@@ -664,51 +678,37 @@ io.on("connection", (socket) => {
             const renderOnlyOthers = rows.filter(
                 (users) => users.id !== loggedUser
             );
-            //console.log(`renderOnlyOthers ${loggedUser}: `, renderOnlyOthers);
             io.to(socket.id).emit("allOnlineUsers", renderOnlyOthers);
         });
     }
 
     // This should be emitted by the server and sent to ALL BUT the user who just joined
-    // need to check if logged user is UNequal to the user who just joined
-    //if (onlineUsers[socket.id] != loggedUser) {
-    //console.log("onlineUsers user just joined: ", onlineUsers[socket.id]);
     db.getUsersByIds([loggedUser]).then(({ rows }) => {
-        //console.log("single user: ", rows);
-        //console.log("single user socket: ", onlineUsers[socket.id]);
-        //console.log("single user loggeduser: ", loggedUser);
-        //if (onlineUsers[socket.id] !== loggedUser) {
         socket.broadcast.emit("userJoined", rows[0]);
-        //}
     });
-    //}
 
     // User goes offline
     socket.on("disconnect", () => {
         delete onlineUsers[socket.id];
-        let arrOnliners = Object.values(onlineUsers);
-        console.log(`arrOnliners after disconnect: ${arrOnliners}`);
-
         for (let i = 0; i < arrOnliners.length; ++i) {
             if (loggedUser != arrOnliners[i]) {
-                console.log(`logged out!`);
                 io.sockets.emit("userLeft", loggedUser);
             }
         }
-
-        //for (const [key, value] of Object.entries(onlineUsers)) {
-        /* console.log(`OBJ VALUES: ${key}, ${value}`);
-            console.log("online users: ", onlineUsers);
-            if (loggedUser === value) {
-                return;
-            } else {
-                console.log(`LOGGEDUSER VALUE: ${loggedUser}, ${value}`);
-                db.getUsersByIds([loggedUser]).then(({ rows }) => {
-                    io.sockets.emit("userLeft", rows[0]);
-                    socket.broadcast.emit("userLeft", rows[0]);
-                    console.log("loggedUser has left QUERY: ", rows[0]);
-                });
-            } */
-        //}
     });
+
+    //Send notification about friend request
+    /*  socket.on("notification", () => {
+        //
+        for (let i = 0; i < arrOnliners.length; ++i) {
+            if (loggedUser === arrOnliners[i]) {
+                db.selectFriendship()
+                io.sockets.emit("friendRequest", loggedUser);
+            }
+        }
+    }); */
+
+    // PRIVATE MESSAGES
+    // socket.join('some room');
+    // io.to(socketId).emit('hey', 'I just met you');
 });

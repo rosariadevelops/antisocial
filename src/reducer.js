@@ -27,7 +27,15 @@ export default function (state = {}, action) {
             users: state.users.filter((user) => action.id != user.id),
         };
         //console.log("DELETE FRIEND REDUCER: ", state.user);
-    } else if (action.type === "LATEST TEN MESSAGES") {
+    } /* else if (action.type === "MESSAGES FROM USER") {
+        //console.log("MESSAGES FROM USER REDUCER: ", action);
+        state = {
+            ...state,
+            messagesFromLoggedUser: action.messagesFromLoggedUser,
+        };
+    } */ else if (
+        action.type === "LATEST TEN MESSAGES"
+    ) {
         //console.log("LATEST TEN MESSAGES REDUCER: ", action);
         state = {
             ...state,

@@ -11,6 +11,7 @@ export default class Uploader extends React.Component {
             uploadedFile: null,
         };
         console.log("this.state: ", this.state);
+        document.body.classList.add("blur-me");
     }
 
     changeImg(img) {
@@ -19,6 +20,7 @@ export default class Uploader extends React.Component {
 
     closeModal(e) {
         this.props.close(e);
+        document.body.classList.remove("blur-me");
     }
 
     handleChange(e) {
@@ -39,7 +41,7 @@ export default class Uploader extends React.Component {
         console.log("file: ", this.state.file);
 
         axios
-            .post("/user/upload", formData)
+            .post("/antiuser/upload", formData)
             .then((response) => {
                 console.log("/user/upload response: ", response);
                 this.setState({
@@ -48,7 +50,7 @@ export default class Uploader extends React.Component {
             })
             .then(() => {
                 this.changeImg(this.state.uploadedFile);
-                console.log(this.state.uploadedFile);
+                console.log("state.uploadedFile: ", this.state.uploadedFile);
             })
             .catch(function (err) {
                 console.log("err in form POST /user/upload: ", err);
@@ -68,40 +70,44 @@ export default class Uploader extends React.Component {
                         <span className="close-modal-left"></span>
                         <span className="close-modal-right"></span>
                     </a>
+
+                    <div className="profile-goods">
+                        <div className="profile-pic">
+                            {this.state.uploadedFile === null && (
+                                <img
+                                    src={state.imageURL}
+                                    alt={`${state.firstname} ${state.lastname}`}
+                                />
+                            )}
+                            {this.state.uploadedFile !== null && (
+                                <img
+                                    src={state.uploadedFile}
+                                    alt={`${state.firstname} ${state.lastname}`}
+                                />
+                            )}
+                        </div>
+
+                        <div className="change-pic">
+                            <label htmlFor="file">Choose new file</label>
+                            <input
+                                onChange={(e) => this.handleChange(e)}
+                                type="file"
+                                name="file"
+                                id="file"
+                                accept="image/*"
+                            />
+                            <button
+                                onClick={(e) => this.fileUpload(e)}
+                                className="upload"
+                            >
+                                Upload
+                            </button>
+                        </div>
+                    </div>
                     <p>
-                        Your profile picture shows up in your profile the
+                        Your profile picture shows up in your profile and the
                         community chat.
                     </p>
-                    <div className="profile-pic">
-                        {this.state.uploadedFile === null && (
-                            <img
-                                src={state.imageURL}
-                                alt={`${state.firstname} ${state.lastname}`}
-                            />
-                        )}
-                        {this.state.uploadedFile !== null && (
-                            <img
-                                src={state.uploadedFile}
-                                alt={`${state.firstname} ${state.lastname}`}
-                            />
-                        )}
-                    </div>
-                    <div className="change-pic">
-                        <label htmlFor="file">Upload</label>
-                        <input
-                            onChange={(e) => this.handleChange(e)}
-                            type="file"
-                            name="file"
-                            id="file"
-                            accept="image/*"
-                        />
-                        <button
-                            onClick={(e) => this.fileUpload(e)}
-                            className="upload"
-                        >
-                            Upload
-                        </button>
-                    </div>
                 </div>
             </div>
         );

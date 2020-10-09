@@ -108,7 +108,9 @@ export default class Profile extends React.Component {
 
                 {this.state.bioEditorIsVisible && (
                     <div className="editbio-ctr">
-                        <p className="bio-tag">Self-proclaimed bio</p>
+                        <p className="bio-tag">
+                            What would you like to present to the world?
+                        </p>
                         {this.state.bio === null && (
                             <textarea
                                 onChange={(e) => this.handleChange(e)}

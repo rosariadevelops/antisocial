@@ -17,16 +17,7 @@ const store = createStore(
 
 let component;
 const userIsLoggedIn = location.pathname != "/welcome";
-/* if (location.pathname === "/welcome") {
-    component = <Welcome />;
-} else {
-    component = (
-        <Provider store={store}>
-            <App />
-        </Provider>
-    );
-}
- */
+
 if (userIsLoggedIn) {
     init(store);
     component = (

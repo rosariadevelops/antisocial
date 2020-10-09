@@ -18,17 +18,26 @@ export default class App extends React.Component {
         this.state = {
             uploaderIsVisible: false,
             file: null,
+            dark: false,
+            light: true,
+            themeText: "Go anti",
         };
     }
     componentDidMount() {
-        let bgImages = [
-            "/images/background/gradient-1.jpg",
-            "/images/background/gradient-2.jpg",
-            "/images/background/gradient-3.jpg",
-            "/images/background/gradient-4.jpg",
-        ];
-        let selectBG = bgImages[Math.floor(Math.random() * bgImages.length)];
-        document.body.style.backgroundImage = `url(${selectBG})`;
+        console.log("theme mode: ", this.state);
+        // light theme backgrounds
+        if (this.state.light) {
+            let bgImages = [
+                "/images/background/gradient-1.jpg",
+                "/images/background/gradient-2.jpg",
+                "/images/background/gradient-3.jpg",
+                "/images/background/gradient-4.jpg",
+            ];
+            let selectBG =
+                bgImages[Math.floor(Math.random() * bgImages.length)];
+            document.body.style.backgroundImage = `url(${selectBG})`;
+        }
+
         axios.get("/antiuser").then(({ data }) => {
             this.setState({
                 ...data,
@@ -51,8 +60,40 @@ export default class App extends React.Component {
 
     goDark(e) {
         e.preventDefault();
-        document.body.classList.add("dark-theme");
-        console.log("dark mode!");
+        document.body.classList.add("dark");
+        this.setState({
+            dark: true,
+            light: false,
+            themeText: "Go social",
+        });
+        let bgImagesDark = [
+            "/images/background/dark-bg-1.jpg",
+            "/images/background/dark-bg-2.jpg",
+            "/images/background/dark-bg-3.jpg",
+            "/images/background/dark-bg-4.jpg",
+        ];
+        let selectBGDark =
+            bgImagesDark[Math.floor(Math.random() * bgImagesDark.length)];
+        document.body.style.backgroundImage = `url(${selectBGDark})`;
+    }
+
+    goLight(e) {
+        e.preventDefault();
+        document.body.classList.remove("dark");
+        this.setState({
+            dark: false,
+            light: true,
+            themeText: "Go anti",
+        });
+        let bgImages = [
+            "/images/background/gradient-1.jpg",
+            "/images/background/gradient-2.jpg",
+            "/images/background/gradient-3.jpg",
+            "/images/background/gradient-4.jpg",
+        ];
+        let selectBG = bgImages[Math.floor(Math.random() * bgImages.length)];
+        document.body.style.backgroundImage = `url(${selectBG})`;
+        // console.log("light mode: ", this.state);
     }
 
     render() {
@@ -79,15 +120,29 @@ export default class App extends React.Component {
                             </div>
                             <div className="search-link">
                                 <Link to="/">Profile</Link>
-                                <Link to="/friends">Connections</Link>
+                                <Link to="/friends">
+                                    Connections
+                                    {state.friendRequests && (
+                                        <span>{state.friendRequests}</span>
+                                    )}
+                                </Link>
                                 <Link to="/antiusers">
                                     Search antisocialites
                                 </Link>
                                 <Link to="/chat">Socialise</Link>
                                 <div className="negatives">
-                                    <button onClick={(e) => this.goDark(e)}>
-                                        Go anti
-                                    </button>
+                                    {state.light && (
+                                        <button onClick={(e) => this.goDark(e)}>
+                                            {state.themeText}
+                                        </button>
+                                    )}
+                                    {state.dark && (
+                                        <button
+                                            onClick={(e) => this.goLight(e)}
+                                        >
+                                            {state.themeText}
+                                        </button>
+                                    )}
                                     <a href="/logout">Logout</a>
                                 </div>
                             </div>
@@ -125,25 +180,25 @@ export default class App extends React.Component {
                                 )}
                             />
                             <Route path="/chat" component={Chat} />
+                            <Route
+                                path="/friends"
+                                render={(props) => (
+                                    <Friends
+                                        key={props.match.url}
+                                        match={props.match}
+                                        history={props.history}
+                                        imageURL={state.profilePic}
+                                        id={state.id}
+                                        firstname={state.firstname}
+                                        lastname={state.lastname}
+                                    />
+                                )}
+                            />
 
                             <div className="search-container">
                                 <Route
                                     path="/antiusers"
                                     render={() => <FindPeople id={state.id} />}
-                                />
-                                <Route
-                                    path="/friends"
-                                    render={(props) => (
-                                        <Friends
-                                            key={props.match.url}
-                                            match={props.match}
-                                            history={props.history}
-                                            imageURL={state.profilePic}
-                                            id={state.id}
-                                            firstname={state.firstname}
-                                            lastname={state.lastname}
-                                        />
-                                    )}
                                 />
                             </div>
                         </div>

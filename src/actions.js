@@ -47,6 +47,14 @@ export async function chatMessages(msgs) {
     };
 }
 
+/* export async function messagesSentByUser(msgs) {
+    console.log("MESSAGES FROM USER ACTIONS: ", msgs);
+    return {
+        type: "MESSAGES FROM USER",
+        messagesFromLoggedUser: msgs,
+    };
+} */
+
 export async function addNewMessage(msg) {
     //console.log("NEW MESSAGE ACTION: ", msg);
     return {

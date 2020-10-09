@@ -39,5 +39,15 @@ export const init = (store) => {
             console.log("This user left SOCKET: ", userId);
             store.dispatch(removeFromOnlineUsers(userId));
         });
+
+        /* socket.on("messagesSentByUser", (msgs) => {
+            console.log("messagesSentByUser SOCKET: ", msgs);
+            store.dispatch(messagesSentByUser(msgs));
+        }); */
+
+        socket.on("friendRequest", (userId) => {
+            console.log("You have a FRIEND REQUEST: ", userId);
+            store.dispatch(removeFromOnlineUsers(userId));
+        });
     }
 };

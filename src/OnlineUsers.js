@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-//import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function displayOnlineUsers() {
     //
@@ -20,7 +20,7 @@ export default function displayOnlineUsers() {
     } */
     return (
         <div>
-            <h3>Others online</h3>
+            <h2>Others online</h2>
             {onlineUsers &&
                 onlineUsers.map(function (user) {
                     return (
@@ -29,7 +29,7 @@ export default function displayOnlineUsers() {
                             key={user.id}
                             onClick={() => this.selectedUser(user)}
                         >
-                            <a href={"/antiuser/" + user.id}>
+                            <Link to={"/antiuser/" + user.id}>
                                 <div className="online-user-img">
                                     <img
                                         src={
@@ -44,7 +44,7 @@ export default function displayOnlineUsers() {
                                         {user.firstname} {user.lastname}
                                     </h4>
                                 </div>
-                            </a>
+                            </Link>
                         </div>
                     );
                 })}

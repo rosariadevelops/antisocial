@@ -6,6 +6,10 @@ import OnlineUsers from "./OnlineUsers";
 
 export default function Chat() {
     const chatMessages = useSelector((state) => state && state.latestMessages);
+    /* const messagesFromLoggedUser = useSelector(
+        (state) => state && state.messagesFromLoggedUser
+    ); */
+    //console.log("messagesFromLoggedUser COMPONENT: ", messagesFromLoggedUser);
     const elemRef = useRef();
 
     useEffect(() => {
@@ -28,43 +32,45 @@ export default function Chat() {
     }
 
     return (
-        <div className="chat-constrain">
-            <p>Welcome to Chat</p>
-            <div className="chat-ctr" ref={elemRef}>
-                {chatMessages &&
-                    chatMessages.map(function (msg) {
-                        return (
-                            <div className="msg-ctr" key={msg.id}>
-                                <div className="msg-img-ctr">
-                                    <img
-                                        src={
-                                            msg.profilePic ||
-                                            "/images/default-user.png"
-                                        }
-                                        alt={`${msg.firstname} ${msg.lastname}`}
-                                    />
-                                </div>
-                                <div className="msg-content">
-                                    <p>
-                                        {msg.firstname} {msg.lastname}
-                                    </p>
-                                    <p>{msg.written_at}</p>
-                                    <h4>{msg.chat_msg}</h4>
-                                </div>
-                            </div>
-                        );
-                    })}
-            </div>
+        <div className="chat-container">
+            <h1>Antisocialites socialising</h1>
 
-            <textarea
-                placeholder="Add your message here"
-                cols="80"
-                rows="2"
-                onKeyDown={keyCheck}
-            ></textarea>
+            <div className="chat-constrain">
+                <div className="chat-ctr" ref={elemRef}>
+                    {chatMessages &&
+                        chatMessages.map(function (msg) {
+                            return (
+                                <div className="msg-ctr" key={msg.id}>
+                                    <div className="msg-img-ctr">
+                                        <img
+                                            src={
+                                                msg.profilePic ||
+                                                "/images/default-user.png"
+                                            }
+                                            alt={`${msg.firstname} ${msg.lastname}`}
+                                        />
+                                    </div>
+                                    <div className="msg-content">
+                                        <p>
+                                            {msg.firstname} {msg.lastname}
+                                        </p>
+                                        <h4>{msg.chat_msg}</h4>
+                                    </div>
+                                </div>
+                            );
+                        })}
+                </div>
 
-            <div className="online-users-ctr">
-                <OnlineUsers />
+                <textarea
+                    placeholder="Add your message here"
+                    cols="80"
+                    rows="2"
+                    onKeyDown={keyCheck}
+                ></textarea>
+
+                <div className="online-users-ctr">
+                    <OnlineUsers />
+                </div>
             </div>
         </div>
     );

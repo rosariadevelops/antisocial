@@ -51,7 +51,10 @@ export default class OtherProfile extends React.Component {
                         {state.firstname} {state.lastname}
                     </h2>
                     <div className="bio-editor">
-                        <p>{state.bio}</p>
+                        <p>
+                            {state.bio ||
+                                "This user prefers to keep themselves private."}
+                        </p>
                     </div>
                     <FriendButton otherUserId={state.id} />
                 </div>

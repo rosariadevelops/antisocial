@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "./axios";
+import { Link } from "react-router-dom";
 
 export default function findAntiUser() {
     const [userInput, setUserInput] = useState("");
@@ -39,11 +40,8 @@ export default function findAntiUser() {
     console.log("ANTIUSERS:", antiUsers);
 
     return (
-        <div>
-            <h1>Find people</h1>
-            <p>These anti-users just joined:</p>
-
-            <p>Search:</p>
+        <div className="srch">
+            <h1>Find others like you</h1>
             <input
                 onChange={handleChange}
                 defaultValue={userInput}
@@ -55,16 +53,19 @@ export default function findAntiUser() {
                 <div className="search-results">
                     {antiUsers.map((user) => (
                         <div className="search-user" key={user.id}>
-                            <div className="search-img">
-                                <img
-                                    src={
-                                        user.image_url || "/images/default.png"
-                                    }
-                                />
-                            </div>
-                            <h3>
-                                {user.firstname} {user.lastname}
-                            </h3>
+                            <Link to={"/antiuser/" + user.id}>
+                                <div className="search-img">
+                                    <img
+                                        src={
+                                            user.image_url ||
+                                            "/images/default-user.png"
+                                        }
+                                    />
+                                </div>
+                                <h3>
+                                    {user.firstname} {user.lastname}
+                                </h3>
+                            </Link>
                         </div>
                     ))}
                 </div>
