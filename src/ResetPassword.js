@@ -99,10 +99,10 @@ export default class ResetPassword extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className="welcome logo">
+                {/* <div className="welcome logo">
                     Anti<span>Social</span>
-                </div>
-                <div className="container">
+                </div> */}
+                <div className="reset-container">
                     {this.state.currentDisplay == 1 && (
                         <div className="pw-reset-form">
                             <h1>Reset your password</h1>
@@ -151,6 +151,7 @@ export default class ResetPassword extends React.Component {
                                 onChange={(e) => this.handleChange(e)}
                                 type="password"
                                 name="password"
+                                className="pwd-input"
                                 placeholder="Enter password"
                                 required
                             />
