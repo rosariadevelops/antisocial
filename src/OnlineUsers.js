@@ -1,10 +1,10 @@
-import React, { useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function displayOnlineUsers() {
     //
-    const dispatch = useDispatch();
+    //const dispatch = useDispatch();
     const onlineUsers = useSelector((state) => state && state.onlineUsers);
     console.log("ONLINE USERS COMPONENT: ", onlineUsers);
     useEffect(() => {
@@ -33,7 +33,7 @@ export default function displayOnlineUsers() {
                                 <div className="online-user-img">
                                     <img
                                         src={
-                                            user.profilePic ||
+                                            user.image_url ||
                                             "/images/default-user.png"
                                         }
                                         alt={`${user.firstname} ${user.lastname}`}

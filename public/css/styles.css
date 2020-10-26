@@ -9,6 +9,7 @@ body {
     color: black;
     font-family: "sk-modernistregular";
     transition: 500ms ease;
+    height: 100vh;
 }
 
 .dark {
@@ -17,6 +18,12 @@ body {
 
 main {
     min-height: 100vh;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    overflow-y: scroll;
 }
 .dark main {
     background: rgba(0, 0, 0, 0.4);
@@ -548,9 +555,11 @@ textarea:visited {
 }
 .bio-editor .editbio-ctr button:hover {
     background: #0004ff;
+    color: white;
 }
 .bio-editor button:hover {
     color: #0004ff;
+    color: white;
 }
 .dark .bio-editor .editbio-ctr button:hover {
     background: rgb(196, 196, 196);
@@ -589,6 +598,10 @@ input {
 }
 .search-user {
     padding-bottom: 20px;
+    transition: 500ms ease;
+}
+.search-user:hover {
+    opacity: 0.6;
 }
 .search-user a {
     display: flex;
@@ -751,7 +764,9 @@ input {
 }
 .msg-img-ctr {
     background: white;
-    width: 35px;
+    flex-basis: 35px;
+    flex-grow: 0;
+    flex-shrink: 0;
     height: 35px;
     position: relative;
     border-radius: 50%;
@@ -760,10 +775,10 @@ input {
     border: 1px solid #eaeaea;
 }
 .msg-img-ctr img {
-    object-fit: contain;
+    object-fit: cover;
     object-position: bottom center;
-    width: 80%;
-    height: 80%;
+    width: 100%;
+    height: 100%;
     position: absolute;
     bottom: 0;
     left: 0;

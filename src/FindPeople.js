@@ -47,6 +47,7 @@ export default function findAntiUser() {
                 defaultValue={userInput}
                 type="text"
                 name="userInput"
+                autoComplete="false"
                 placeholder="Start typing"
             />
             {antiUsers != undefined && (

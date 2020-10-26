@@ -276,7 +276,7 @@ app.get("/antiuser", (req, res) => {
         db.getUserInfo(req.session.userId)
             .then(({ rows }) => {
                 res.sendFile(__dirname + "/index.html");
-                //console.log("/user response: ", rows);
+                console.log("/user response: ", rows);
                 const { id, firstname, lastname, image_url, bio } = rows[0];
                 res.json({
                     id,

@@ -44,7 +44,7 @@ export default function Chat() {
                                     <div className="msg-img-ctr">
                                         <img
                                             src={
-                                                msg.profilePic ||
+                                                msg.image_url ||
                                                 "/images/default-user.png"
                                             }
                                             alt={`${msg.firstname} ${msg.lastname}`}
